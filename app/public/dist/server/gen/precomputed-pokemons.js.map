@@ -1,0 +1,1 @@
+{"version":3,"file":"precomputed-pokemons.js","sourceRoot":"","sources":["../../../../../gen/precomputed-pokemons.ts"],"names":[],"mappings":";;;;;;AAAA,oFAA0D;AAC1D,uDAA+C;AAElC,QAAA,mBAAmB,GAAG,MAAM,CAAC,MAAM,CAAC,aAAG,CAAC;KAClD,MAAM,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,KAAK,aAAG,CAAC,OAAO,CAAC;KAChC,GAAG,CAAC,CAAC,GAAG,EAAE,EAAE,CAAC,yBAAc,CAAC,qBAAqB,CAAC,GAAG,CAAC,CAAC,CAAA"}

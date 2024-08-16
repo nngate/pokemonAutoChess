@@ -1,0 +1,65 @@
+import { MapSchema, Schema, SetSchema } from "@colyseus/schema";
+import Player from "../models/colyseus-models/player";
+import { Pokemon } from "../models/colyseus-models/pokemon";
+import GameRoom from "../rooms/game-room";
+import { IPokemon, IPokemonEntity, ISimulation } from "../types";
+import { Effect } from "../types/enum/Effect";
+import { BattleResult } from "../types/enum/Game";
+import { Item } from "../types/enum/Item";
+import { Synergy } from "../types/enum/Synergy";
+import { Weather } from "../types/enum/Weather";
+import Board from "./board";
+import Dps from "./dps";
+import { PokemonEntity } from "./pokemon-entity";
+export default class Simulation extends Schema implements ISimulation {
+    weather: Weather;
+    winnerId: string;
+    blueTeam: MapSchema<IPokemonEntity, string>;
+    redTeam: MapSchema<IPokemonEntity, string>;
+    blueDpsMeter: MapSchema<Dps, string>;
+    redDpsMeter: MapSchema<Dps, string>;
+    id: string;
+    bluePlayerId: string;
+    redPlayerId: string;
+    room: GameRoom;
+    blueEffects: Set<Effect>;
+    redEffects: Set<Effect>;
+    board: Board;
+    finished: boolean;
+    flowerSpawn: boolean[];
+    stageLevel: number;
+    bluePlayer: Player | undefined;
+    redPlayer: Player | undefined;
+    stormLightningTimer: number;
+    tidalwaveTimer: number;
+    constructor(id: string, room: GameRoom, blueTeam: MapSchema<Pokemon>, redTeam: MapSchema<Pokemon>, bluePlayer: Player, redPlayer: Player | undefined, stageLevel: number, weather: Weather);
+    getCurrentBattleResult(playerId: string): BattleResult;
+    getEffects(playerId: string): Set<Effect> | undefined;
+    getDpsMeter(playerId: string): MapSchema<Dps, string> | undefined;
+    getTeam(playerId: string): MapSchema<IPokemonEntity, string> | undefined;
+    getOpponentTeam(playerId: string): MapSchema<IPokemonEntity, string> | undefined;
+    addPokemon(pokemon: IPokemon, x: number, y: number, team: number, isClone?: boolean): PokemonEntity;
+    getFirstAvailablePlaceOnBoard(teamIndex: number): {
+        x: number;
+        y: number;
+    };
+    getClosestAvailablePlaceOnBoardTo(positionX: number, positionY: number, teamIndex: number): {
+        x: number;
+        y: number;
+    };
+    getClosestAvailablePlaceOnBoardToPokemon(pokemon: IPokemon | IPokemonEntity, teamIndex: number): {
+        x: number;
+        y: number;
+    };
+    applyItemsEffects(pokemon: PokemonEntity): void;
+    applyItemEffect(pokemon: PokemonEntity, item: Item): void;
+    applySynergyEffects(pokemon: PokemonEntity): void;
+    applyWeatherEffects(pokemon: PokemonEntity): void;
+    applyPostEffects(): void;
+    applyEffects(pokemon: PokemonEntity, types: SetSchema<Synergy>, allyEffects: Set<Effect>, activeSynergies: number): void;
+    update(dt: number): void;
+    stop(): void;
+    onFinish(): void;
+    applyCurse(effect: Effect, opponentTeamNumber: number): void;
+    triggerTidalWave(): void;
+}

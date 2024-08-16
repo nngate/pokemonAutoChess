@@ -1,0 +1,37 @@
+import { Dispatcher } from "@colyseus/command";
+import { Client, Room, RoomListingData } from "colyseus";
+import { CronJob } from "cron";
+import { WebhookClient } from "discord.js";
+import { PastebinAPI } from "pastebin-ts/dist/api";
+import { IBot } from "../models/mongo-models/bot-v2";
+import { ILeaderboardBotInfo, ILeaderboardInfo } from "../types/interfaces/LeaderboardInfo";
+import { ITournament } from "../types/interfaces/Tournament";
+import LobbyState from "./states/lobby-state";
+export default class CustomLobbyRoom extends Room<LobbyState> {
+    discordWebhook: WebhookClient | undefined;
+    discordBanWebhook: WebhookClient | undefined;
+    bots: Map<string, IBot>;
+    leaderboard: ILeaderboardInfo[];
+    botLeaderboard: ILeaderboardBotInfo[];
+    levelLeaderboard: ILeaderboardInfo[];
+    pastebin: PastebinAPI | undefined;
+    unsubscribeLobby: (() => void) | undefined;
+    rooms: RoomListingData<any>[] | undefined;
+    dispatcher: Dispatcher<this>;
+    tournamentCronJobs: Map<string, CronJob>;
+    cleanUpCronJobs: CronJob[];
+    constructor();
+    removeRoom(index: number, roomId: string): void;
+    addRoom(roomId: string, data: RoomListingData<any>): void;
+    changeRoom(index: number, roomId: string, data: RoomListingData<any>): void;
+    onCreate(): Promise<void>;
+    onAuth(client: Client, options: any, request: any): Promise<import("firebase-admin/lib/auth/user-record").UserRecord | undefined>;
+    onJoin(client: Client, options: any, auth: any): void;
+    onLeave(client: Client): void;
+    onDispose(): void;
+    fetchChat(): Promise<void>;
+    fetchLeaderboards(): Promise<void>;
+    fetchTournaments(): Promise<void>;
+    startTournament(tournament: ITournament): void;
+    initCronJobs(): void;
+}
