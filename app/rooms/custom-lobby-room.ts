@@ -66,6 +66,8 @@ import {
 } from "./commands/lobby-commands"
 import LobbyState from "./states/lobby-state"
 
+const MAX_CCU = 700
+
 export default class CustomLobbyRoom extends Room<LobbyState> {
   bots: Map<string, IBot> = new Map<string, IBot>()
   unsubscribeLobby: (() => void) | undefined
