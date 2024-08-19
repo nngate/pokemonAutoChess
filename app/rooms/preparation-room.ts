@@ -289,6 +289,18 @@ export default class PreparationRoom extends Room<PreparationState> {
         logger.error(error)
       }
     })
+    this.onMessage(Transfer.REQUEST_BOT_LIST, (client: Client) => {
+      logger.info(Transfer.REQUEST_BOT_LIST, this.roomName)
+      try {
+        const user = this.state.users.get(client.auth.uid)
+
+        this.dispatcher.dispatch(new OnListBotsCommand(), {
+          user: user
+        })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
 
     this.onServerAnnouncement = this.onServerAnnouncement.bind(this)
     this.presence.subscribe("server-announcement", this.onServerAnnouncement)
