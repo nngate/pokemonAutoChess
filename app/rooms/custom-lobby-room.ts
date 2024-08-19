@@ -413,6 +413,9 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
   }
 
   async onAuth(client: Client, options: any, request: any) {
+    const userProfile = await UserMetadata.findOne({ uid: client.auth.uid })
+    const isBanned = await BannedUser.findOne({ uid: client.auth.uid })
+  
     try {
       super.onAuth(client, options, request)
       const token = await admin.auth().verifyIdToken(options.idToken)
@@ -423,6 +426,18 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
         throw new Error(
           "No display name for this account. Please report this error."
         )
+      } else if (isBanned) {
+        throw new Error("Account banned")
+      } else if (
+        this.state.ccu > MAX_CCU &&
+        userProfile?.role !== Role.ADMIN &&
+        userProfile?.role !== Role.MODERATOR
+      ) {
+        throw new Error(
+          "The servers are currently at maximum capacity. Please try again later."
+        )
+      } else {
+        return user
       }
 
       return user
