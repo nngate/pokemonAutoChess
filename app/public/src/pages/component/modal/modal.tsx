@@ -18,7 +18,7 @@ interface ModalProps {
 export function Modal(props: ModalProps) {
   const {
     show,
-    onClose = () => { },
+    onClose = () => {},
     className = "",
     children,
     confirmText,
@@ -45,10 +45,14 @@ export function Modal(props: ModalProps) {
   useEffect(() => {
     if (show) {
       const dialog = ref.current!
-      dialog.addEventListener('click', function (event) {
-        const rect = dialog.getBoundingClientRect();
-        const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
-          rect.left <= event.clientX && event.clientX <= rect.left + rect.width) || event.target?.tagName === "OPTION";
+      dialog.addEventListener("click", function (event) {
+        const rect = dialog.getBoundingClientRect()
+        const isInDialog =
+          (rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width) ||
+          (event.target as any).tagName === "OPTION"
         if (!isInDialog) {
           close()
         }
@@ -64,38 +68,38 @@ export function Modal(props: ModalProps) {
 
   return show
     ? ReactDOM.createPortal(
-      <dialog
-        ref={ref}
-        onCancel={close}
-        className={cc("modal", "my-container", className)}
-        onKeyDown={handleKeyDown}
-      >
-        {header && (
-          <header>
-            {header}
-            <button className="close-btn" onClick={close}>
-              🗙
-            </button>
-          </header>
-        )}
-        <div className="modal-body">{body || children}</div>
-        {(footer || confirmText) && (
-          <footer>
-            {footer}
-            {confirmText && (
-              <>
-                <button className="secondary" onClick={close}>
-                  {t("close")}
-                </button>
-                <button className="primary" onClick={close}>
-                  {confirmText}
-                </button>
-              </>
-            )}
-          </footer>
-        )}
-      </dialog>,
-      document.querySelector("#modal-root")!
-    )
+        <dialog
+          ref={ref}
+          onCancel={close}
+          className={cc("modal", "my-container", className)}
+          onKeyDown={handleKeyDown}
+        >
+          {header && (
+            <header>
+              {header}
+              <button className="close-btn" onClick={close}>
+                🗙
+              </button>
+            </header>
+          )}
+          <div className="modal-body">{body || children}</div>
+          {(footer || confirmText) && (
+            <footer>
+              {footer}
+              {confirmText && (
+                <>
+                  <button className="secondary" onClick={close}>
+                    {t("close")}
+                  </button>
+                  <button className="primary" onClick={close}>
+                    {confirmText}
+                  </button>
+                </>
+              )}
+            </footer>
+          )}
+        </dialog>,
+        document.querySelector("#modal-root")!
+      )
     : null
 }
