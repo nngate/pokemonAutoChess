@@ -45,14 +45,10 @@ export function Modal(props: ModalProps) {
   useEffect(() => {
     if (show) {
       const dialog = ref.current!
-      dialog.addEventListener("click", function (event) {
-        const rect = dialog.getBoundingClientRect()
-        const isInDialog =
-          (rect.top <= event.clientY &&
-            event.clientY <= rect.top + rect.height &&
-            rect.left <= event.clientX &&
-            event.clientX <= rect.left + rect.width) ||
-          ["OPTION", "SELECT"].includes((event.target as any).tagName)
+      dialog.addEventListener('click', function (event) {
+        const rect = dialog.getBoundingClientRect();
+        const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX && event.clientX <= rect.left + rect.width) || event.target?.tagName === "OPTION";
         if (!isInDialog) {
           close()
         }
