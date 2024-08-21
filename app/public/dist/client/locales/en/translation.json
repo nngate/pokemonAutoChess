@@ -2263,7 +2263,7 @@
     "NORMAL": "NORMAL Pokémons and their adjacent allies gain SHIELD when combat starts",
     "GRASS": "GRASS Pokémons heal and produce berries over time",
     "FIRE": "FIRE Pokémons gain ATK after every hit and have a chance to BURN their enemies for 2 seconds",
-    "WATER": "WATER Pokémons generate more PP and can be fished with a rod",
+    "WATER": "WATER Pokémons generate more PP, have 20% chance to dodge attacks and can be fished with a rod",
     "ELECTRIC": "ELECTRIC Pokémons basic attacks can trigger two additional attacks",
     "FIGHTING": "FIGHTING Pokémons block a flat amount of damage on every hit received. After 10 hits blocked, throw the target away, destroying its SHIELD",
     "PSYCHIC": "PSYCHIC Pokémons gain additional AP and attract Unowns",
