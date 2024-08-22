@@ -80,6 +80,8 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
   constructor() {
     super()
     this.dispatcher = new Dispatcher(this)
+    this.bots = new Map<string, IBot>()
+    this.tournamentCronJobs = new Map<string, CronJob>()
   }
 
   removeRoom(index: number, roomId: string) {
