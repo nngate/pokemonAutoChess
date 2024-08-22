@@ -720,7 +720,7 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
           this.clients.forEach((c) => {
             if (
               c.userData.joinedAt &&
-              c.userData.joinedAt < Date.now() - INACTIVITY_TIMEOUT
+              c.userData.joinedAt < Date.now() - 60000
             ) {
               //logger.info("disconnected user for inactivity", c.id)
               c.leave(CloseCodes.USER_INACTIVE)
