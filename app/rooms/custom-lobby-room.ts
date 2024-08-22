@@ -79,6 +79,31 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
 
   constructor() {
     super()
+    this.maxClients = 50
+    if (
+      process.env.PASTEBIN_API_DEV_KEY &&
+      process.env.PASTEBIN_API_USERNAME &&
+      process.env.PASTEBIN_API_DEV_KEY
+    ) {
+      this.pastebin = new PastebinAPI({
+        api_dev_key: process.env.PASTEBIN_API_DEV_KEY!,
+        api_user_name: process.env.PASTEBIN_API_USERNAME!,
+        api_user_password: process.env.PASTEBIN_API_PASSWORD!
+      })
+    }
+
+    if (process.env.DISCORD_WEBHOOK_URL) {
+      this.discordWebhook = new WebhookClient({
+        url: process.env.DISCORD_WEBHOOK_URL
+      })
+    }
+
+    if (process.env.DISCORD_BAN_WEBHOOK_URL) {
+      this.discordBanWebhook = new WebhookClient({
+        url: process.env.DISCORD_BAN_WEBHOOK_URL
+      })
+    }
+
     this.dispatcher = new Dispatcher(this)
     this.bots = new Map<string, IBot>()
     this.tournamentCronJobs = new Map<string, CronJob>()
