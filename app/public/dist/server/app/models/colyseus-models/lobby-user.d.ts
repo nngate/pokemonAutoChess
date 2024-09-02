@@ -1,0 +1,53 @@
+import { ArraySchema, MapSchema, Schema } from "@colyseus/schema";
+import { Role, Title } from "../../types";
+import { Language } from "../../types/enum/Language";
+import { IPokemonConfig } from "../mongo-models/user-metadata";
+import { GameRecord, IGameRecord } from "./game-record";
+import MapTileset from "./map-tileset";
+import PokemonCollection from "./pokemon-collection";
+import WinTileset from "./win-tileset";
+export interface ILobbyUser {
+    id: string;
+    name: string;
+    avatar: string;
+    elo: number;
+    wins: number;
+    exp: number;
+    level: number;
+    donor: boolean;
+    honors: string[] | ArraySchema<string>;
+    history: IGameRecord[] | ArraySchema<IGameRecord>;
+    pokemonCollection: Map<string, IPokemonConfig> | MapSchema<IPokemonConfig>;
+    booster: number;
+    titles: Title[] | ArraySchema<Title>;
+    title: "" | Title;
+    role: Role;
+    anonymous: boolean;
+    creationTime: string;
+    lastSignInTime: string;
+    language: Language | "";
+}
+export default class LobbyUser extends Schema implements ILobbyUser {
+    id: string;
+    name: string;
+    avatar: string;
+    elo: number;
+    map: MapTileset;
+    language: Language | "";
+    wins: number;
+    exp: number;
+    level: number;
+    donor: boolean;
+    mapWin: WinTileset;
+    honors: ArraySchema<string>;
+    history: ArraySchema<IGameRecord>;
+    pokemonCollection: PokemonCollection;
+    booster: number;
+    titles: ArraySchema<Title>;
+    title: "" | Title;
+    role: Role;
+    anonymous: boolean;
+    creationTime: string;
+    lastSignInTime: string;
+    constructor(id: string, name: string, elo: number, avatar: string, wins: number, exp: number, level: number, donor: boolean, history: GameRecord[] | ArraySchema<GameRecord>, honors: string[], pokemonCollection: Map<string, IPokemonConfig> | null, booster: number, titles: Title[], title: "" | Title, role: Role, anonymous: boolean, creationTime: string, lastSignInTime: string, language: Language | "");
+}
