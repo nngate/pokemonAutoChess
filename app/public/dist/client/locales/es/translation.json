@@ -2981,7 +2981,8 @@
     "MODERATOR": "Moderador",
     "BASIC": "Básico",
     "BOT": "Bot",
-    "BOT_MANAGER": "Administrador de Bots"
+    "BOT_MANAGER": "Administrador de Bots",
+    "LEGEND": "Leyenda"
   },
   "elorank": {
     "BEGINNER": "Principiante",

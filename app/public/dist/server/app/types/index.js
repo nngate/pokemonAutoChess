@@ -27,6 +27,7 @@ var Role;
     Role["BASIC"] = "BASIC";
     Role["BOT"] = "BOT";
     Role["BOT_MANAGER"] = "BOT_MANAGER";
+    Role["LEGEND"] = "LEGEND";
 })(Role || (exports.Role = Role = {}));
 var Transfer;
 (function (Transfer) {

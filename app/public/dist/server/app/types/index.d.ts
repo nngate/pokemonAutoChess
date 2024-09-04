@@ -42,7 +42,8 @@ export declare enum Role {
     MODERATOR = "MODERATOR",
     BASIC = "BASIC",
     BOT = "BOT",
-    BOT_MANAGER = "BOT_MANAGER"
+    BOT_MANAGER = "BOT_MANAGER",
+    LEGEND = "LEGEND"
 }
 export declare enum Transfer {
     DRAG_DROP = "DRAG_DROP",
