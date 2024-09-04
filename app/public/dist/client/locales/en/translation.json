@@ -3027,7 +3027,8 @@
     "MODERATOR": "Mod",
     "BASIC": "Basic",
     "BOT": "Bot",
-    "BOT_MANAGER": "Bot Manager"
+    "BOT_MANAGER": "Bot Manager",
+    "LEGEND": "Legend"
   },
   "elorank": {
     "BEGINNER": "Beginner",
