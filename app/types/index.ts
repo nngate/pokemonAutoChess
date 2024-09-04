@@ -54,7 +54,8 @@ export enum Role {
   MODERATOR = "MODERATOR",
   BASIC = "BASIC",
   BOT = "BOT",
-  BOT_MANAGER = "BOT_MANAGER"
+  BOT_MANAGER = "BOT_MANAGER",
+  LEGEND = "LEGEND"
 }
 
 export enum Transfer {
