@@ -66,7 +66,7 @@ import {
   shuffleArray
 } from "../../utils/random"
 import { values } from "../../utils/schemas"
-import { AbilityCommand } from "../simulation-command"
+import { DelayedCommand } from "../simulation-command"
 
 export class BlueFlareStrategy extends AbilityStrategy {
   process(
@@ -587,9 +587,9 @@ export class MistySurgeStrategy extends AbilityStrategy {
     board.forEach((x: number, y: number, ally: PokemonEntity | undefined) => {
       if (
         ally &&
+        ally.id !== pokemon.id &&
         pokemon.team == ally.team &&
-        ally.types.has(Synergy.FAIRY) &&
-        ally.id !== pokemon.id
+        ally.types.has(Synergy.FAIRY)
       ) {
         ally.addPP(ppGain, pokemon, 1, crit)
         ally.handleHeal(hpGain, pokemon, 1, crit)
@@ -2904,7 +2904,7 @@ export class CosmicPowerStrategy extends AbilityStrategy {
     super.process(pokemon, state, board, target, crit)
     const apGain = 20
     board.forEach((x, y, ally) => {
-      if (ally && ally.team === pokemon.team && ally.id !== pokemon.id) {
+      if (ally && ally.id !== pokemon.id && ally.team === pokemon.team) {
         ally.addAbilityPower(apGain, pokemon, 1, crit)
       }
     })
