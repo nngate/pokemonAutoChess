@@ -21,7 +21,10 @@ const express_1 = __importDefault(require("express"));
 const express_basic_auth_1 = __importDefault(require("express-basic-auth"));
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const mongoose_1 = require("mongoose");
+const package_json_1 = __importDefault(require("../package.json"));
 const design_1 = require("./core/design");
+const game_record_1 = require("./models/colyseus-models/game-record");
+const detailled_statistic_v2_1 = __importDefault(require("./models/mongo-models/detailled-statistic-v2"));
 const items_statistic_1 = __importDefault(require("./models/mongo-models/items-statistic"));
 const meta_1 = __importDefault(require("./models/mongo-models/meta"));
 const pokemons_statistic_v2_1 = __importDefault(require("./models/mongo-models/pokemons-statistic-v2"));
@@ -31,11 +34,14 @@ const after_game_room_1 = __importDefault(require("./rooms/after-game-room"));
 const custom_lobby_room_1 = __importDefault(require("./rooms/custom-lobby-room"));
 const game_room_1 = __importDefault(require("./rooms/game-room"));
 const preparation_room_1 = __importDefault(require("./rooms/preparation-room"));
-const types_1 = require("./types");
+const bots_1 = require("./services/bots");
+const discord_1 = require("./services/discord");
+const leaderboard_1 = require("./services/leaderboard");
+const pastebin_1 = require("./services/pastebin");
 const Config_1 = require("./types/Config");
 const Item_1 = require("./types/enum/Item");
 const Pokemon_1 = require("./types/enum/Pokemon");
-const leaderboard_1 = require("./services/leaderboard");
+const logger_1 = require("./utils/logger");
 const clientSrc = __dirname.includes("server")
     ? path_1.default.join(__dirname, "..", "..", "client")
     : path_1.default.join(__dirname, "public", "dist", "client");
@@ -43,7 +49,7 @@ const viewsSrc = path_1.default.join(clientSrc, "index.html");
 let gameOptions = {};
 if (process.env.NODE_APP_INSTANCE) {
     const processNumber = Number(process.env.NODE_APP_INSTANCE || "0");
-    const port = 2567 + processNumber;
+    const port = (Number(process.env.PORT) || 2567) + processNumber;
     gameOptions = {
         presence: new colyseus_1.RedisPresence(process.env.REDIS_URI),
         driver: new colyseus_1.RedisDriver(process.env.REDIS_URI),
@@ -109,9 +115,6 @@ exports.default = (0, tools_1.default)({
         app.get("/pokemons", (req, res) => {
             res.send(Pokemon_1.Pkm);
         });
-        app.get("/title-names", (req, res) => {
-            res.send(types_1.Title);
-        });
         app.get("/pokemons-index", (req, res) => {
             res.send(Pokemon_1.PkmIndex);
         });
@@ -153,6 +156,42 @@ exports.default = (0, tools_1.default)({
         app.get("/leaderboards", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.send((0, leaderboard_1.getLeaderboard)());
         }));
+        app.get("/game-history/:playerUid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            const { playerUid } = req.params;
+            const { page = 1 } = req.query;
+            const limit = 10;
+            const skip = (Number(page) - 1) * limit;
+            const stats = yield detailled_statistic_v2_1.default.find({ playerId: playerUid }, ["pokemons", "time", "rank", "elo"], { limit: limit, skip: skip, sort: { time: -1 } });
+            if (stats) {
+                const records = stats.map((record) => new game_record_1.GameRecord(record.time, record.rank, record.elo, record.pokemons));
+                return res.status(200).json(records);
+            }
+            return res.status(200).json([]);
+        }));
+        app.get("/bots", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            res.send((0, bots_1.getBotsList)({ withSteps: req.query.withSteps === "true" }));
+        }));
+        app.post("/bots", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const { bot, author } = req.body;
+                const pastebinUrl = (yield pastebin_1.pastebinService.createPaste(`${author} has uploaded BOT ${bot.name}`, JSON.stringify(bot, null, 2)));
+                logger_1.logger.debug(`bot ${bot.name} created by ${author} with pastebin url ${pastebinUrl}`);
+                discord_1.discordService.announceBotCreation(bot, pastebinUrl, author);
+                res.status(201).send(pastebinUrl);
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+                res.status(500).send("Internal server error");
+            }
+        }));
+        app.get("/bots/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            res.send((0, bots_1.getBotData)(req.params.id));
+        }));
+        app.get("/status", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            const ccu = yield colyseus_1.matchMaker.stats.getGlobalCCU();
+            const version = package_json_1.default.version;
+            res.send({ ccu, maxCcu: Config_1.MAX_CONCURRENT_PLAYERS_ON_SERVER, version });
+        }));
         const basicAuthMiddleware = (0, express_basic_auth_1.default)({
             users: {
                 admin: process.env.ADMIN_PASSWORD
@@ -165,7 +204,10 @@ exports.default = (0, tools_1.default)({
         app.use("/colyseus", (0, monitor_1.monitor)());
     },
     beforeListen: () => {
-        (0, mongoose_1.connect)(process.env.MONGO_URI);
+        (0, mongoose_1.connect)(process.env.MONGO_URI, {
+            maxPoolSize: Config_1.MAX_POOL_CONNECTIONS_SIZE,
+            socketTimeoutMS: 45000
+        });
         firebase_admin_1.default.initializeApp({
             credential: firebase_admin_1.default.credential.cert({
                 projectId: process.env.FIREBASE_PROJECT_ID,

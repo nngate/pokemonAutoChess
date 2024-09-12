@@ -14,7 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Title = exports.ReadWriteMode = exports.ModalMode = exports.AttackSpriteScale = exports.AttackSprite = exports.Transfer = exports.Role = exports.USERNAME_REGEXP = exports.CDN_URL = exports.CDN_PORTRAIT_URL = void 0;
+exports.Title = exports.ReadWriteMode = exports.AttackSpriteScale = exports.AttackSprite = exports.Transfer = exports.Role = exports.USERNAME_REGEXP = exports.CDN_URL = exports.CDN_PORTRAIT_URL = void 0;
 exports.instanceofPokemonEntity = instanceofPokemonEntity;
 __exportStar(require("./enum/Emotion"), exports);
 exports.CDN_PORTRAIT_URL = "https://raw.githubusercontent.com/keldaanCommunity/SpriteCollab/master/portrait/";
@@ -38,13 +38,10 @@ var Transfer;
     Transfer["REMOVE_FROM_SHOP"] = "REMOVE_FROM_SHOP";
     Transfer["CHANGE_SELECTED_EMOTION"] = "CHANGE_SELECTED_EMOTION";
     Transfer["NEW_MESSAGE"] = "NEW_MESSAGE";
-    Transfer["BOT_CREATION"] = "BOT_CREATION";
-    Transfer["SEARCH"] = "SEARH";
+    Transfer["SEARCH"] = "SEARCH";
     Transfer["CHANGE_NAME"] = "CHANGE_NAME";
     Transfer["CHANGE_AVATAR"] = "CHANGE_AVATAR";
-    Transfer["REQUEST_BOT_DATA"] = "REQUEST_BOT_DATA";
     Transfer["REQUEST_BOT_MONITOR"] = "REQUEST_BOT_MONITOR";
-    Transfer["REQUEST_BOT_LIST"] = "REQUEST_BOT_LIST";
     Transfer["OPEN_BOOSTER"] = "OPEN_BOOSTER";
     Transfer["BUY_BOOSTER"] = "BUY_BOOSTER";
     Transfer["ADD_BOT"] = "ADD_BOT";
@@ -64,7 +61,6 @@ var Transfer;
     Transfer["CHANGE_ROOM_PASSWORD"] = "CHANGE_ROOM_PASSWORD";
     Transfer["BUY_EMOTION"] = "BUY_EMOTION";
     Transfer["BOOSTER_CONTENT"] = "BOOSTER_CONTENT";
-    Transfer["PASTEBIN_URL"] = "PASTEBIN_URL";
     Transfer["USER"] = "USER";
     Transfer["DRAG_DROP_FAILED"] = "DRAG_DROP_FAILED";
     Transfer["SHOW_EMOTE"] = "SHOW_EMOTE";
@@ -110,6 +106,7 @@ var Transfer;
     Transfer["PICK_BERRY"] = "PICK_BERRY";
     Transfer["PRELOAD_MAPS"] = "PRELOAD_MAPS";
     Transfer["NPC_DIALOG"] = "NPC_DIALOG";
+    Transfer["HEAP_SNAPSHOT"] = "HEAP_SNAPSHOT";
 })(Transfer || (exports.Transfer = Transfer = {}));
 var AttackSprite;
 (function (AttackSprite) {
@@ -180,11 +177,6 @@ exports.AttackSpriteScale = {
     "WATER/melee": [2, 2],
     "WATER/range": [3, 3]
 };
-var ModalMode;
-(function (ModalMode) {
-    ModalMode["EXPORT"] = "EXPORT";
-    ModalMode["IMPORT"] = "IMPORT";
-})(ModalMode || (exports.ModalMode = ModalMode = {}));
 var ReadWriteMode;
 (function (ReadWriteMode) {
     ReadWriteMode["WRITE"] = "WRITE";

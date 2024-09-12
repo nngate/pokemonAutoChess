@@ -18,6 +18,7 @@ const schema_1 = require("@colyseus/schema");
 const nanoid_1 = require("nanoid");
 const count_1 = __importDefault(require("../models/colyseus-models/count"));
 const player_1 = __importDefault(require("../models/colyseus-models/player"));
+const pokemon_1 = require("../models/colyseus-models/pokemon");
 const status_1 = __importDefault(require("../models/colyseus-models/status"));
 const pokemon_factory_1 = __importDefault(require("../models/pokemon-factory"));
 const shop_1 = require("../models/shop");
@@ -394,7 +395,7 @@ class PokemonEntity extends schema_1.Schema {
                 });
                 if (this.name === Pokemon_1.Pkm.MINIOR_KERNEL_BLUE) {
                     t.handleDamage({
-                        damage: physicalDamage,
+                        damage: Math.ceil(physicalDamage * (1 + this.ap / 100)),
                         board,
                         attackType: Game_1.AttackType.SPECIAL,
                         attacker: this,
@@ -403,7 +404,7 @@ class PokemonEntity extends schema_1.Schema {
                 }
                 if (this.name === Pokemon_1.Pkm.MINIOR_KERNEL_RED) {
                     t.handleDamage({
-                        damage: Math.ceil(physicalDamage * 1.5),
+                        damage: Math.ceil(physicalDamage * 1.5 * (1 + this.ap / 100)),
                         board,
                         attackType: Game_1.AttackType.PHYSICAL,
                         attacker: this,
@@ -412,7 +413,7 @@ class PokemonEntity extends schema_1.Schema {
                 }
                 if (this.name === Pokemon_1.Pkm.MINIOR_KERNEL_ORANGE) {
                     t.handleDamage({
-                        damage: Math.ceil(physicalDamage * 0.5),
+                        damage: Math.ceil(physicalDamage * 0.5 * (1 + this.ap / 100)),
                         board,
                         attackType: Game_1.AttackType.TRUE,
                         attacker: this,
@@ -423,7 +424,7 @@ class PokemonEntity extends schema_1.Schema {
             if (this.name === Pokemon_1.Pkm.MINIOR_KERNEL_GREEN) {
                 cells.forEach((v) => {
                     if (v && v.value && v.value.team === this.team) {
-                        v.value.handleHeal(physicalDamage, this, 0, false);
+                        v.value.handleHeal(physicalDamage, this, 1, false);
                     }
                 });
             }
@@ -521,7 +522,7 @@ class PokemonEntity extends schema_1.Schema {
             target.status.triggerConfusion(3000, target);
         }
         if (this.name === Pokemon_1.Pkm.MINIOR) {
-            this.addAttackSpeed(4, this, 1, false);
+            this.addAttackSpeed(5, this, 1, false);
         }
         if (this.name === Pokemon_1.Pkm.MORPEKO) {
             target.status.triggerParalysis(2000, target);
@@ -583,15 +584,15 @@ class PokemonEntity extends schema_1.Schema {
                 burnChance = 0.3;
             }
             else if (this.effects.has(Effect_1.Effect.VICTORY_STAR)) {
-                burnChance = 0.4;
+                burnChance = 0.3;
                 this.addAttack(1, this, 0, false);
             }
             else if (this.effects.has(Effect_1.Effect.DROUGHT)) {
-                burnChance = 0.5;
+                burnChance = 0.3;
                 this.addAttack(2, this, 0, false);
             }
             else if (this.effects.has(Effect_1.Effect.DESOLATE_LAND)) {
-                burnChance = 1;
+                burnChance = 0.3;
                 this.addAttack(3, this, 0, false);
             }
             if ((0, random_1.chance)(burnChance)) {
@@ -875,15 +876,16 @@ class PokemonEntity extends schema_1.Schema {
             this.addAbilityPower(10, this, 0, false);
         }
         if (this.items.has(Item_1.Item.AMULET_COIN) && this.player) {
-            this.player.money += 1;
+            this.player.addMoney(1);
             this.count.moneyCount += 1;
             this.count.amuletCoinCount += 1;
         }
         if (this.items.has(Item_1.Item.GOLD_BOTTLE_CAP) && this.player) {
             const isLastEnemy = board.cells.some((p) => p && p.team !== this.team && p.life > 0) ===
                 false;
-            this.player.money += isLastEnemy ? 5 : 1;
-            this.count.moneyCount += isLastEnemy ? 5 : 1;
+            const moneyGained = isLastEnemy ? 5 : 1;
+            this.player.addMoney(moneyGained);
+            this.count.moneyCount += moneyGained;
         }
         if (this.effects.has(Effect_1.Effect.PURSUIT) ||
             this.effects.has(Effect_1.Effect.BRUTAL_SWING) ||
@@ -1068,15 +1070,14 @@ class PokemonEntity extends schema_1.Schema {
         }
     }
     resurrect() {
-        const cloneForStatsReference = pokemon_factory_1.default.createPokemonFromName(this.name);
-        this.life = cloneForStatsReference.hp;
+        this.life = this.refToBoardPokemon.hp;
         this.shield = 0;
         this.pp = 0;
         this.ap = 0;
-        this.atk = cloneForStatsReference.atk;
-        this.def = cloneForStatsReference.def;
-        this.speDef = cloneForStatsReference.speDef;
-        this.atkSpeed = cloneForStatsReference.atkSpeed;
+        this.atk = this.refToBoardPokemon.atk;
+        this.def = this.refToBoardPokemon.def;
+        this.speDef = this.refToBoardPokemon.speDef;
+        this.atkSpeed = this.refToBoardPokemon.atkSpeed;
         this.critChance = Config_1.DEFAULT_CRIT_CHANCE;
         this.critPower = Config_1.DEFAULT_CRIT_POWER;
         this.count = new count_1.default();
@@ -1089,6 +1090,7 @@ class PokemonEntity extends schema_1.Schema {
                     .filter((e) => e.life > 0)
                     .map((e) => e.refToBoardPokemon.id);
                 const koAllies = (0, schemas_1.values)(this.player.board).filter((p) => p.id !== this.refToBoardPokemon.id &&
+                    !(0, pokemon_1.isOnBench)(p) &&
                     alliesAlive.includes(p.id) === false);
                 const spawns = (0, random_1.pickNRandomIn)(koAllies, 3);
                 spawns.forEach((spawn) => {

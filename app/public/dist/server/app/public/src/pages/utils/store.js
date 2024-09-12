@@ -68,8 +68,10 @@ exports.LocalStore = LocalStore;
 var LocalStoreKeys;
 (function (LocalStoreKeys) {
     LocalStoreKeys["PREFERENCES"] = "pac_preferences";
-    LocalStoreKeys["RECONNECTION_TOKEN"] = "reconnection_token";
+    LocalStoreKeys["RECONNECTION_LOBBY"] = "reconnection_lobby";
+    LocalStoreKeys["RECONNECTION_PREPARATION"] = "reconnection_preparation";
     LocalStoreKeys["RECONNECTION_GAME"] = "reconnection_game";
+    LocalStoreKeys["RECONNECTION_AFTER_GAME"] = "reconnection_after-game";
     LocalStoreKeys["TEAM_PLANNER"] = "team_planner";
     LocalStoreKeys["LAST_PATCH_READ"] = "last_patch_read";
     LocalStoreKeys["COLLECTION_FILTER"] = "collection_filter";

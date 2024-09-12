@@ -19,6 +19,7 @@ const banned_user_1 = __importDefault(require("../models/mongo-models/banned-use
 const user_metadata_1 = __importDefault(require("../models/mongo-models/user-metadata"));
 const types_1 = require("../types");
 const Config_1 = require("../types/Config");
+const CloseCodes_1 = require("../types/enum/CloseCodes");
 const Game_1 = require("../types/enum/Game");
 const logger_1 = require("../utils/logger");
 const schemas_1 = require("../utils/schemas");
@@ -95,13 +96,12 @@ class PreparationRoom extends colyseus_1.Room {
                             tournamentId: (_b = this.metadata) === null || _b === void 0 ? void 0 : _b.tournamentId,
                             bracketId: (_c = this.metadata) === null || _c === void 0 ? void 0 : _c.bracketId,
                             players: (0, schemas_1.values)(this.state.users).map((p) => ({
-                                id: p.id,
+                                id: p.uid,
                                 rank: 1
                             }))
                         });
                     }
-                    this.broadcast(types_1.Transfer.KICK);
-                    this.disconnect();
+                    this.disconnect(CloseCodes_1.CloseCodes.ROOM_EMPTY);
                 }
                 else {
                     this.dispatcher.dispatch(new preparation_commands_1.OnGameStartRequestCommand());
@@ -132,153 +132,123 @@ class PreparationRoom extends colyseus_1.Room {
                 }
             }, (options.autoStartDelayInSeconds - 10 * 60) * 1000);
         }
-        try {
-            this.onMessage(types_1.Transfer.KICK, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.KICK, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnKickPlayerCommand(), {
-                        client,
-                        message
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.DELETE_ROOM, (client) => {
-                logger_1.logger.info(types_1.Transfer.DELETE_ROOM, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnDeleteRoomCommand(), { client });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.CHANGE_ROOM_NAME, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.CHANGE_ROOM_NAME, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnRoomNameCommand(), { client, message });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.CHANGE_ROOM_PASSWORD, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.CHANGE_ROOM_PASSWORD, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnRoomPasswordCommand(), {
-                        client,
-                        message
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.TOGGLE_NO_ELO, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.TOGGLE_NO_ELO, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnToggleEloCommand(), {
-                        client,
-                        message
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.GAME_START_REQUEST, (client) => {
-                logger_1.logger.info(types_1.Transfer.GAME_START_REQUEST, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnGameStartRequestCommand(), { client });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.TOGGLE_READY, (client, ready) => {
-                logger_1.logger.info(types_1.Transfer.TOGGLE_READY, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnToggleReadyCommand(), {
-                        client,
-                        ready
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.NEW_MESSAGE, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.NEW_MESSAGE, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.OnNewMessageCommand(), {
-                        client,
-                        message
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.REMOVE_MESSAGE, (client, message) => {
-                logger_1.logger.info(types_1.Transfer.REMOVE_MESSAGE, this.roomName);
-                try {
-                    this.dispatcher.dispatch(new preparation_commands_1.RemoveMessageCommand(), {
-                        client,
-                        messageId: message.id
-                    });
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.ADD_BOT, (client, botType) => {
-                logger_1.logger.info(types_1.Transfer.ADD_BOT, this.roomName);
-                try {
-                    const user = this.state.users.get(client.auth.uid);
-                    if (user) {
-                        this.dispatcher.dispatch(new preparation_commands_1.OnAddBotCommand(), {
-                            type: botType,
-                            user: user
-                        });
-                    }
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.REMOVE_BOT, (client, t) => {
-                logger_1.logger.info(types_1.Transfer.REMOVE_BOT, this.roomName);
-                try {
-                    const user = this.state.users.get(client.auth.uid);
-                    if (user) {
-                        this.dispatcher.dispatch(new preparation_commands_1.OnRemoveBotCommand(), {
-                            target: t,
-                            user: user
-                        });
-                    }
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.REQUEST_BOT_LIST, (client) => {
-                logger_1.logger.info(types_1.Transfer.REQUEST_BOT_LIST, this.roomName);
-                try {
-                    const user = this.state.users.get(client.auth.uid);
-                    this.dispatcher.dispatch(new preparation_commands_1.OnListBotsCommand(), {
+        this.onMessage(types_1.Transfer.KICK, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.KICK, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnKickPlayerCommand(), { client, message });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.DELETE_ROOM, (client) => {
+            logger_1.logger.info(types_1.Transfer.DELETE_ROOM, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnDeleteRoomCommand(), { client });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.CHANGE_ROOM_NAME, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.CHANGE_ROOM_NAME, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnRoomNameCommand(), { client, message });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.CHANGE_ROOM_PASSWORD, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.CHANGE_ROOM_PASSWORD, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnRoomPasswordCommand(), {
+                    client,
+                    message
+                });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.TOGGLE_NO_ELO, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.TOGGLE_NO_ELO, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnToggleEloCommand(), { client, message });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.GAME_START_REQUEST, (client) => {
+            logger_1.logger.info(types_1.Transfer.GAME_START_REQUEST, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnGameStartRequestCommand(), { client });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.TOGGLE_READY, (client, ready) => {
+            logger_1.logger.info(types_1.Transfer.TOGGLE_READY, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnToggleReadyCommand(), { client, ready });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.NEW_MESSAGE, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.NEW_MESSAGE, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.OnNewMessageCommand(), { client, message });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.REMOVE_MESSAGE, (client, message) => {
+            logger_1.logger.info(types_1.Transfer.REMOVE_MESSAGE, this.roomName);
+            try {
+                this.dispatcher.dispatch(new preparation_commands_1.RemoveMessageCommand(), {
+                    client,
+                    messageId: message.id
+                });
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.ADD_BOT, (client, botType) => {
+            logger_1.logger.info(types_1.Transfer.ADD_BOT, this.roomName);
+            try {
+                const user = this.state.users.get(client.auth.uid);
+                if (user) {
+                    this.dispatcher.dispatch(new preparation_commands_1.OnAddBotCommand(), {
+                        type: botType,
                         user: user
                     });
                 }
-                catch (error) {
-                    logger_1.logger.error(error);
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
+        this.onMessage(types_1.Transfer.REMOVE_BOT, (client, t) => {
+            logger_1.logger.info(types_1.Transfer.REMOVE_BOT, this.roomName);
+            try {
+                const user = this.state.users.get(client.auth.uid);
+                if (user) {
+                    this.dispatcher.dispatch(new preparation_commands_1.OnRemoveBotCommand(), {
+                        target: t,
+                        user: user
+                    });
                 }
-            });
-        }
-        catch (error) {
-            logger_1.logger.error(error);
-            this.disconnect();
-        }
+            }
+            catch (error) {
+                logger_1.logger.error(error);
+            }
+        });
         this.onServerAnnouncement = this.onServerAnnouncement.bind(this);
         this.presence.subscribe("server-announcement", this.onServerAnnouncement);
         this.onGameStart = this.onGameStart.bind(this);
@@ -298,7 +268,7 @@ class PreparationRoom extends colyseus_1.Room {
                 client.send(types_1.Transfer.USER_PROFILE, userProfile);
                 const isAlreadyInRoom = this.state.users.has(user.uid);
                 const numberOfHumanPlayers = (0, schemas_1.values)(this.state.users).filter((u) => !u.isBot).length;
-                if (numberOfHumanPlayers >= Config_1.MAX_PLAYERS_PER_GAME) {
+                if (numberOfHumanPlayers >= Config_1.MAX_PLAYERS_PER_GAME && !isAlreadyInRoom) {
                     throw "Room is full";
                 }
                 else if (this.state.gameStartedAt != null) {
@@ -312,9 +282,6 @@ class PreparationRoom extends colyseus_1.Room {
                 }
                 else if (this.metadata.blacklist.includes(user.uid)) {
                     throw "User previously kicked";
-                }
-                else if (isAlreadyInRoom) {
-                    throw "User already in room";
                 }
                 else {
                     return user;
@@ -338,7 +305,7 @@ class PreparationRoom extends colyseus_1.Room {
                 if (consented) {
                     throw new Error("consented leave");
                 }
-                yield this.allowReconnection(client, 3);
+                yield this.allowReconnection(client, 10);
             }
             catch (e) {
                 if (client && client.auth && client.auth.displayName) {
@@ -367,24 +334,6 @@ class PreparationRoom extends colyseus_1.Room {
             this.setGameStarted(new Date().toISOString());
             this.broadcast(types_1.Transfer.GAME_START, gameId);
         }
-    }
-    status() {
-        const players = new Array();
-        this.state.users.forEach((user) => {
-            if (!user.isBot) {
-                players.push({
-                    id: user.id,
-                    avatar: user.avatar,
-                    name: user.name,
-                    elo: user.elo
-                });
-            }
-        });
-        return {
-            players: players,
-            name: this.state.name,
-            id: this.roomId
-        };
     }
     updatePlayersInfo() {
         this.setMetadata({

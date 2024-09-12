@@ -14,7 +14,7 @@ function TitleTab() {
     const [showUnlocked, setShowUnlocked] = (0, react_1.useState)(true);
     const { t } = (0, react_i18next_1.useTranslation)();
     const dispatch = (0, hooks_1.useAppDispatch)();
-    const user = (0, hooks_1.useAppSelector)((state) => state.lobby.user);
+    const user = (0, hooks_1.useAppSelector)((state) => state.network.profile);
     const [titles, setTitles] = (0, react_1.useState)([]);
     (0, react_1.useEffect)(() => {
         (0, title_statistic_1.fetchTitles)().then((res) => {

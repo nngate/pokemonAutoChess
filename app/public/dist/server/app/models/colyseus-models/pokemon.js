@@ -18,14 +18,14 @@ exports.Tauros = exports.Regirock = exports.Solrock = exports.Lunatone = exports
 exports.Azelf = exports.Mesprit = exports.Uxie = exports.Latios = exports.Latias = exports.Lapras = exports.IronBundle = exports.Delibird = exports.Absol = exports.Spiritomb = exports.RotomDrone = exports.Rotom = exports.Manaphy = exports.Phione = exports.Mawile = exports.Cobalion = exports.Virizion = exports.Terrakion = exports.Keldeo = exports.Enamorus = exports.Tornadus = exports.Thundurus = exports.Landorus = exports.CastformHail = exports.CastformRain = exports.CastformSun = exports.Castform = exports.Kecleon = exports.Farfetchd = exports.Chatot = exports.Volcarona = exports.Larvesta = exports.Darkrai = exports.Volcanion = exports.Glaceon = exports.Sylveon = exports.Leafeon = exports.Umbreon = exports.Espeon = exports.Flareon = exports.Jolteon = exports.Vaporeon = exports.Eevee = exports.Rayquaza = exports.Groudon = exports.Kyogre = exports.Regigigas = exports.Registeel = exports.Zangoose = exports.Heracross = void 0;
 exports.Mienshao = exports.Mienfoo = exports.Bastiodon = exports.Shieldon = exports.Gliscor = exports.Gligar = exports.Archeops = exports.Archen = exports.Musharna = exports.Munna = exports.Wobbuffet = exports.Wynaut = exports.Armaldo = exports.Anorith = exports.Primeape = exports.Mankey = exports.Sunflora = exports.Sunkern = exports.Diancie = exports.Carbink = exports.Aurorus = exports.Amaura = exports.Bellossom = exports.Vileplume = exports.Gloom = exports.Oddish = exports.MegaRayquaza = exports.PrimalKyogre = exports.PrimalGroudon = exports.Heatmor = exports.Torkoal = exports.HooH = exports.Heatran = exports.Cresselia = exports.ShayminSky = exports.Shaymin = exports.DeoxysSpeed = exports.DeoxysAttack = exports.DeoxysDefense = exports.Deoxys = exports.Arceus = exports.Jirachi = exports.Victini = exports.Celebi = exports.Zekrom = exports.Reshiram = exports.Kyurem = exports.Marshadow = exports.Mewtwo = exports.Mew = void 0;
 exports.Xatu = exports.Natu = exports.Gourgeist = exports.Pumpkaboo = exports.Cacturne = exports.Cacnea = exports.MegaHoundoom = exports.Houndoom = exports.Houndour = exports.Blacephalon = exports.Stakataka = exports.TapuBulu = exports.TapuFini = exports.Xerneas = exports.TapuLele = exports.TapuKoko = exports.Blissey = exports.Chansey = exports.Happiny = exports.Shedinja = exports.Ninjask = exports.Nincada = exports.Eternatus = exports.Guzzlord = exports.Regidrago = exports.Regieleki = exports.Delphox = exports.Braixen = exports.Fennekin = exports.Hatterene = exports.Hattrem = exports.Hatenna = exports.Genesect = exports.Aerodactyl = exports.Tyrantrum = exports.Tyrunt = exports.Relicanth = exports.Huntail = exports.Gorebyss = exports.Clamperl = exports.Omastar = exports.Omanyte = exports.Kabutops = exports.Kabuto = exports.Rampardos = exports.Cranidos = exports.Cradily = exports.Lileep = exports.Carracosta = exports.Tirtouga = void 0;
-exports.Toxicroak = exports.Croagunk = exports.Dewgong = exports.Seel = exports.Sneasler = exports.HisuiSneasel = exports.Weavile = exports.Sneasel = exports.Magcargo = exports.Slugma = exports.Electrode = exports.Voltorb = exports.Venomoth = exports.Venonat = exports.Salazzle = exports.Salandit = exports.MrMime = exports.MimeJr = exports.Jynx = exports.Smoochum = exports.HisuiArcanine = exports.HisuiGrowlithe = exports.Arcanine = exports.Growlithe = exports.Naganadel = exports.Poipole = exports.Snorlax = exports.Munchlax = exports.Noctowl = exports.Hoothoot = exports.Persian = exports.Meowth = exports.Crawdaunt = exports.Corphish = exports.Parasect = exports.Paras = exports.Galvantula = exports.Joltik = exports.Furret = exports.Sentret = exports.Hariyama = exports.Makuhita = exports.Rapidash = exports.Ponyta = exports.Floatzel = exports.Buizel = exports.Cloyster = exports.Shellder = exports.Noivern = exports.Noibat = void 0;
-exports.Snivy = exports.Dragapult = exports.Drakloak = exports.Dreepy = exports.Wailord = exports.Wailmer = exports.Frosmoth = exports.Snom = exports.AlolanNinetales = exports.AlolanVulpix = exports.Ninetales = exports.Vulpix = exports.Starmie = exports.Staryu = exports.Appletun = exports.Applin = exports.SilvallyGhost = exports.SilvallyFlora = exports.SilvallyGround = exports.SilvallyRock = exports.SilvallyFlying = exports.SilvallySteel = exports.SilvallySound = exports.SilvallyPoison = exports.SilvallyLight = exports.SilvallyFighting = exports.SilvallyIce = exports.SilvallyGrass = exports.SilvallyDark = exports.SilvallyFairy = exports.SilvallyElectric = exports.SilvallyWater = exports.SilvallyPsychic = exports.SilvallyFossil = exports.SilvallyFire = exports.TypeNull = exports.Granbull = exports.Snubull = exports.Tentacruel = exports.Tentacool = exports.Breloom = exports.Shroomish = exports.Drifblim = exports.Drifloon = exports.Bronzong = exports.Bronzor = exports.Mightyena = exports.Poochyena = exports.Lanturn = exports.Chinchou = void 0;
-exports.UnownY = exports.UnownX = exports.UnownW = exports.UnownV = exports.UnownU = exports.UnownT = exports.UnownS = exports.UnownR = exports.UnownQ = exports.UnownP = exports.UnownO = exports.UnownN = exports.UnownM = exports.UnownL = exports.UnownK = exports.UnownJ = exports.UnownI = exports.UnownH = exports.UnownG = exports.UnownF = exports.UnownE = exports.UnownD = exports.UnownC = exports.UnownB = exports.UnownA = exports.Forretress = exports.Pineco = exports.Swoobat = exports.Woobat = exports.Probopass = exports.Nosepass = exports.Sandslash = exports.Sandshrew = exports.Gothitelle = exports.Gothorita = exports.Gothita = exports.Primarina = exports.Brionne = exports.Popplio = exports.AlolanGolem = exports.AlolanGraveler = exports.AlolanGeodude = exports.Cinderace = exports.Raboot = exports.Scorbunny = exports.Staraptor = exports.Staravia = exports.Starly = exports.Serperior = exports.Servine = void 0;
-exports.Maractus = exports.Tinkaton = exports.Tinkatuff = exports.Tinkatink = exports.Dustox = exports.Cascoon = exports.Beautifly = exports.Silcoon = exports.Wurmple = exports.Emboar = exports.Pignite = exports.Tepig = exports.Shuckle = exports.Vespiqueen = exports.Combee = exports.Sudowoodo = exports.Bonsley = exports.MimikyuBusted = exports.Mimikyu = exports.Hitmonchan = exports.Hitmonlee = exports.Hitmontop = exports.Tyrogue = exports.Chimecho = exports.Chingling = exports.Greninja = exports.Frogadier = exports.Froakie = exports.Sharpedo = exports.Carvanha = exports.Arbok = exports.Ekans = exports.AlolanMuk = exports.AlolanGrimer = exports.Muk = exports.Grimer = exports.HisuiZoroark = exports.HisuiZorua = exports.Zoroark = exports.Zorua = exports.Decidueye = exports.Dartix = exports.Rowlet = exports.AlolanDugtrio = exports.AlolanDiglett = exports.Dugtrio = exports.Diglett = exports.UnownExclamation = exports.UnownQuestion = exports.UnownZ = void 0;
-exports.Wingull = exports.Hippodown = exports.Hippopotas = exports.Kricketune = exports.Kricketot = exports.Dodrio = exports.Doduo = exports.Mismagius = exports.Misdreavus = exports.CherrimSunlight = exports.Cherrim = exports.Cherrubi = exports.UltraNecrozma = exports.Necrozma = exports.Volbeat = exports.Illumise = exports.Skuntank = exports.Stunky = exports.Lumineon = exports.Finneon = exports.Scrafty = exports.Scraggy = exports.Whiscash = exports.Barboach = exports.Liepard = exports.Purrloin = exports.Claydol = exports.Baltoy = exports.Spinda = exports.Bibarel = exports.Bidoof = exports.AlolanExeggutor = exports.Exeggutor = exports.Exeggcute = exports.Heliolisk = exports.Helioptile = exports.Yanmega = exports.Yanma = exports.Clawitzer = exports.Clauncher = exports.Weezing = exports.Koffing = exports.Sableye = exports.Carnivine = exports.Tropius = exports.Dhelmise = exports.Kartana = exports.Spectrier = exports.Minun = exports.Plusle = void 0;
-exports.Kangaskhan = exports.Lickilicky = exports.Lickitung = exports.Araquanid = exports.Dewpider = exports.Milotic = exports.Feebas = exports.Kingambit = exports.Bisharp = exports.Pawniard = exports.Cyclizar = exports.Toxtricity = exports.Toxel = exports.Smeargle = exports.Cursola = exports.GalarCorsola = exports.Corsola = exports.Bruxish = exports.Dracovish = exports.Pheromosa = exports.Stoutland = exports.Herdier = exports.Lillipup = exports.Comfey = exports.Inteleon = exports.Drizzile = exports.Sobble = exports.Gholdengo = exports.Gimmighoul = exports.HoopaUnbound = exports.Hoopa = exports.MiniorKernelGreen = exports.MiniorKernelOrange = exports.MiniorKernelRed = exports.MiniorKernelBlue = exports.Minior = exports.MorpekoHangry = exports.Morpeko = exports.MausholdFour = exports.MausholdThree = exports.Tandemaus = exports.Nihilego = exports.Xurkitree = exports.Overqwil = exports.HisuianQwilfish = exports.Trevenant = exports.Phantump = exports.Linoone = exports.Zigzagoon = exports.Pelipper = void 0;
-exports.Golurk = exports.Golett = exports.Ferrothorn = exports.Ferroseed = exports.Polteageist = exports.Sinistea = exports.Grumpig = exports.Spoink = exports.Donphan = exports.Phanpy = exports.Tangrowth = exports.Tangela = exports.Clodsire = exports.PaldeaWooper = exports.Mothim = exports.WormadamTrash = exports.WormadamSandy = exports.WormadamPlant = exports.BurmyTrash = exports.BurmySandy = exports.BurmyPlant = exports.Kilowattrel = exports.Wattrel = exports.Hypno = exports.Drowzee = exports.Grimmsnarl = exports.Morgrem = exports.Impidimp = exports.Magearna = exports.Lunala = exports.Solgaleo = exports.Cosmoem = exports.Cosmog = exports.Druddigon = exports.LycanrocDay = exports.LycanrocNight = exports.LycanrocDusk = exports.Rockruff = exports.Ariados = exports.Spinarak = exports.Watchog = exports.Patrat = exports.Sawsbuck = exports.Deerling = exports.Ambipom = exports.Aipom = exports.UrsalunaBloodmoon = exports.Ursaluna = exports.Ursaring = exports.Teddiursa = void 0;
-exports.PokemonClasses = exports.Pyukumuku = exports.Pawmot = exports.Pawmo = exports.Pawmi = exports.WishiwashiSchool = exports.Wishiwashi = exports.Arrokuda = exports.Cramorant = exports.Stonjourner = exports.Hawlucha = exports.Klefki = exports.Braviary = exports.Rufflet = exports.GastrodonEastSea = exports.ShellosEastSea = exports.GastrodonWestSea = exports.ShellosWestSea = exports.Vikavolt = exports.Charjabug = exports.Grubbin = exports.Garbodor = exports.Trubbish = void 0;
+exports.Sneasler = exports.HisuiSneasel = exports.Weavile = exports.Sneasel = exports.Magcargo = exports.Slugma = exports.Electrode = exports.Voltorb = exports.Venomoth = exports.Venonat = exports.Salazzle = exports.Salandit = exports.MrMime = exports.MimeJr = exports.Jynx = exports.Smoochum = exports.HisuiArcanine = exports.HisuiGrowlithe = exports.Arcanine = exports.Growlithe = exports.Naganadel = exports.Poipole = exports.Snorlax = exports.Munchlax = exports.Noctowl = exports.Hoothoot = exports.AlolanPersian = exports.AlolanMeowth = exports.Persian = exports.Meowth = exports.Crawdaunt = exports.Corphish = exports.Parasect = exports.Paras = exports.Galvantula = exports.Joltik = exports.Furret = exports.Sentret = exports.Hariyama = exports.Makuhita = exports.GalarianRapidash = exports.GalarianPonyta = exports.Rapidash = exports.Ponyta = exports.Floatzel = exports.Buizel = exports.Cloyster = exports.Shellder = exports.Noivern = exports.Noibat = void 0;
+exports.Wailord = exports.Wailmer = exports.Frosmoth = exports.Snom = exports.AlolanNinetales = exports.AlolanVulpix = exports.Ninetales = exports.Vulpix = exports.Starmie = exports.Staryu = exports.Appletun = exports.Applin = exports.SilvallyGhost = exports.SilvallyFlora = exports.SilvallyGround = exports.SilvallyRock = exports.SilvallyFlying = exports.SilvallySteel = exports.SilvallySound = exports.SilvallyPoison = exports.SilvallyLight = exports.SilvallyFighting = exports.SilvallyIce = exports.SilvallyGrass = exports.SilvallyDark = exports.SilvallyFairy = exports.SilvallyElectric = exports.SilvallyWater = exports.SilvallyPsychic = exports.SilvallyFossil = exports.SilvallyFire = exports.TypeNull = exports.Granbull = exports.Snubull = exports.Tentacruel = exports.Tentacool = exports.Breloom = exports.Shroomish = exports.Drifblim = exports.Drifloon = exports.Bronzong = exports.Bronzor = exports.Mightyena = exports.Poochyena = exports.Lanturn = exports.Chinchou = exports.Toxicroak = exports.Croagunk = exports.Dewgong = exports.Seel = void 0;
+exports.UnownU = exports.UnownT = exports.UnownS = exports.UnownR = exports.UnownQ = exports.UnownP = exports.UnownO = exports.UnownN = exports.UnownM = exports.UnownL = exports.UnownK = exports.UnownJ = exports.UnownI = exports.UnownH = exports.UnownG = exports.UnownF = exports.UnownE = exports.UnownD = exports.UnownC = exports.UnownB = exports.UnownA = exports.Forretress = exports.Pineco = exports.Swoobat = exports.Woobat = exports.Probopass = exports.Nosepass = exports.Sandslash = exports.Sandshrew = exports.Gothitelle = exports.Gothorita = exports.Gothita = exports.Primarina = exports.Brionne = exports.Popplio = exports.AlolanGolem = exports.AlolanGraveler = exports.AlolanGeodude = exports.Cinderace = exports.Raboot = exports.Scorbunny = exports.Staraptor = exports.Staravia = exports.Starly = exports.Serperior = exports.Servine = exports.Snivy = exports.Dragapult = exports.Drakloak = exports.Dreepy = void 0;
+exports.Dustox = exports.Cascoon = exports.Beautifly = exports.Silcoon = exports.Wurmple = exports.Emboar = exports.Pignite = exports.Tepig = exports.Shuckle = exports.Vespiqueen = exports.Combee = exports.Sudowoodo = exports.Bonsley = exports.MimikyuBusted = exports.Mimikyu = exports.Hitmonchan = exports.Hitmonlee = exports.Hitmontop = exports.Tyrogue = exports.Chimecho = exports.Chingling = exports.Greninja = exports.Frogadier = exports.Froakie = exports.Sharpedo = exports.Carvanha = exports.Arbok = exports.Ekans = exports.AlolanMuk = exports.AlolanGrimer = exports.Muk = exports.Grimer = exports.HisuiZoroark = exports.HisuiZorua = exports.Zoroark = exports.Zorua = exports.Decidueye = exports.Dartix = exports.Rowlet = exports.AlolanDugtrio = exports.AlolanDiglett = exports.Dugtrio = exports.Diglett = exports.UnownExclamation = exports.UnownQuestion = exports.UnownZ = exports.UnownY = exports.UnownX = exports.UnownW = exports.UnownV = void 0;
+exports.Kricketot = exports.Dodrio = exports.Doduo = exports.Mismagius = exports.Misdreavus = exports.CherrimSunlight = exports.Cherrim = exports.Cherrubi = exports.UltraNecrozma = exports.Necrozma = exports.Volbeat = exports.Illumise = exports.Skuntank = exports.Stunky = exports.Lumineon = exports.Finneon = exports.Scrafty = exports.Scraggy = exports.Whiscash = exports.Barboach = exports.Liepard = exports.Purrloin = exports.Claydol = exports.Baltoy = exports.Spinda = exports.Bibarel = exports.Bidoof = exports.AlolanExeggutor = exports.Exeggutor = exports.Exeggcute = exports.Heliolisk = exports.Helioptile = exports.Yanmega = exports.Yanma = exports.Clawitzer = exports.Clauncher = exports.Weezing = exports.Koffing = exports.Sableye = exports.Carnivine = exports.Tropius = exports.Dhelmise = exports.Kartana = exports.Spectrier = exports.Minun = exports.Plusle = exports.Maractus = exports.Tinkaton = exports.Tinkatuff = exports.Tinkatink = void 0;
+exports.Dewpider = exports.Milotic = exports.Feebas = exports.Kingambit = exports.Bisharp = exports.Pawniard = exports.Cyclizar = exports.Toxtricity = exports.Toxel = exports.Smeargle = exports.Cursola = exports.GalarCorsola = exports.Corsola = exports.Bruxish = exports.Dracovish = exports.Pheromosa = exports.Stoutland = exports.Herdier = exports.Lillipup = exports.Comfey = exports.Inteleon = exports.Drizzile = exports.Sobble = exports.Gholdengo = exports.Gimmighoul = exports.HoopaUnbound = exports.Hoopa = exports.MiniorKernelGreen = exports.MiniorKernelOrange = exports.MiniorKernelRed = exports.MiniorKernelBlue = exports.Minior = exports.MorpekoHangry = exports.Morpeko = exports.MausholdFour = exports.MausholdThree = exports.Tandemaus = exports.Nihilego = exports.Xurkitree = exports.Overqwil = exports.HisuianQwilfish = exports.Trevenant = exports.Phantump = exports.Linoone = exports.Zigzagoon = exports.Pelipper = exports.Wingull = exports.Hippodown = exports.Hippopotas = exports.Kricketune = void 0;
+exports.Polteageist = exports.Sinistea = exports.Grumpig = exports.Spoink = exports.Donphan = exports.Phanpy = exports.Tangrowth = exports.Tangela = exports.Clodsire = exports.PaldeaWooper = exports.Mothim = exports.WormadamTrash = exports.WormadamSandy = exports.WormadamPlant = exports.BurmyTrash = exports.BurmySandy = exports.BurmyPlant = exports.Kilowattrel = exports.Wattrel = exports.Hypno = exports.Drowzee = exports.Grimmsnarl = exports.Morgrem = exports.Impidimp = exports.Magearna = exports.Lunala = exports.Solgaleo = exports.Cosmoem = exports.Cosmog = exports.Druddigon = exports.LycanrocDay = exports.LycanrocNight = exports.LycanrocDusk = exports.Rockruff = exports.Ariados = exports.Spinarak = exports.Watchog = exports.Patrat = exports.Sawsbuck = exports.Deerling = exports.Ambipom = exports.Aipom = exports.UrsalunaBloodmoon = exports.Ursaluna = exports.Ursaring = exports.Teddiursa = exports.Kangaskhan = exports.Lickilicky = exports.Lickitung = exports.Araquanid = void 0;
+exports.PokemonClasses = exports.Octillery = exports.Remoraid = exports.Mantine = exports.Mantyke = exports.Liligant = exports.Petilil = exports.Audino = exports.Luvdisc = exports.Seaking = exports.Goldeen = exports.Pyukumuku = exports.Pawmot = exports.Pawmo = exports.Pawmi = exports.WishiwashiSchool = exports.Wishiwashi = exports.Arrokuda = exports.Cramorant = exports.Stonjourner = exports.Hawlucha = exports.Klefki = exports.Braviary = exports.Rufflet = exports.GastrodonEastSea = exports.ShellosEastSea = exports.GastrodonWestSea = exports.ShellosWestSea = exports.Vikavolt = exports.Charjabug = exports.Grubbin = exports.Garbodor = exports.Trubbish = exports.Golurk = exports.Golett = exports.Ferrothorn = exports.Ferroseed = void 0;
 exports.isOnBench = isOnBench;
 const schema_1 = require("@colyseus/schema");
 const nanoid_1 = require("nanoid");
@@ -3076,7 +3076,7 @@ class Snorunt extends Pokemon {
         this.stars = 1;
         this.evolution = Pokemon_1.Pkm.GLALIE;
         this.hp = 90;
-        this.atk = 8;
+        this.atk = 10;
         this.def = 2;
         this.speDef = 2;
         this.maxPP = 100;
@@ -3094,10 +3094,10 @@ class Glalie extends Pokemon {
         this.stars = 2;
         this.evolution = Pokemon_1.Pkm.FROSLASS;
         this.hp = 170;
-        this.atk = 17;
-        this.def = 2;
-        this.speDef = 2;
-        this.maxPP = 100;
+        this.atk = 20;
+        this.def = 3;
+        this.speDef = 3;
+        this.maxPP = 90;
         this.range = 3;
         this.skill = Ability_1.Ability.ICY_WIND;
         this.attackSprite = types_1.AttackSprite.GHOST_RANGE;
@@ -3110,11 +3110,11 @@ class Froslass extends Pokemon {
         this.types = new schema_1.SetSchema([Synergy_1.Synergy.GHOST, Synergy_1.Synergy.ICE]);
         this.rarity = Game_1.Rarity.EPIC;
         this.stars = 3;
-        this.hp = 350;
-        this.atk = 28;
-        this.def = 2;
-        this.speDef = 2;
-        this.maxPP = 100;
+        this.hp = 320;
+        this.atk = 36;
+        this.def = 4;
+        this.speDef = 4;
+        this.maxPP = 80;
         this.range = 3;
         this.skill = Ability_1.Ability.ICY_WIND;
         this.attackSprite = types_1.AttackSprite.GHOST_RANGE;
@@ -3316,7 +3316,7 @@ class AlolanRaichu extends Pokemon {
         this.atk = 20;
         this.def = 6;
         this.speDef = 6;
-        this.maxPP = 80;
+        this.maxPP = 100;
         this.range = 1;
         this.skill = Ability_1.Ability.NUZZLE;
         this.passive = Passive_1.Passive.SURGE_SURFER;
@@ -3410,8 +3410,8 @@ class Jigglypuff extends Pokemon {
         this.evolution = Pokemon_1.Pkm.WIGGLYTUFF;
         this.hp = 120;
         this.atk = 9;
-        this.def = 1;
-        this.speDef = 1;
+        this.def = 2;
+        this.speDef = 2;
         this.maxPP = 90;
         this.range = 2;
         this.skill = Ability_1.Ability.SLEEP;
@@ -3427,8 +3427,8 @@ class Wigglytuff extends Pokemon {
         this.stars = 3;
         this.hp = 210;
         this.atk = 18;
-        this.def = 2;
-        this.speDef = 2;
+        this.def = 3;
+        this.speDef = 3;
         this.maxPP = 90;
         this.range = 2;
         this.skill = Ability_1.Ability.SLEEP;
@@ -4049,7 +4049,7 @@ exports.Machamp = Machamp;
 class Piplup extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.FLYING, Synergy_1.Synergy.STEEL]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ICE, Synergy_1.Synergy.STEEL]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 1;
         this.evolution = Pokemon_1.Pkm.PRINPLUP;
@@ -4067,7 +4067,7 @@ exports.Piplup = Piplup;
 class Prinplup extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.FLYING, Synergy_1.Synergy.STEEL]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ICE, Synergy_1.Synergy.STEEL]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 2;
         this.evolution = Pokemon_1.Pkm.EMPOLEON;
@@ -4085,7 +4085,7 @@ exports.Prinplup = Prinplup;
 class Empoleon extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.FLYING, Synergy_1.Synergy.STEEL]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ICE, Synergy_1.Synergy.STEEL]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 3;
         this.hp = 240;
@@ -4442,7 +4442,7 @@ exports.HisuianTyphlosion = HisuianTyphlosion;
 class Slowpoke extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.PSYCHIC]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.PSYCHIC, Synergy_1.Synergy.AQUATIC]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 1;
         this.evolution = Pokemon_1.Pkm.SLOWBRO;
@@ -4461,7 +4461,7 @@ exports.Slowpoke = Slowpoke;
 class Slowbro extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.PSYCHIC]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.PSYCHIC, Synergy_1.Synergy.AQUATIC]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 2;
         this.evolution = Pokemon_1.Pkm.SLOWKING;
@@ -4480,7 +4480,7 @@ exports.Slowbro = Slowbro;
 class Slowking extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.PSYCHIC]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.PSYCHIC, Synergy_1.Synergy.AQUATIC]);
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 3;
         this.hp = 260;
@@ -4601,9 +4601,14 @@ class Bellsprout extends Pokemon {
         this.maxPP = 100;
         this.range = 1;
         this.skill = Ability_1.Ability.ROOT;
-        this.passive = Passive_1.Passive.BELLSPROUT;
-        this.additional = true;
         this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
+        this.regional = true;
+    }
+    isInRegion(pkm, map, state) {
+        var _a;
+        const regionSynergies = (_a = Dungeon_1.DungeonDetails[map]) === null || _a === void 0 ? void 0 : _a.synergies;
+        return (regionSynergies.includes(Synergy_1.Synergy.GRASS) ||
+            regionSynergies.includes(Synergy_1.Synergy.FLORA));
     }
 }
 exports.Bellsprout = Bellsprout;
@@ -4614,7 +4619,6 @@ class Weepinbell extends Pokemon {
         this.rarity = Game_1.Rarity.UNCOMMON;
         this.stars = 2;
         this.evolution = Pokemon_1.Pkm.VICTREEBEL;
-        this.evolutionRule = new evolution_rules_1.ItemEvolutionRule(Item_1.Berries);
         this.hp = 160;
         this.atk = 12;
         this.def = 2;
@@ -4622,9 +4626,14 @@ class Weepinbell extends Pokemon {
         this.maxPP = 100;
         this.range = 1;
         this.skill = Ability_1.Ability.ROOT;
-        this.passive = Passive_1.Passive.BELLSPROUT;
-        this.additional = true;
         this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
+        this.regional = true;
+    }
+    isInRegion(pkm, map, state) {
+        var _a;
+        const regionSynergies = (_a = Dungeon_1.DungeonDetails[map]) === null || _a === void 0 ? void 0 : _a.synergies;
+        return (regionSynergies.includes(Synergy_1.Synergy.GRASS) ||
+            regionSynergies.includes(Synergy_1.Synergy.FLORA));
     }
 }
 exports.Weepinbell = Weepinbell;
@@ -4641,8 +4650,14 @@ class Victreebel extends Pokemon {
         this.maxPP = 100;
         this.range = 1;
         this.skill = Ability_1.Ability.ROOT;
-        this.additional = true;
         this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
+        this.regional = true;
+    }
+    isInRegion(pkm, map, state) {
+        var _a;
+        const regionSynergies = (_a = Dungeon_1.DungeonDetails[map]) === null || _a === void 0 ? void 0 : _a.synergies;
+        return (regionSynergies.includes(Synergy_1.Synergy.GRASS) ||
+            regionSynergies.includes(Synergy_1.Synergy.FLORA));
     }
 }
 exports.Victreebel = Victreebel;
@@ -4779,9 +4794,9 @@ class Totodile extends Pokemon {
         this.atk = 7;
         this.def = 2;
         this.speDef = 2;
-        this.maxPP = 100;
+        this.maxPP = 120;
         this.range = 1;
-        this.skill = Ability_1.Ability.WATERFALL;
+        this.skill = Ability_1.Ability.CRUNCH;
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
     }
 }
@@ -4801,9 +4816,9 @@ class Croconaw extends Pokemon {
         this.atk = 15;
         this.def = 3;
         this.speDef = 3;
-        this.maxPP = 100;
+        this.maxPP = 120;
         this.range = 1;
-        this.skill = Ability_1.Ability.WATERFALL;
+        this.skill = Ability_1.Ability.CRUNCH;
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
     }
 }
@@ -4822,9 +4837,9 @@ class Feraligatr extends Pokemon {
         this.atk = 28;
         this.def = 5;
         this.speDef = 5;
-        this.maxPP = 100;
+        this.maxPP = 120;
         this.range = 1;
-        this.skill = Ability_1.Ability.WATERFALL;
+        this.skill = Ability_1.Ability.CRUNCH;
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
     }
 }
@@ -5582,23 +5597,39 @@ class Meloetta extends Pokemon {
         this.range = 4;
         this.skill = Ability_1.Ability.RELIC_SONG;
         this.attackSprite = types_1.AttackSprite.SOUND_RANGE;
+        this.passive = Passive_1.Passive.MELOETTA;
+    }
+    onChangePosition(x, y, player) {
+        if (y === 3) {
+            player.transformPokemon(this, Pokemon_1.Pkm.PIROUETTE_MELOETTA);
+        }
     }
 }
 exports.Meloetta = Meloetta;
 class PirouetteMeloetta extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.NORMAL, Synergy_1.Synergy.SOUND]);
+        this.types = new schema_1.SetSchema([
+            Synergy_1.Synergy.NORMAL,
+            Synergy_1.Synergy.SOUND,
+            Synergy_1.Synergy.FIGHTING
+        ]);
         this.rarity = Game_1.Rarity.LEGENDARY;
         this.stars = 3;
         this.hp = 300;
-        this.atk = 30;
+        this.atk = 25;
         this.def = 5;
         this.speDef = 5;
-        this.maxPP = 120;
-        this.range = 4;
-        this.skill = Ability_1.Ability.DEFAULT;
-        this.attackSprite = types_1.AttackSprite.SOUND_RANGE;
+        this.maxPP = 60;
+        this.range = 1;
+        this.skill = Ability_1.Ability.U_TURN;
+        this.attackSprite = types_1.AttackSprite.FIGHTING_MELEE;
+        this.passive = Passive_1.Passive.MELOETTA;
+    }
+    onChangePosition(x, y, player) {
+        if (y !== 3) {
+            player.transformPokemon(this, Pokemon_1.Pkm.MELOETTA);
+        }
     }
 }
 exports.PirouetteMeloetta = PirouetteMeloetta;
@@ -6924,7 +6955,7 @@ class Lapras extends Pokemon {
         this.atk = 12;
         this.def = 5;
         this.speDef = 6;
-        this.maxPP = 100;
+        this.maxPP = 120;
         this.range = 1;
         this.skill = Ability_1.Ability.DIVE;
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
@@ -7904,7 +7935,7 @@ class Gligar extends Pokemon {
             Synergy_1.Synergy.FLYING
         ]);
         this.rarity = Game_1.Rarity.UNIQUE;
-        this.stars = 3;
+        this.stars = 2;
         this.evolution = Pokemon_1.Pkm.GLISCOR;
         this.evolutionRule = new evolution_rules_1.ItemEvolutionRule([Item_1.Item.RAZOR_FANG]);
         this.hp = 150;
@@ -7928,7 +7959,7 @@ class Gliscor extends Pokemon {
             Synergy_1.Synergy.FLYING
         ]);
         this.rarity = Game_1.Rarity.UNIQUE;
-        this.stars = 4;
+        this.stars = 3;
         this.hp = 170;
         this.atk = 18;
         this.def = 4;
@@ -9109,7 +9140,7 @@ class Ponyta extends Pokemon {
         this.atk = 12;
         this.def = 3;
         this.speDef = 3;
-        this.maxPP = 55;
+        this.maxPP = 60;
         this.range = 1;
         this.skill = Ability_1.Ability.FLAME_CHARGE;
         this.additional = true;
@@ -9127,7 +9158,7 @@ class Rapidash extends Pokemon {
         this.atk = 24;
         this.def = 5;
         this.speDef = 5;
-        this.maxPP = 55;
+        this.maxPP = 60;
         this.range = 1;
         this.skill = Ability_1.Ability.FLAME_CHARGE;
         this.additional = true;
@@ -9135,6 +9166,51 @@ class Rapidash extends Pokemon {
     }
 }
 exports.Rapidash = Rapidash;
+class GalarianPonyta extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([
+            Synergy_1.Synergy.FAIRY,
+            Synergy_1.Synergy.PSYCHIC,
+            Synergy_1.Synergy.LIGHT
+        ]);
+        this.rarity = Game_1.Rarity.EPIC;
+        this.stars = 1;
+        this.evolution = Pokemon_1.Pkm.GALARIAN_RAPIDASH;
+        this.hp = 90;
+        this.atk = 12;
+        this.def = 3;
+        this.speDef = 3;
+        this.maxPP = 60;
+        this.range = 1;
+        this.skill = Ability_1.Ability.PASTEL_VEIL;
+        this.regional = true;
+        this.attackSprite = types_1.AttackSprite.FAIRY_MELEE;
+    }
+}
+exports.GalarianPonyta = GalarianPonyta;
+class GalarianRapidash extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([
+            Synergy_1.Synergy.FAIRY,
+            Synergy_1.Synergy.PSYCHIC,
+            Synergy_1.Synergy.LIGHT
+        ]);
+        this.rarity = Game_1.Rarity.EPIC;
+        this.stars = 2;
+        this.hp = 220;
+        this.atk = 24;
+        this.def = 5;
+        this.speDef = 5;
+        this.maxPP = 60;
+        this.range = 1;
+        this.skill = Ability_1.Ability.PASTEL_VEIL;
+        this.regional = true;
+        this.attackSprite = types_1.AttackSprite.FAIRY_MELEE;
+    }
+}
+exports.GalarianRapidash = GalarianRapidash;
 class Makuhita extends Pokemon {
     constructor() {
         super(...arguments);
@@ -9365,6 +9441,43 @@ class Persian extends Pokemon {
     }
 }
 exports.Persian = Persian;
+class AlolanMeowth extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.NORMAL, Synergy_1.Synergy.DARK]);
+        this.rarity = Game_1.Rarity.RARE;
+        this.stars = 1;
+        this.evolution = Pokemon_1.Pkm.ALOLAN_PERSIAN;
+        this.hp = 80;
+        this.atk = 8;
+        this.def = 3;
+        this.speDef = 3;
+        this.maxPP = 90;
+        this.range = 1;
+        this.skill = Ability_1.Ability.PICKUP;
+        this.regional = true;
+        this.attackSprite = types_1.AttackSprite.NORMAL_MELEE;
+    }
+}
+exports.AlolanMeowth = AlolanMeowth;
+class AlolanPersian extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.NORMAL, Synergy_1.Synergy.DARK]);
+        this.rarity = Game_1.Rarity.RARE;
+        this.stars = 2;
+        this.hp = 200;
+        this.atk = 20;
+        this.def = 3;
+        this.speDef = 3;
+        this.maxPP = 90;
+        this.range = 1;
+        this.skill = Ability_1.Ability.PICKUP;
+        this.regional = true;
+        this.attackSprite = types_1.AttackSprite.NORMAL_MELEE;
+    }
+}
+exports.AlolanPersian = AlolanPersian;
 class Hoothoot extends Pokemon {
     constructor() {
         super(...arguments);
@@ -9873,7 +9986,7 @@ class HisuiSneasel extends Pokemon {
         this.atk = 9;
         this.def = 1;
         this.speDef = 3;
-        this.maxPP = 40;
+        this.maxPP = 50;
         this.range = 1;
         this.skill = Ability_1.Ability.DIRE_CLAW;
         this.regional = true;
@@ -9902,7 +10015,7 @@ class Sneasler extends Pokemon {
         this.atk = 22;
         this.def = 2;
         this.speDef = 3;
-        this.maxPP = 40;
+        this.maxPP = 50;
         this.range = 1;
         this.skill = Ability_1.Ability.DIRE_CLAW;
         this.regional = true;
@@ -10090,7 +10203,7 @@ class Bronzor extends Pokemon {
         this.atk = 5;
         this.def = 6;
         this.speDef = 3;
-        this.maxPP = 85;
+        this.maxPP = 80;
         this.range = 1;
         this.skill = Ability_1.Ability.DEFENSE_CURL;
         this.additional = true;
@@ -10112,7 +10225,7 @@ class Bronzong extends Pokemon {
         this.atk = 11;
         this.def = 9;
         this.speDef = 7;
-        this.maxPP = 85;
+        this.maxPP = 80;
         this.range = 1;
         this.skill = Ability_1.Ability.DEFENSE_CURL;
         this.additional = true;
@@ -12469,7 +12582,7 @@ class Sharpedo extends Pokemon {
         this.rarity = Game_1.Rarity.RARE;
         this.stars = 2;
         this.hp = 170;
-        this.atk = 24;
+        this.atk = 28;
         this.def = 2;
         this.speDef = 3;
         this.maxPP = 100;
@@ -13778,8 +13891,8 @@ class Illumise extends Pokemon {
         this.stars = 3;
         this.hp = 130;
         this.atk = 13;
-        this.def = 3;
-        this.speDef = 3;
+        this.def = 2;
+        this.speDef = 2;
         this.maxPP = 90;
         this.range = 1;
         this.skill = Ability_1.Ability.STRUGGLE_BUG;
@@ -13796,8 +13909,8 @@ class Volbeat extends Pokemon {
         this.stars = 3;
         this.hp = 130;
         this.atk = 13;
-        this.def = 3;
-        this.speDef = 3;
+        this.def = 2;
+        this.speDef = 2;
         this.maxPP = 90;
         this.range = 1;
         this.skill = Ability_1.Ability.TAIL_GLOW;
@@ -14028,7 +14141,7 @@ class Kricketot extends Pokemon {
         this.atk = 7;
         this.def = 2;
         this.speDef = 2;
-        this.maxPP = 70;
+        this.maxPP = 60;
         this.range = 1;
         this.skill = Ability_1.Ability.SCREECH;
         this.additional = true;
@@ -14046,7 +14159,7 @@ class Kricketune extends Pokemon {
         this.atk = 18;
         this.def = 4;
         this.speDef = 4;
-        this.maxPP = 70;
+        this.maxPP = 60;
         this.range = 1;
         this.skill = Ability_1.Ability.SCREECH;
         this.additional = true;
@@ -14778,7 +14891,7 @@ exports.Bruxish = Bruxish;
 class Corsola extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ROCK]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.ROCK, Synergy_1.Synergy.AQUATIC]);
         this.rarity = Game_1.Rarity.EPIC;
         this.stars = 1;
         this.hp = 125;
@@ -14799,10 +14912,10 @@ exports.Corsola = Corsola;
 class GalarCorsola extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ROCK, Synergy_1.Synergy.GHOST]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.ROCK, Synergy_1.Synergy.AQUATIC, Synergy_1.Synergy.GHOST]);
         this.evolution = Pokemon_1.Pkm.CURSOLA;
         this.rarity = Game_1.Rarity.EPIC;
-        this.stars = 2;
+        this.stars = 1;
         this.hp = 150;
         this.atk = 15;
         this.def = 2;
@@ -14813,14 +14926,17 @@ class GalarCorsola extends Pokemon {
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
         this.regional = true;
     }
+    isInRegion(pkm, map, state) {
+        return false;
+    }
 }
 exports.GalarCorsola = GalarCorsola;
 class Cursola extends Pokemon {
     constructor() {
         super(...arguments);
-        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.ROCK, Synergy_1.Synergy.GHOST]);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.ROCK, Synergy_1.Synergy.AQUATIC, Synergy_1.Synergy.GHOST]);
         this.rarity = Game_1.Rarity.EPIC;
-        this.stars = 3;
+        this.stars = 2;
         this.hp = 300;
         this.atk = 25;
         this.def = 3;
@@ -14830,6 +14946,9 @@ class Cursola extends Pokemon {
         this.skill = Ability_1.Ability.CURSE;
         this.attackSprite = types_1.AttackSprite.WATER_MELEE;
         this.regional = true;
+    }
+    isInRegion(pkm, map, state) {
+        return false;
     }
 }
 exports.Cursola = Cursola;
@@ -15543,10 +15662,10 @@ class Lunala extends Pokemon {
         ]);
         this.rarity = Game_1.Rarity.LEGENDARY;
         this.stars = 3;
-        this.hp = 250;
+        this.hp = 300;
         this.atk = 25;
-        this.def = 5;
-        this.speDef = 5;
+        this.def = 3;
+        this.speDef = 3;
         this.maxPP = 100;
         this.range = 4;
         this.skill = Ability_1.Ability.MOONGEIST_BEAM;
@@ -15948,7 +16067,7 @@ class Clodsire extends Pokemon {
         ]);
         this.rarity = Game_1.Rarity.RARE;
         this.stars = 2;
-        this.hp = 230;
+        this.hp = 190;
         this.atk = 10;
         this.def = 5;
         this.speDef = 8;
@@ -15979,7 +16098,7 @@ class Tangela extends Pokemon {
         this.range = 1;
         this.skill = Ability_1.Ability.POWER_WHIP;
         this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
-        this.regional = true;
+        this.additional = true;
     }
 }
 exports.Tangela = Tangela;
@@ -16001,7 +16120,7 @@ class Tangrowth extends Pokemon {
         this.range = 1;
         this.skill = Ability_1.Ability.POWER_WHIP;
         this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
-        this.regional = true;
+        this.additional = true;
     }
 }
 exports.Tangrowth = Tangrowth;
@@ -16213,19 +16332,9 @@ class Trubbish extends Pokemon {
         this.passive = Passive_1.Passive.RECYCLE;
         this.attackSprite = types_1.AttackSprite.POISON_MELEE;
         this.additional = true;
-        this.defaultValues = {
-            [Game_1.Stat.HP]: this.hp,
-            [Game_1.Stat.ATK]: this.atk,
-            [Game_1.Stat.DEF]: this.def,
-            [Game_1.Stat.SPE_DEF]: this.speDef
-        };
         this.statIncreases = {
-            [Game_1.Stat.HP]: 0,
-            [Game_1.Stat.ATK]: 0,
             [Game_1.Stat.ATK_SPEED]: 0,
             [Game_1.Stat.AP]: 0,
-            [Game_1.Stat.DEF]: 0,
-            [Game_1.Stat.SPE_DEF]: 0,
             [Game_1.Stat.CRIT_CHANCE]: 0,
             [Game_1.Stat.PP]: 0,
             [Game_1.Stat.SHIELD]: 0
@@ -16234,20 +16343,28 @@ class Trubbish extends Pokemon {
     beforeSimulationStart({ player }) {
         (0, schemas_1.values)(this.items).forEach((item) => {
             if (Item_1.Berries.includes(item)) {
-                this.statIncreases[Game_1.Stat.HP] += 10;
+                this.hp += 10;
                 this.items.delete(item);
             }
             if (Item_1.ItemComponents.includes(item)) {
-                this.statIncreases[Game_1.Stat.HP] += 25;
+                this.hp += 25;
                 if (Config_1.ItemStats[item]) {
-                    Object.entries(Config_1.ItemStats[item]).forEach(([stat, value]) => (this.statIncreases[stat] += value));
+                    Object.entries(Config_1.ItemStats[item]).forEach(([stat, value]) => {
+                        if (stat in this.statIncreases) {
+                            this.statIncreases[stat] += value;
+                        }
+                    });
                 }
                 this.items.delete(item);
             }
             if (Item_1.ArtificialItems.includes(item)) {
-                this.statIncreases[Game_1.Stat.HP] += 50;
+                this.hp += 50;
                 if (Config_1.ItemStats[item]) {
-                    Object.entries(Config_1.ItemStats[item]).forEach(([stat, value]) => (this.statIncreases[stat] += value));
+                    Object.entries(Config_1.ItemStats[item]).forEach(([stat, value]) => {
+                        if (stat in this.statIncreases) {
+                            this.statIncreases[stat] += value;
+                        }
+                    });
                 }
                 this.items.delete(item);
                 const itemIndex = player.artificialItems.indexOf(item);
@@ -16255,11 +16372,6 @@ class Trubbish extends Pokemon {
                 player.items.push(player.artificialItems[itemIndex]);
             }
         });
-        this.hp = this.defaultValues[Game_1.Stat.HP] + this.statIncreases[Game_1.Stat.HP];
-        this.atk = this.defaultValues[Game_1.Stat.ATK] + this.statIncreases[Game_1.Stat.ATK];
-        this.def = this.defaultValues[Game_1.Stat.DEF] + this.statIncreases[Game_1.Stat.DEF];
-        this.speDef =
-            this.defaultValues[Game_1.Stat.SPE_DEF] + this.statIncreases[Game_1.Stat.SPE_DEF];
     }
     afterSimulationStart({ entity }) {
         entity.addAbilityPower(this.statIncreases[Game_1.Stat.AP], entity, 0, false);
@@ -16271,12 +16383,8 @@ class Trubbish extends Pokemon {
     onEvolve({ pokemonEvolved: garbodorObj, pokemonsBeforeEvolution: trubbishes }) {
         const garbodor = garbodorObj;
         garbodor.statIncreases = {
-            [Game_1.Stat.HP]: 0,
-            [Game_1.Stat.ATK]: 0,
             [Game_1.Stat.ATK_SPEED]: 0,
             [Game_1.Stat.AP]: 0,
-            [Game_1.Stat.DEF]: 0,
-            [Game_1.Stat.SPE_DEF]: 0,
             [Game_1.Stat.CRIT_CHANCE]: 0,
             [Game_1.Stat.PP]: 0,
             [Game_1.Stat.SHIELD]: 0
@@ -16287,10 +16395,6 @@ class Trubbish extends Pokemon {
                 garbodor.statIncreases[key] += trubbish.statIncreases[key];
             }
         });
-        garbodor.hp += garbodor.statIncreases[Game_1.Stat.HP];
-        garbodor.atk += garbodor.statIncreases[Game_1.Stat.ATK];
-        garbodor.def += garbodor.statIncreases[Game_1.Stat.DEF];
-        garbodor.speDef += garbodor.statIncreases[Game_1.Stat.SPE_DEF];
     }
 }
 exports.Trubbish = Trubbish;
@@ -16311,12 +16415,8 @@ class Garbodor extends Pokemon {
         this.attackSprite = types_1.AttackSprite.POISON_MELEE;
         this.additional = true;
         this.statIncreases = {
-            [Game_1.Stat.HP]: 0,
-            [Game_1.Stat.ATK]: 0,
             [Game_1.Stat.ATK_SPEED]: 0,
             [Game_1.Stat.AP]: 0,
-            [Game_1.Stat.DEF]: 0,
-            [Game_1.Stat.SPE_DEF]: 0,
             [Game_1.Stat.CRIT_CHANCE]: 0,
             [Game_1.Stat.PP]: 0,
             [Game_1.Stat.SHIELD]: 0
@@ -16770,6 +16870,204 @@ class Pyukumuku extends Pokemon {
     }
 }
 exports.Pyukumuku = Pyukumuku;
+class Goldeen extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.NORMAL]);
+        this.rarity = Game_1.Rarity.RARE;
+        this.stars = 1;
+        this.evolution = Pokemon_1.Pkm.SEAKING;
+        this.hp = 90;
+        this.atk = 8;
+        this.def = 2;
+        this.speDef = 2;
+        this.maxPP = 100;
+        this.range = 1;
+        this.skill = Ability_1.Ability.WATERFALL;
+        this.additional = true;
+        this.attackSprite = types_1.AttackSprite.WATER_MELEE;
+    }
+}
+exports.Goldeen = Goldeen;
+class Seaking extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.NORMAL]);
+        this.rarity = Game_1.Rarity.RARE;
+        this.stars = 2;
+        this.hp = 200;
+        this.atk = 16;
+        this.def = 4;
+        this.speDef = 4;
+        this.maxPP = 100;
+        this.range = 1;
+        this.skill = Ability_1.Ability.WATERFALL;
+        this.additional = true;
+        this.attackSprite = types_1.AttackSprite.WATER_MELEE;
+    }
+}
+exports.Seaking = Seaking;
+class Luvdisc extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.AQUATIC]);
+        this.rarity = Game_1.Rarity.UNIQUE;
+        this.stars = 3;
+        this.hp = 150;
+        this.atk = 11;
+        this.def = 3;
+        this.speDef = 5;
+        this.maxPP = 60;
+        this.range = 3;
+        this.skill = Ability_1.Ability.CHARM;
+        this.attackSprite = types_1.AttackSprite.WATER_RANGE;
+        this.passive = Passive_1.Passive.LUVDISC;
+    }
+}
+exports.Luvdisc = Luvdisc;
+class Audino extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.NORMAL, Synergy_1.Synergy.SOUND]);
+        this.rarity = Game_1.Rarity.UNIQUE;
+        this.stars = 3;
+        this.hp = 200;
+        this.atk = 16;
+        this.def = 4;
+        this.speDef = 4;
+        this.maxPP = 80;
+        this.range = 2;
+        this.skill = Ability_1.Ability.ENTRAINMENT;
+        this.attackSprite = types_1.AttackSprite.SOUND_RANGE;
+    }
+}
+exports.Audino = Audino;
+class Petilil extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.GRASS, Synergy_1.Synergy.FLORA, Synergy_1.Synergy.HUMAN]);
+        this.rarity = Game_1.Rarity.UNCOMMON;
+        this.evolution = Pokemon_1.Pkm.LILIGANT;
+        this.stars = 1;
+        this.hp = 85;
+        this.atk = 5;
+        this.def = 2;
+        this.speDef = 2;
+        this.maxPP = 100;
+        this.range = 1;
+        this.skill = Ability_1.Ability.AROMATHERAPY;
+        this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
+        this.additional = true;
+    }
+}
+exports.Petilil = Petilil;
+class Liligant extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.GRASS, Synergy_1.Synergy.FLORA, Synergy_1.Synergy.HUMAN]);
+        this.rarity = Game_1.Rarity.UNCOMMON;
+        this.stars = 2;
+        this.hp = 180;
+        this.atk = 10;
+        this.def = 4;
+        this.speDef = 4;
+        this.maxPP = 100;
+        this.range = 1;
+        this.skill = Ability_1.Ability.AROMATHERAPY;
+        this.attackSprite = types_1.AttackSprite.GRASS_MELEE;
+        this.additional = true;
+    }
+}
+exports.Liligant = Liligant;
+class Mantyke extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.BABY, Synergy_1.Synergy.WATER, Synergy_1.Synergy.FLYING]);
+        this.rarity = Game_1.Rarity.UNIQUE;
+        this.evolution = Pokemon_1.Pkm.MANTINE;
+        this.evolutionRule = new evolution_rules_1.ConditionBasedEvolutionRule(() => false);
+        this.stars = 2;
+        this.hp = 160;
+        this.atk = 6;
+        this.def = 3;
+        this.speDef = 6;
+        this.maxPP = 100;
+        this.range = 2;
+        this.skill = Ability_1.Ability.BOUNCE;
+        this.attackSprite = types_1.AttackSprite.WATER_RANGE;
+        this.passive = Passive_1.Passive.MANTYKE;
+    }
+    onChangePosition(x, y, player) {
+        for (const pokemon of player.board.values()) {
+            if (pokemon.name === Pokemon_1.Pkm.REMORAID &&
+                (0, distance_1.distanceC)(x, y, pokemon.positionX, pokemon.positionY) === 1) {
+                player.transformPokemon(this, Pokemon_1.Pkm.MANTINE);
+            }
+        }
+    }
+}
+exports.Mantyke = Mantyke;
+class Mantine extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.FLYING]);
+        this.rarity = Game_1.Rarity.UNIQUE;
+        this.stars = 3;
+        this.hp = 230;
+        this.atk = 12;
+        this.def = 4;
+        this.speDef = 8;
+        this.maxPP = 100;
+        this.range = 2;
+        this.skill = Ability_1.Ability.BOUNCE;
+        this.attackSprite = types_1.AttackSprite.WATER_RANGE;
+        this.passive = Passive_1.Passive.MANTINE;
+    }
+}
+exports.Mantine = Mantine;
+class Remoraid extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.WILD]);
+        this.rarity = Game_1.Rarity.SPECIAL;
+        this.evolution = Pokemon_1.Pkm.OCTILLERY;
+        this.stars = 1;
+        this.hp = 60;
+        this.atk = 12;
+        this.def = 2;
+        this.speDef = 1;
+        this.maxPP = 80;
+        this.range = 1;
+        this.skill = Ability_1.Ability.AQUA_JET;
+        this.attackSprite = types_1.AttackSprite.WATER_MELEE;
+    }
+    onChangePosition(x, y, player) {
+        for (const pokemon of player.board.values()) {
+            if (pokemon.name === Pokemon_1.Pkm.MANTYKE &&
+                (0, distance_1.distanceC)(x, y, pokemon.positionX, pokemon.positionY) === 1) {
+                player.transformPokemon(pokemon, Pokemon_1.Pkm.MANTINE);
+            }
+        }
+    }
+}
+exports.Remoraid = Remoraid;
+class Octillery extends Pokemon {
+    constructor() {
+        super(...arguments);
+        this.types = new schema_1.SetSchema([Synergy_1.Synergy.WATER, Synergy_1.Synergy.WILD]);
+        this.rarity = Game_1.Rarity.SPECIAL;
+        this.stars = 2;
+        this.hp = 150;
+        this.atk = 24;
+        this.def = 3;
+        this.speDef = 3;
+        this.maxPP = 100;
+        this.range = 2;
+        this.skill = Ability_1.Ability.OKTZOOKA;
+        this.attackSprite = types_1.AttackSprite.WATER_RANGE;
+    }
+}
+exports.Octillery = Octillery;
 exports.PokemonClasses = {
     [Pokemon_1.Pkm.DEFAULT]: Pokemon,
     [Pokemon_1.Pkm.DITTO]: Ditto,
@@ -17041,6 +17339,8 @@ exports.PokemonClasses = {
     [Pokemon_1.Pkm.PRIMAL_GROUDON]: PrimalGroudon,
     [Pokemon_1.Pkm.MEOWTH]: Meowth,
     [Pokemon_1.Pkm.PERSIAN]: Persian,
+    [Pokemon_1.Pkm.ALOLAN_MEOWTH]: AlolanMeowth,
+    [Pokemon_1.Pkm.ALOLAN_PERSIAN]: AlolanPersian,
     [Pokemon_1.Pkm.DEINO]: Deino,
     [Pokemon_1.Pkm.ZWEILOUS]: Zweilous,
     [Pokemon_1.Pkm.HYDREIGON]: Hydreigon,
@@ -17120,6 +17420,7 @@ exports.PokemonClasses = {
     [Pokemon_1.Pkm.HAKAMO_O]: HakamoO,
     [Pokemon_1.Pkm.KOMMO_O]: KommoO,
     [Pokemon_1.Pkm.MELOETTA]: Meloetta,
+    [Pokemon_1.Pkm.PIROUETTE_MELOETTA]: PirouetteMeloetta,
     [Pokemon_1.Pkm.ALTARIA]: Altaria,
     [Pokemon_1.Pkm.MEGA_ALTARIA]: MegaAltaria,
     [Pokemon_1.Pkm.CASTFORM]: Castform,
@@ -17146,6 +17447,8 @@ exports.PokemonClasses = {
     [Pokemon_1.Pkm.ETERNATUS]: Eternatus,
     [Pokemon_1.Pkm.PONYTA]: Ponyta,
     [Pokemon_1.Pkm.RAPIDASH]: Rapidash,
+    [Pokemon_1.Pkm.GALARIAN_PONYTA]: GalarianPonyta,
+    [Pokemon_1.Pkm.GALARIAN_RAPIDASH]: GalarianRapidash,
     [Pokemon_1.Pkm.NINCADA]: Nincada,
     [Pokemon_1.Pkm.NINJASK]: Ninjask,
     [Pokemon_1.Pkm.SHEDINJA]: Shedinja,
@@ -17314,7 +17617,6 @@ exports.PokemonClasses = {
     [Pokemon_1.Pkm.MIME_JR]: MimeJr,
     [Pokemon_1.Pkm.MR_MIME]: MrMime,
     [Pokemon_1.Pkm.ORIGIN_GIRATINA]: OriginGiratina,
-    [Pokemon_1.Pkm.PIROUETTE_MELOETTA]: PirouetteMeloetta,
     [Pokemon_1.Pkm.MELMETAL]: Melmetal,
     [Pokemon_1.Pkm.HOOPA]: Hoopa,
     [Pokemon_1.Pkm.HOOPA_UNBOUND]: HoopaUnbound,
@@ -17591,6 +17893,16 @@ exports.PokemonClasses = {
     [Pokemon_1.Pkm.WISHIWASHI_SCHOOL]: WishiwashiSchool,
     [Pokemon_1.Pkm.PAWMI]: Pawmi,
     [Pokemon_1.Pkm.PAWMO]: Pawmo,
-    [Pokemon_1.Pkm.PAWMOT]: Pawmot
+    [Pokemon_1.Pkm.PAWMOT]: Pawmot,
+    [Pokemon_1.Pkm.GOLDEEN]: Goldeen,
+    [Pokemon_1.Pkm.SEAKING]: Seaking,
+    [Pokemon_1.Pkm.LUVDISC]: Luvdisc,
+    [Pokemon_1.Pkm.AUDINO]: Audino,
+    [Pokemon_1.Pkm.PETILIL]: Petilil,
+    [Pokemon_1.Pkm.LILIGANT]: Liligant,
+    [Pokemon_1.Pkm.MANTYKE]: Mantyke,
+    [Pokemon_1.Pkm.MANTINE]: Mantine,
+    [Pokemon_1.Pkm.REMORAID]: Remoraid,
+    [Pokemon_1.Pkm.OCTILLERY]: Octillery
 };
 //# sourceMappingURL=pokemon.js.map

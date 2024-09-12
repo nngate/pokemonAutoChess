@@ -3216,16 +3216,15 @@ export declare class Bellsprout extends Pokemon {
     maxPP: number;
     range: number;
     skill: Ability;
-    passive: Passive;
-    additional: boolean;
     attackSprite: AttackSprite;
+    regional: boolean;
+    isInRegion(pkm: Pkm, map: DungeonPMDO, state: GameState): boolean;
 }
 export declare class Weepinbell extends Pokemon {
     types: SetSchema<Synergy>;
     rarity: Rarity;
     stars: number;
     evolution: Pkm;
-    evolutionRule: ItemEvolutionRule;
     hp: number;
     atk: number;
     def: number;
@@ -3233,9 +3232,9 @@ export declare class Weepinbell extends Pokemon {
     maxPP: number;
     range: number;
     skill: Ability;
-    passive: Passive;
-    additional: boolean;
     attackSprite: AttackSprite;
+    regional: boolean;
+    isInRegion(pkm: Pkm, map: DungeonPMDO, state: GameState): boolean;
 }
 export declare class Victreebel extends Pokemon {
     types: SetSchema<Synergy>;
@@ -3248,8 +3247,9 @@ export declare class Victreebel extends Pokemon {
     maxPP: number;
     range: number;
     skill: Ability;
-    additional: boolean;
     attackSprite: AttackSprite;
+    regional: boolean;
+    isInRegion(pkm: Pkm, map: DungeonPMDO, state: GameState): boolean;
 }
 export declare class Pikipek extends Pokemon {
     types: SetSchema<Synergy>;
@@ -3917,6 +3917,8 @@ export declare class Meloetta extends Pokemon {
     range: number;
     skill: Ability;
     attackSprite: AttackSprite;
+    passive: Passive;
+    onChangePosition(x: number, y: number, player: Player): void;
 }
 export declare class PirouetteMeloetta extends Pokemon {
     types: SetSchema<Synergy>;
@@ -3930,6 +3932,8 @@ export declare class PirouetteMeloetta extends Pokemon {
     range: number;
     skill: Ability;
     attackSprite: AttackSprite;
+    passive: Passive;
+    onChangePosition(x: number, y: number, player: Player): void;
 }
 export declare class Lugia extends Pokemon {
     types: SetSchema<Synergy>;
@@ -6477,6 +6481,35 @@ export declare class Rapidash extends Pokemon {
     additional: boolean;
     attackSprite: AttackSprite;
 }
+export declare class GalarianPonyta extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    evolution: Pkm;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    regional: boolean;
+    attackSprite: AttackSprite;
+}
+export declare class GalarianRapidash extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    regional: boolean;
+    attackSprite: AttackSprite;
+}
 export declare class Makuhita extends Pokemon {
     types: SetSchema<Synergy>;
     rarity: Rarity;
@@ -6649,6 +6682,35 @@ export declare class Persian extends Pokemon {
     range: number;
     skill: Ability;
     additional: boolean;
+    attackSprite: AttackSprite;
+}
+export declare class AlolanMeowth extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    evolution: Pkm;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    regional: boolean;
+    attackSprite: AttackSprite;
+}
+export declare class AlolanPersian extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    regional: boolean;
     attackSprite: AttackSprite;
 }
 export declare class Hoothoot extends Pokemon {
@@ -10610,6 +10672,7 @@ export declare class GalarCorsola extends Pokemon {
     skill: Ability;
     attackSprite: AttackSprite;
     regional: boolean;
+    isInRegion(pkm: Pkm, map: DungeonPMDO, state?: GameState): boolean;
 }
 export declare class Cursola extends Pokemon {
     types: SetSchema<Synergy>;
@@ -10624,6 +10687,7 @@ export declare class Cursola extends Pokemon {
     skill: Ability;
     attackSprite: AttackSprite;
     regional: boolean;
+    isInRegion(pkm: Pkm, map: DungeonPMDO, state?: GameState): boolean;
 }
 export declare class Smeargle extends Pokemon {
     types: SetSchema<Synergy>;
@@ -11425,7 +11489,7 @@ export declare class Tangela extends Pokemon {
     range: number;
     skill: Ability;
     attackSprite: AttackSprite;
-    regional: boolean;
+    additional: boolean;
 }
 export declare class Tangrowth extends Pokemon {
     types: SetSchema<Synergy>;
@@ -11439,7 +11503,7 @@ export declare class Tangrowth extends Pokemon {
     range: number;
     skill: Ability;
     attackSprite: AttackSprite;
-    regional: boolean;
+    additional: boolean;
 }
 export declare class Phanpy extends Pokemon {
     types: SetSchema<Synergy>;
@@ -11599,19 +11663,9 @@ export declare class Trubbish extends Pokemon {
     passive: Passive;
     attackSprite: AttackSprite;
     additional: boolean;
-    defaultValues: {
-        HP: number;
-        ATK: number;
-        DEF: number;
-        SPE_DEF: number;
-    };
     statIncreases: {
-        HP: number;
-        ATK: number;
         ATK_SPEED: number;
         AP: number;
-        DEF: number;
-        SPE_DEF: number;
         CRIT_CHANCE: number;
         PP: number;
         SHIELD: number;
@@ -11642,12 +11696,8 @@ export declare class Garbodor extends Pokemon {
     attackSprite: AttackSprite;
     additional: boolean;
     statIncreases: {
-        HP: number;
-        ATK: number;
         ATK_SPEED: number;
         AP: number;
-        DEF: number;
-        SPE_DEF: number;
         CRIT_CHANCE: number;
         PP: number;
         SHIELD: number;
@@ -11956,6 +12006,150 @@ export declare class Pyukumuku extends Pokemon {
     range: number;
     skill: Ability;
     passive: Passive;
+    attackSprite: AttackSprite;
+}
+export declare class Goldeen extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    evolution: Pkm;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    additional: boolean;
+    attackSprite: AttackSprite;
+}
+export declare class Seaking extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    additional: boolean;
+    attackSprite: AttackSprite;
+}
+export declare class Luvdisc extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    passive: Passive;
+}
+export declare class Audino extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+}
+export declare class Petilil extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    evolution: Pkm;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    additional: boolean;
+}
+export declare class Liligant extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    additional: boolean;
+}
+export declare class Mantyke extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    evolution: Pkm;
+    evolutionRule: ConditionBasedEvolutionRule;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    passive: Passive;
+    onChangePosition(x: number, y: number, player: Player): void;
+}
+export declare class Mantine extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    passive: Passive;
+}
+export declare class Remoraid extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    evolution: Pkm;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
+    attackSprite: AttackSprite;
+    onChangePosition(x: number, y: number, player: Player): void;
+}
+export declare class Octillery extends Pokemon {
+    types: SetSchema<Synergy>;
+    rarity: Rarity;
+    stars: number;
+    hp: number;
+    atk: number;
+    def: number;
+    speDef: number;
+    maxPP: number;
+    range: number;
+    skill: Ability;
     attackSprite: AttackSprite;
 }
 export declare const PokemonClasses: Record<Pkm, new (shiny?: boolean, emotion?: Emotion) => Pokemon>;

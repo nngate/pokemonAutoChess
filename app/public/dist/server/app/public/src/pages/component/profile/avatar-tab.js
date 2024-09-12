@@ -12,7 +12,8 @@ const pokemon_typeahead_1 = require("../typeahead/pokemon-typeahead");
 function AvatarTab() {
     const { t } = (0, react_i18next_1.useTranslation)();
     const dispatch = (0, hooks_1.useAppDispatch)();
-    const pokemonCollection = (0, hooks_1.useAppSelector)((state) => state.lobby.pokemonCollection);
+    const pokemonCollectionMap = (0, hooks_1.useAppSelector)((state) => { var _a; return (_a = state.network.profile) === null || _a === void 0 ? void 0 : _a.pokemonCollection; });
+    const pokemonCollection = pokemonCollectionMap ? [...pokemonCollectionMap.values()] : [];
     const [selectedPkm, setSelectedPkm] = (0, react_1.useState)("");
     return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h3", { children: t("change_avatar") }), (0, jsx_runtime_1.jsx)(pokemon_typeahead_1.PokemonTypeahead, { value: selectedPkm, onChange: setSelectedPkm }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", margin: "0.5em 0" }, children: [pokemonCollection.length === 0 && (0, jsx_runtime_1.jsx)("p", { children: t("play_more_games_hint") }), ["normal", "shiny"].flatMap((type) => pokemonCollection
                         .filter((pokemonConfig) => !selectedPkm || pokemonConfig.id === Pokemon_1.PkmIndex[selectedPkm])

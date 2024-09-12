@@ -8,6 +8,7 @@ const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 const react_i18next_1 = require("react-i18next");
 const Config_1 = require("../../../../../types/Config");
+const Item_1 = require("../../../../../types/enum/Item");
 const Pokemon_1 = require("../../../../../types/enum/Pokemon");
 const hooks_1 = require("../../../hooks");
 const NetworkStore_1 = require("../../../stores/NetworkStore");
@@ -36,7 +37,7 @@ function GamePokemonsPropositions() {
                                 return ((0, jsx_runtime_1.jsxs)("div", { className: "my-box active clickable", onClick: () => {
                                         (0, audio_1.playSound)(audio_1.SOUNDS.BUTTON_CLICK);
                                         dispatch((0, NetworkStore_1.pokemonPropositionClick)(proposition));
-                                    }, children: [proposition in Pokemon_1.PkmDuos ? ((0, jsx_runtime_1.jsx)(game_pokemon_duo_portrait_1.default, { origin: "proposition", index: index, duo: proposition }, "proposition" + index)) : ((0, jsx_runtime_1.jsx)(game_pokemon_portrait_1.default, { origin: "proposition", index: index, pokemon: proposition }, "proposition" + index)), item && ((0, jsx_runtime_1.jsxs)("div", { className: "additional-pick-item ", children: [(0, jsx_runtime_1.jsx)("span", { style: {
+                                    }, children: [proposition in Pokemon_1.PkmDuos ? ((0, jsx_runtime_1.jsx)(game_pokemon_duo_portrait_1.default, { origin: "proposition", index: index, duo: proposition }, "proposition" + index)) : ((0, jsx_runtime_1.jsx)(game_pokemon_portrait_1.default, { origin: "proposition", index: index, pokemon: proposition }, "proposition" + index)), item && Item_1.ShinyItems.includes(item) === false && ((0, jsx_runtime_1.jsxs)("div", { className: "additional-pick-item ", children: [(0, jsx_runtime_1.jsx)("span", { style: {
                                                         fontSize: "2rem",
                                                         verticalAlign: "middle"
                                                     }, children: "+" }), (0, jsx_runtime_1.jsx)("img", { style: {

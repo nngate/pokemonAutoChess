@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = require("@colyseus/command");
 const colyseus_1 = require("colyseus");
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
-const simple_player_1 = __importDefault(require("../models/colyseus-models/simple-player"));
+const after_game_player_1 = __importDefault(require("../models/colyseus-models/after-game-player"));
 const banned_user_1 = __importDefault(require("../models/mongo-models/banned-user"));
 const user_metadata_1 = __importDefault(require("../models/mongo-models/user-metadata"));
 const types_1 = require("../types");
@@ -31,7 +31,7 @@ class AfterGameRoom extends colyseus_1.Room {
         this.setState(new after_game_state_1.default(options));
         if (options.players) {
             options.players.forEach((plyr) => {
-                const player = new simple_player_1.default(plyr.id, plyr.name, plyr.avatar, plyr.rank, plyr.pokemons, plyr.exp, plyr.title, plyr.role, plyr.synergies, plyr.elo);
+                const player = new after_game_player_1.default(plyr.id, plyr.name, plyr.avatar, plyr.rank, plyr.pokemons, plyr.title, plyr.role, plyr.synergies, plyr.elo, plyr.moneyEarned, plyr.playerDamageDealt, plyr.rerollCount);
                 this.state.players.set(player.id, player);
             });
         }

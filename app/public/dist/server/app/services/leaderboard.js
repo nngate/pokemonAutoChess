@@ -19,10 +19,12 @@ exports.fetchBotsLeaderboard = fetchBotsLeaderboard;
 exports.getLeaderboard = getLeaderboard;
 const user_metadata_1 = __importDefault(require("../models/mongo-models/user-metadata"));
 const bots_1 = require("./bots");
+const logger_1 = require("../utils/logger");
 let leaderboard = new Array();
 let levelLeaderboard = new Array();
 let botLeaderboard = new Array();
 function fetchLeaderboards() {
+    logger_1.logger.info("Refreshing leaderboards...");
     return Promise.all([
         fetchUserLeaderboard(),
         fetchBotsLeaderboard(),

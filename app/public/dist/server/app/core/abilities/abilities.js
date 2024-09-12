@@ -17,13 +17,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuroraBeamStrategy = exports.BonemerangStrategy = exports.LiquidationStrategy = exports.ClangorousSoulStrategy = exports.ExplosionStrategy = exports.PoisonJabStrategy = exports.KingShieldStrategy = exports.HypnosisStrategy = exports.OverheatStrategy = exports.DarkVoidStrategy = exports.TwistingNetherStrategy = exports.RazorWindStrategy = exports.PsychUpStrategy = exports.LockOnStrategy = exports.LeechSeedStrategy = exports.FlameChargeStrategy = exports.FireTrickStrategy = exports.ElectroWebStrategy = exports.SchoolingStrategy = exports.AquaJetStrategy = exports.TimeTravelStrategy = exports.AuroraVeilStrategy = exports.ElectroBoostStrategy = exports.DynamicPunchStrategy = exports.DynamaxCannonStrategy = exports.DracoEnergyStrategy = exports.DiamondStormStrategy = exports.CrabHammerStrategy = exports.CorruptedNatureStrategy = exports.ChatterStrategy = exports.PsychicStrategy = exports.GrassySurgeStrategy = exports.MistySurgeStrategy = exports.PsychicSurgeStrategy = exports.ElectricSurgeStrategy = exports.JudgementStrategy = exports.IllusionStrategy = exports.WonderGuardStrategy = exports.KnowledgeThiefStrategy = exports.ConfusingMindStrategy = exports.SlackOffStrategy = exports.SongOfDesireStrategy = exports.EarthquakeStrategy = exports.TeaTimeStrategy = exports.SoftBoiledStrategy = exports.MindBlownStrategy = exports.PaydayStrategy = exports.BeatUpStrategy = exports.FusionBoltStrategy = exports.BlueFlareStrategy = void 0;
-exports.IronDefenseStrategy = exports.DefenseCurlStrategy = exports.CosmicPowerStrategy = exports.CalmMindStrategy = exports.NaturalGiftStrategy = exports.LunarBlessingStrategy = exports.WishStrategy = exports.BlazeKickStrategy = exports.DracoMeteorStrategy = exports.ThunderStrategy = exports.SolarBeamStrategy = exports.HydroPumpStrategy = exports.HeatWaveStrategy = exports.InfernalParadeStrategy = exports.WheelOfFireStrategy = exports.RockSlideStrategy = exports.GuillotineStrategy = exports.SeismicTossStrategy = exports.FireBlastStrategy = exports.ConfusionStrategy = exports.SleepStrategy = exports.ProtectStrategy = exports.BlizzardStrategy = exports.PoisonStrategy = exports.BurnStrategy = exports.NightmareStrategy = exports.SeedFlareStrategy = exports.OriginPulseStrategy = exports.SpikeArmorStrategy = exports.HealBlockStrategy = exports.RoarOfTimeStrategy = exports.RockTombStrategy = exports.RockSmashStrategy = exports.DoubleEdgeStrategy = exports.HeadSmashStrategy = exports.NuzzleStrategy = exports.AccelerockStrategy = exports.VoltSwitchStrategy = exports.ShadowCloneStrategy = exports.HyperVoiceStrategy = exports.PetalDanceStrategy = exports.FutureSightStrategy = exports.EchoStrategy = exports.TriAttackStrategy = exports.GrassWhistleStrategy = exports.HighJumpKickStrategy = exports.DisarmingVoiceStrategy = exports.FairyWindStrategy = exports.RelicSongStrategy = exports.GrowlStrategy = void 0;
-exports.DragonDartsStrategy = exports.SparklingAriaStrategy = exports.FakeTearsStrategy = exports.SpringtideStormStrategy = exports.BleakwindStormStrategy = exports.WildboltStormStrategy = exports.SandsearStormStrategy = exports.FleurCannonStrategy = exports.HurricaneStrategy = exports.MeteorMashStrategy = exports.StunSporeStrategy = exports.KnockOffStrategy = exports.ThiefStrategy = exports.SpectralThiefStrategy = exports.TakeHeartStrategy = exports.NastyPlotStrategy = exports.TeleportStrategy = exports.HappyHourStrategy = exports.LeechLifeStrategy = exports.PoisonStingStrategy = exports.EntanglingThreadStrategy = exports.StringShotStrategy = exports.BugBuzzStrategy = exports.ShadowBallStrategy = exports.PaybackStrategy = exports.StompStrategy = exports.TormentStrategy = exports.RootStrategy = exports.SteamEruptionStrategy = exports.IcicleCrashStrategy = exports.DragonBreathStrategy = exports.AquaTailStrategy = exports.DragonTailStrategy = exports.XScissorStrategy = exports.WaterfallStrategy = exports.LeafBladeStrategy = exports.SacredSwordStrategy = exports.PresentStrategy = exports.PsybeamStrategy = exports.AppleAcidStrategy = exports.BiteStrategy = exports.SmokeScreenStrategy = exports.DiveStrategy = exports.DischargeStrategy = exports.SludgeWaveStrategy = exports.SludgeStrategy = exports.ChargeStrategy = exports.BlastBurnStrategy = exports.IronTailStrategy = exports.SoakStrategy = void 0;
-exports.PyroBallStrategy = exports.AstralBarrageStrategy = exports.HelpingHandStrategy = exports.ShellSmashStrategy = exports.MagicBounceStrategy = exports.LinkCableStrategy = exports.MudBubbleStrategy = exports.LusterPurgeStrategy = exports.MistBallStrategy = exports.HailStrategy = exports.EruptionStrategy = exports.FellStingerStrategy = exports.FakeOutStrategy = exports.DireClawStrategy = exports.SlashingClawStrategy = exports.MagmaStormStrategy = exports.ThrashStrategy = exports.RolloutStrategy = exports.AbsorbStrategy = exports.AcrobaticsStrategy = exports.GigatonHammerStrategy = exports.IcyWindStrategy = exports.SilverWindStrategy = exports.PoisonPowderStrategy = exports.CounterStrategy = exports.SplashStrategy = exports.PeckStrategy = exports.SearingShotStrategy = exports.FireSpinStrategy = exports.DigStrategy = exports.ShellTrapStrategy = exports.HealOrderStrategy = exports.GrowthStrategy = exports.HexStrategy = exports.MimicStrategy = exports.DeathWingStrategy = exports.GeomancyStrategy = exports.TripleKickStrategy = exports.MawashiGeriStrategy = exports.UppercutStrategy = exports.MachPunchStrategy = exports.ForecastStrategy = exports.PlasmaFistStrategy = exports.ShadowSneakStrategy = exports.WaterShurikenStrategy = exports.SpiritShackleStrategy = exports.AgilityStrategy = exports.FlyingPressStrategy = exports.SkyAttackStrategy = exports.MetronomeStrategy = void 0;
-exports.GoldRushStrategy = exports.FishiousRendStrategy = exports.OutrageStrategy = exports.SlashStrategy = exports.RetaliateStrategy = exports.MagicPowderStrategy = exports.FloralHealingStrategy = exports.BarbBarrageStrategy = exports.VineWhipStrategy = exports.BodySlamStrategy = exports.EggsplosionStrategy = exports.AirSlashStrategy = exports.SnipeShotStrategy = exports.HyperSpaceFury = exports.UnboundStrategy = exports.EmptyLightStrategy = exports.WhirlwindStrategy = exports.SandTombStrategy = exports.ScreechStrategy = exports.PopulationBombStrategy = exports.ChargeBeamStrategy = exports.NightShadeStrategy = exports.PrismaticLaserStrategy = exports.TailGlowStrategy = exports.QuiverDanceStrategy = exports.StruggleBugStrategy = exports.StickyWebStrategy = exports.SpikesStrategy = exports.StealthRocksStrategy = exports.MagicalLeafStrategy = exports.BraveBirdStrategy = exports.PoisonGasStrategy = exports.LungeStrategy = exports.AquaRingStrategy = exports.AssuranceStrategy = exports.FissureStrategy = exports.AssistStrategy = exports.CloseCombatStrategy = exports.TeeterDanceStrategy = exports.SuperFangStrategy = exports.ParabolicChargeStrategy = exports.AerialAceStrategy = exports.PlayRoughStrategy = exports.WaterPulseStrategy = exports.AttractStrategy = exports.MagnetRiseStrategy = exports.ShelterStrategy = exports.SmogStrategy = exports.AnchorShotStrategy = exports.WhirlpoolStrategy = void 0;
-exports.PsyshieldBashStrategy = exports.TailWhipStrategy = exports.ThunderFangStrategy = exports.IceFangStrategy = exports.FireFangStrategy = exports.CrossPoisonStrategy = exports.CrunchStrategy = exports.SparkStrategy = exports.DreamEaterStrategy = exports.PsystrikeStrategy = exports.PollenPuffStrategy = exports.PsychoBoostStrategy = exports.ExtremeSpeedStrategy = exports.FacadeStrategy = exports.IceHammerStrategy = exports.ZapCannonStrategy = exports.SheerColdStrategy = exports.SpiritBreakStrategy = exports.MantisBladesStrategy = exports.BloodMoonStrategy = exports.MoongeistBeamStrategy = exports.SunsteelStrikeStrategy = exports.PetalBlizzardStrategy = exports.MultiAttackStrategy = exports.SpacialRendStrategy = exports.DetectStrategy = exports.AromatherapyStrategy = exports.TickleStrategy = exports.FurySwipesStrategy = exports.LickStrategy = exports.AuraWheelStrategy = exports.ShieldsUpStrategy = exports.ShieldsDownStrategy = exports.KowtowCleaveStrategy = exports.NightSlashStrategy = exports.MagnetBombStrategy = exports.ShadowPunchStrategy = exports.ShedTailStrategy = exports.PsychicFangsStrategy = exports.TransformStrategy = exports.OverdriveStrategy = exports.LovelyKissStrategy = exports.SketchStrategy = exports.AuraSphereStrategy = exports.CrushGripStrategy = exports.PoltergeistStrategy = exports.DoomDesireStrategy = exports.CurseStrategy = exports.RecoverStrategy = exports.MakeItRainStrategy = void 0;
-exports.AbilityStrategies = exports.PurifyStrategy = exports.DoubleShockStrategy = exports.GulpMissileStrategy = exports.GravityStrategy = exports.FairyLockStrategy = exports.DrainPunchStrategy = exports.FireLashStrategy = exports.CrushClawStrategy = exports.RockHeadStrategy = exports.CameraFlashStrategy = exports.StoneAxeStrategy = exports.MoonDreamStrategy = exports.MuddyWaterStrategy = exports.AncientPowerStrategy = exports.GunkShotStrategy = exports.BounceStrategy = exports.RapidSpinStrategy = exports.HeavySlamStrategy = exports.PsyShockStrategy = exports.DarkHarvestStrategy = exports.PowerWhipStrategy = exports.TorchSongStrategy = void 0;
+exports.LiquidationStrategy = exports.ClangorousSoulStrategy = exports.ExplosionStrategy = exports.PoisonJabStrategy = exports.UTurnStrategy = exports.KingShieldStrategy = exports.HypnosisStrategy = exports.OverheatStrategy = exports.DarkVoidStrategy = exports.TwistingNetherStrategy = exports.RazorWindStrategy = exports.PsychUpStrategy = exports.LockOnStrategy = exports.LeechSeedStrategy = exports.FlameChargeStrategy = exports.FireTrickStrategy = exports.ElectroWebStrategy = exports.SchoolingStrategy = exports.AquaJetStrategy = exports.TimeTravelStrategy = exports.AuroraVeilStrategy = exports.ElectroBoostStrategy = exports.DynamicPunchStrategy = exports.DynamaxCannonStrategy = exports.DracoEnergyStrategy = exports.DiamondStormStrategy = exports.CrabHammerStrategy = exports.CorruptedNatureStrategy = exports.ChatterStrategy = exports.PsychicStrategy = exports.GrassySurgeStrategy = exports.MistySurgeStrategy = exports.PsychicSurgeStrategy = exports.ElectricSurgeStrategy = exports.JudgementStrategy = exports.IllusionStrategy = exports.WonderGuardStrategy = exports.KnowledgeThiefStrategy = exports.ConfusingMindStrategy = exports.SlackOffStrategy = exports.SongOfDesireStrategy = exports.EarthquakeStrategy = exports.TeaTimeStrategy = exports.SoftBoiledStrategy = exports.MindBlownStrategy = exports.PickupStrategy = exports.PaydayStrategy = exports.BeatUpStrategy = exports.FusionBoltStrategy = exports.BlueFlareStrategy = void 0;
+exports.CosmicPowerStrategy = exports.CalmMindStrategy = exports.NaturalGiftStrategy = exports.LunarBlessingStrategy = exports.WishStrategy = exports.BlazeKickStrategy = exports.DracoMeteorStrategy = exports.ThunderStrategy = exports.SolarBeamStrategy = exports.HydroPumpStrategy = exports.HeatWaveStrategy = exports.InfernalParadeStrategy = exports.WheelOfFireStrategy = exports.RockSlideStrategy = exports.GuillotineStrategy = exports.SeismicTossStrategy = exports.FireBlastStrategy = exports.ConfusionStrategy = exports.SleepStrategy = exports.ProtectStrategy = exports.BlizzardStrategy = exports.PoisonStrategy = exports.BurnStrategy = exports.NightmareStrategy = exports.SeedFlareStrategy = exports.OriginPulseStrategy = exports.SpikeArmorStrategy = exports.HealBlockStrategy = exports.RoarOfTimeStrategy = exports.RockTombStrategy = exports.RockSmashStrategy = exports.DoubleEdgeStrategy = exports.HeadSmashStrategy = exports.NuzzleStrategy = exports.AccelerockStrategy = exports.VoltSwitchStrategy = exports.ShadowCloneStrategy = exports.HyperVoiceStrategy = exports.PetalDanceStrategy = exports.FutureSightStrategy = exports.EchoStrategy = exports.TriAttackStrategy = exports.GrassWhistleStrategy = exports.HighJumpKickStrategy = exports.DisarmingVoiceStrategy = exports.FairyWindStrategy = exports.RelicSongStrategy = exports.GrowlStrategy = exports.AuroraBeamStrategy = exports.BonemerangStrategy = void 0;
+exports.FakeTearsStrategy = exports.SpringtideStormStrategy = exports.BleakwindStormStrategy = exports.WildboltStormStrategy = exports.SandsearStormStrategy = exports.FleurCannonStrategy = exports.HurricaneStrategy = exports.MeteorMashStrategy = exports.StunSporeStrategy = exports.KnockOffStrategy = exports.ThiefStrategy = exports.SpectralThiefStrategy = exports.TakeHeartStrategy = exports.NastyPlotStrategy = exports.TeleportStrategy = exports.HappyHourStrategy = exports.LeechLifeStrategy = exports.PoisonStingStrategy = exports.EntanglingThreadStrategy = exports.StringShotStrategy = exports.BugBuzzStrategy = exports.ShadowBallStrategy = exports.PaybackStrategy = exports.StompStrategy = exports.TormentStrategy = exports.RootStrategy = exports.SteamEruptionStrategy = exports.IcicleCrashStrategy = exports.DragonBreathStrategy = exports.AquaTailStrategy = exports.DragonTailStrategy = exports.XScissorStrategy = exports.WaterfallStrategy = exports.LeafBladeStrategy = exports.SacredSwordStrategy = exports.PresentStrategy = exports.PsybeamStrategy = exports.AppleAcidStrategy = exports.BiteStrategy = exports.SmokeScreenStrategy = exports.DiveStrategy = exports.DischargeStrategy = exports.SludgeWaveStrategy = exports.SludgeStrategy = exports.ChargeStrategy = exports.BlastBurnStrategy = exports.IronTailStrategy = exports.SoakStrategy = exports.IronDefenseStrategy = exports.DefenseCurlStrategy = void 0;
+exports.HelpingHandStrategy = exports.ShellSmashStrategy = exports.MagicBounceStrategy = exports.LinkCableStrategy = exports.MudBubbleStrategy = exports.LusterPurgeStrategy = exports.MistBallStrategy = exports.HailStrategy = exports.EruptionStrategy = exports.FellStingerStrategy = exports.FakeOutStrategy = exports.DireClawStrategy = exports.SlashingClawStrategy = exports.MagmaStormStrategy = exports.ThrashStrategy = exports.RolloutStrategy = exports.AbsorbStrategy = exports.AcrobaticsStrategy = exports.GigatonHammerStrategy = exports.IcyWindStrategy = exports.SilverWindStrategy = exports.PoisonPowderStrategy = exports.CounterStrategy = exports.SplashStrategy = exports.PeckStrategy = exports.SearingShotStrategy = exports.FireSpinStrategy = exports.DigStrategy = exports.ShellTrapStrategy = exports.HealOrderStrategy = exports.GrowthStrategy = exports.HexStrategy = exports.MimicStrategy = exports.DeathWingStrategy = exports.GeomancyStrategy = exports.TripleKickStrategy = exports.MawashiGeriStrategy = exports.UppercutStrategy = exports.MachPunchStrategy = exports.ForecastStrategy = exports.PlasmaFistStrategy = exports.ShadowSneakStrategy = exports.WaterShurikenStrategy = exports.SpiritShackleStrategy = exports.AgilityStrategy = exports.FlyingPressStrategy = exports.SkyAttackStrategy = exports.MetronomeStrategy = exports.DragonDartsStrategy = exports.SparklingAriaStrategy = void 0;
+exports.OutrageStrategy = exports.SlashStrategy = exports.RetaliateStrategy = exports.MagicPowderStrategy = exports.FloralHealingStrategy = exports.BarbBarrageStrategy = exports.VineWhipStrategy = exports.BodySlamStrategy = exports.EggsplosionStrategy = exports.AirSlashStrategy = exports.SnipeShotStrategy = exports.HyperSpaceFury = exports.UnboundStrategy = exports.EmptyLightStrategy = exports.WhirlwindStrategy = exports.SandTombStrategy = exports.ScreechStrategy = exports.PopulationBombStrategy = exports.ChargeBeamStrategy = exports.NightShadeStrategy = exports.PrismaticLaserStrategy = exports.TailGlowStrategy = exports.QuiverDanceStrategy = exports.StruggleBugStrategy = exports.StickyWebStrategy = exports.SpikesStrategy = exports.StealthRocksStrategy = exports.MagicalLeafStrategy = exports.BraveBirdStrategy = exports.PoisonGasStrategy = exports.LungeStrategy = exports.AquaRingStrategy = exports.AssuranceStrategy = exports.FissureStrategy = exports.AssistStrategy = exports.CloseCombatStrategy = exports.TeeterDanceStrategy = exports.SuperFangStrategy = exports.ParabolicChargeStrategy = exports.AerialAceStrategy = exports.PlayRoughStrategy = exports.WaterPulseStrategy = exports.AttractStrategy = exports.MagnetRiseStrategy = exports.ShelterStrategy = exports.SmogStrategy = exports.AnchorShotStrategy = exports.WhirlpoolStrategy = exports.PyroBallStrategy = exports.AstralBarrageStrategy = void 0;
+exports.ThunderFangStrategy = exports.IceFangStrategy = exports.FireFangStrategy = exports.CrossPoisonStrategy = exports.CrunchStrategy = exports.SparkStrategy = exports.DreamEaterStrategy = exports.PsystrikeStrategy = exports.PollenPuffStrategy = exports.PsychoBoostStrategy = exports.ExtremeSpeedStrategy = exports.FacadeStrategy = exports.IceHammerStrategy = exports.ZapCannonStrategy = exports.SheerColdStrategy = exports.SpiritBreakStrategy = exports.MantisBladesStrategy = exports.BloodMoonStrategy = exports.MoongeistBeamStrategy = exports.SunsteelStrikeStrategy = exports.PetalBlizzardStrategy = exports.MultiAttackStrategy = exports.SpacialRendStrategy = exports.DetectStrategy = exports.AromatherapyStrategy = exports.TickleStrategy = exports.FurySwipesStrategy = exports.LickStrategy = exports.AuraWheelStrategy = exports.ShieldsUpStrategy = exports.ShieldsDownStrategy = exports.KowtowCleaveStrategy = exports.NightSlashStrategy = exports.MagnetBombStrategy = exports.ShadowPunchStrategy = exports.ShedTailStrategy = exports.PsychicFangsStrategy = exports.TransformStrategy = exports.OverdriveStrategy = exports.LovelyKissStrategy = exports.SketchStrategy = exports.AuraSphereStrategy = exports.CrushGripStrategy = exports.PoltergeistStrategy = exports.DoomDesireStrategy = exports.CurseStrategy = exports.RecoverStrategy = exports.MakeItRainStrategy = exports.GoldRushStrategy = exports.FishiousRendStrategy = void 0;
+exports.AbilityStrategies = exports.OktzookaStrategy = exports.EntrainmentStrategy = exports.CharmStrategy = exports.PastelVeilStrategy = exports.PurifyStrategy = exports.DoubleShockStrategy = exports.GulpMissileStrategy = exports.GravityStrategy = exports.FairyLockStrategy = exports.DrainPunchStrategy = exports.FireLashStrategy = exports.CrushClawStrategy = exports.RockHeadStrategy = exports.CameraFlashStrategy = exports.StoneAxeStrategy = exports.MoonDreamStrategy = exports.MuddyWaterStrategy = exports.AncientPowerStrategy = exports.GunkShotStrategy = exports.BounceStrategy = exports.RapidSpinStrategy = exports.HeavySlamStrategy = exports.PsyShockStrategy = exports.DarkHarvestStrategy = exports.PowerWhipStrategy = exports.TorchSongStrategy = exports.PsyshieldBashStrategy = exports.TailWhipStrategy = void 0;
 const Ability_1 = require("../../types/enum/Ability");
 const ability_strategy_1 = require("./ability-strategy");
 const hidden_power_1 = require("./hidden-power");
@@ -114,16 +114,45 @@ class BeatUpStrategy extends ability_strategy_1.AbilityStrategy {
 exports.BeatUpStrategy = BeatUpStrategy;
 class PaydayStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
+        var _a;
         super.process(pokemon, state, board, target, crit);
-        const damage = pokemon.stars === 2 ? 60 : pokemon.stars === 3 ? 120 : 30;
+        const damage = (_a = [30, 60, 120][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
         const { death } = target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
         if (death && pokemon.player) {
-            pokemon.player.money += pokemon.stars;
-            pokemon.count.moneyCount++;
+            pokemon.player.addMoney(pokemon.stars);
+            pokemon.count.moneyCount += pokemon.stars;
         }
     }
 }
 exports.PaydayStrategy = PaydayStrategy;
+class PickupStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        var _a;
+        super.process(pokemon, state, board, target, crit);
+        const damage = (_a = [30, 60, 120][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
+        if (target.items.size > 0 && pokemon.items.size < 3) {
+            const item = target.items.values().next().value;
+            target.items.delete(item);
+            if (item === Item_1.Item.MAX_REVIVE && target.status.resurection) {
+                target.status.resurection = false;
+            }
+            pokemon.items.add(item);
+            pokemon.simulation.applyItemEffect(pokemon, item);
+        }
+        else {
+            if (target.player) {
+                const moneyStolen = (0, number_1.max)(target.player.money)(pokemon.stars);
+                target.player.money -= moneyStolen;
+                if (pokemon.player) {
+                    pokemon.player.addMoney(moneyStolen);
+                    pokemon.count.moneyCount += moneyStolen;
+                }
+            }
+        }
+        target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
+    }
+}
+exports.PickupStrategy = PickupStrategy;
 class MindBlownStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
         super.process(pokemon, state, board, target, crit);
@@ -362,9 +391,9 @@ class MistySurgeStrategy extends ability_strategy_1.AbilityStrategy {
         const hpGain = 30;
         board.forEach((x, y, ally) => {
             if (ally &&
+                ally.id !== pokemon.id &&
                 pokemon.team == ally.team &&
-                ally.types.has(Synergy_1.Synergy.FAIRY) &&
-                ally.id !== pokemon.id) {
+                ally.types.has(Synergy_1.Synergy.FAIRY)) {
                 ally.addPP(ppGain, pokemon, 1, crit);
                 ally.handleHeal(hpGain, pokemon, 1, crit);
             }
@@ -388,7 +417,7 @@ class PsychicStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
         var _a;
         super.process(pokemon, state, board, target, crit);
-        const damage = (_a = [50, 100, 200][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 200;
+        const damage = (_a = [40, 80, 160][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 160;
         const cells = board.getAdjacentCells(target.positionX, target.positionY, true);
         cells.forEach((cell) => {
             if (cell.value && cell.value.team !== pokemon.team) {
@@ -631,14 +660,9 @@ class FireTrickStrategy extends ability_strategy_1.AbilityStrategy {
 exports.FireTrickStrategy = FireTrickStrategy;
 class FlameChargeStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
-        super.process(pokemon, state, board, target, crit);
-        let damage = 20;
-        if (pokemon.stars === 2) {
-            damage = 40;
-        }
-        if (pokemon.stars === 3) {
-            damage = 80;
-        }
+        var _a;
+        super.process(pokemon, state, board, target, crit, true);
+        const damage = (_a = [20, 40, 80][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 80;
         const farthestCoordinate = board.getFarthestTargetCoordinateAvailablePlace(pokemon);
         if (farthestCoordinate) {
             const cells = board.getCellsBetween(pokemon.positionX, pokemon.positionY, farthestCoordinate.x, farthestCoordinate.y);
@@ -646,6 +670,15 @@ class FlameChargeStrategy extends ability_strategy_1.AbilityStrategy {
                 if (cell.value && cell.value.team != pokemon.team) {
                     cell.value.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
                 }
+            });
+            pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
+                id: pokemon.simulation.id,
+                skill: pokemon.skill,
+                positionX: pokemon.positionX,
+                positionY: pokemon.positionY,
+                targetX: farthestCoordinate.x,
+                targetY: farthestCoordinate.y,
+                orientation: pokemon.orientation
             });
             pokemon.moveTo(farthestCoordinate.x, farthestCoordinate.y, board);
         }
@@ -753,7 +786,7 @@ class OverheatStrategy extends ability_strategy_1.AbilityStrategy {
         super.process(pokemon, state, board, target, crit);
         board.forEach((x, y, tg) => {
             if (tg && pokemon.team != tg.team) {
-                let damage = 30;
+                let damage = 40;
                 if (tg.status.burn) {
                     damage = Math.round(damage * 1.3);
                 }
@@ -790,10 +823,21 @@ class KingShieldStrategy extends ability_strategy_1.AbilityStrategy {
     }
 }
 exports.KingShieldStrategy = KingShieldStrategy;
+class UTurnStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        var _a;
+        super.process(pokemon, state, board, target, crit);
+        const shield = (_a = [15, 30, 50][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
+        pokemon.moveTo(target.positionX, target.positionY, board);
+        pokemon.addShield(shield, pokemon, 1, crit);
+        target.status.triggerCharm(1000, target, pokemon, false);
+    }
+}
+exports.UTurnStrategy = UTurnStrategy;
 class PoisonJabStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
         var _a, _b;
-        const damage = (_a = [30, 60, 90, 120][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
+        const damage = (_a = [30, 60, 90][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
         const farthestTarget = (_b = state.getFarthestTarget(pokemon, board)) !== null && _b !== void 0 ? _b : target;
         super.process(pokemon, state, board, farthestTarget, crit);
         if (farthestTarget) {
@@ -1823,7 +1867,7 @@ class CosmicPowerStrategy extends ability_strategy_1.AbilityStrategy {
         super.process(pokemon, state, board, target, crit);
         const apGain = 20;
         board.forEach((x, y, ally) => {
-            if (ally && ally.team === pokemon.team && ally.id !== pokemon.id) {
+            if (ally && ally.id !== pokemon.id && ally.team === pokemon.team) {
                 ally.addAbilityPower(apGain, pokemon, 1, crit);
             }
         });
@@ -2273,25 +2317,19 @@ class SteamEruptionStrategy extends ability_strategy_1.AbilityStrategy {
 exports.SteamEruptionStrategy = SteamEruptionStrategy;
 class RootStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
+        var _a, _b;
         super.process(pokemon, state, board, target, crit);
-        let heal = 0;
-        switch (pokemon.stars) {
-            case 1:
-                heal = 20;
-                break;
-            case 2:
-                heal = 30;
-                break;
-            case 3:
-                heal = 40;
-                break;
-            default:
-                break;
-        }
+        const heal = (_a = [10, 20, 40][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 10;
+        const damage = (_b = [10, 20, 40][pokemon.stars - 1]) !== null && _b !== void 0 ? _b : 10;
+        const lockedDuration = 4000;
         const cells = board.getAdjacentCells(pokemon.positionX, pokemon.positionY, true);
         cells.forEach((cell) => {
             if (cell.value && pokemon.team == cell.value.team) {
                 cell.value.handleHeal(heal, pokemon, 1, crit);
+            }
+            else if (cell.value && pokemon.team !== cell.value.team) {
+                cell.value.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
+                cell.value.status.triggerLocked(lockedDuration, cell.value);
             }
         });
     }
@@ -2521,7 +2559,7 @@ class TakeHeartStrategy extends ability_strategy_1.AbilityStrategy {
         pokemon.addAttack(8, pokemon, 1, crit);
         pokemon.addSpecialDefense(4, pokemon, 1, crit);
         pokemon.status.clearNegativeStatus();
-        pokemon.cooldown = 250;
+        pokemon.cooldown = 100;
     }
 }
 exports.TakeHeartStrategy = TakeHeartStrategy;
@@ -2778,7 +2816,7 @@ class SkyAttackStrategy extends ability_strategy_1.AbilityStrategy {
         const destination = board.getFarthestTargetCoordinateAvailablePlace(pokemon);
         if (destination) {
             pokemon.skydiveTo(destination.x, destination.y, board);
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
                     skill: Ability_1.Ability.SKY_ATTACK,
@@ -2788,7 +2826,7 @@ class SkyAttackStrategy extends ability_strategy_1.AbilityStrategy {
                     targetY: destination.target.positionY
                 });
             }, 500));
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 var _a;
                 if (((_a = destination.target) === null || _a === void 0 ? void 0 : _a.life) > 0) {
                     const damage = 120;
@@ -2805,7 +2843,7 @@ class FlyingPressStrategy extends ability_strategy_1.AbilityStrategy {
         const destination = board.getFarthestTargetCoordinateAvailablePlace(pokemon);
         if (destination) {
             pokemon.skydiveTo(destination.x, destination.y, board);
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
                     skill: Ability_1.Ability.FLYING_PRESS,
@@ -2815,7 +2853,7 @@ class FlyingPressStrategy extends ability_strategy_1.AbilityStrategy {
                     targetY: destination.target.positionY
                 });
             }, 500));
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 if (destination.target && destination.target.life > 0) {
                     const damage = 0.3 * pokemon.hp;
                     destination.target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
@@ -3355,7 +3393,7 @@ class EruptionStrategy extends ability_strategy_1.AbilityStrategy {
         const damage = (_a = [30, 50, 70][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 30;
         const numberOfProjectiles = pokemon.stars === 1 ? 20 : pokemon.stars === 2 ? 30 : 45;
         for (let i = 0; i < numberOfProjectiles; i++) {
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 const x = (0, random_1.randomBetween)(0, Config_1.BOARD_WIDTH - 1);
                 const y = (0, random_1.randomBetween)(0, Config_1.BOARD_HEIGHT - 1);
                 const value = board.getValue(x, y);
@@ -3426,7 +3464,7 @@ class MistBallStrategy extends ability_strategy_1.AbilityStrategy {
                 targetInLine.addAbilityPower(-30, pokemon, 0, false);
             }
         });
-        pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+        pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
             (0, orientation_1.effectInLine)(board, pokemon, target, (targetInLine) => {
                 if (targetInLine != null && targetInLine.team !== pokemon.team) {
                     targetInLine.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
@@ -3449,7 +3487,7 @@ class LusterPurgeStrategy extends ability_strategy_1.AbilityStrategy {
                 targetInLine.addSpecialDefense(-3, pokemon, 0, false);
             }
         });
-        pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+        pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
             (0, orientation_1.effectInLine)(board, pokemon, target, (targetInLine) => {
                 if (targetInLine != null && targetInLine.team !== pokemon.team) {
                     targetInLine.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
@@ -3478,7 +3516,7 @@ class LinkCableStrategy extends ability_strategy_1.AbilityStrategy {
             pokemon.targetX = farthestTarget.positionX;
             pokemon.targetY = farthestTarget.positionY;
         }
-        pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+        pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
             if (pokemon.life <= 0)
                 return;
             const partner = board.find((x, y, entity) => entity.skill === Ability_1.Ability.LINK_CABLE &&
@@ -3625,7 +3663,7 @@ class AstralBarrageStrategy extends ability_strategy_1.AbilityStrategy {
         const nbGhosts = 3 * (1 + (2 * pokemon.ap) / 100);
         for (let i = 0; i < nbGhosts; i++) {
             const randomTarget = (0, random_1.pickRandomIn)(enemies);
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
                     skill: Ability_1.Ability.ASTRAL_BARRAGE,
@@ -4504,7 +4542,7 @@ class MagicPowderStrategy extends ability_strategy_1.AbilityStrategy {
         var _a, _b;
         super.process(pokemon, state, board, target, crit);
         const shield = (_a = [10, 20, 40][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 40;
-        const silenceDuration = (_b = [2000, 4000, 6000][pokemon.stars - 1]) !== null && _b !== void 0 ? _b : 6000;
+        const silenceDuration = (_b = [2000, 3000, 4000][pokemon.stars - 1]) !== null && _b !== void 0 ? _b : 4000;
         pokemon.addShield(shield, pokemon, 1, crit);
         board
             .getAdjacentCells(pokemon.positionX, pokemon.positionY)
@@ -4583,7 +4621,7 @@ class GoldRushStrategy extends ability_strategy_1.AbilityStrategy {
         const goldDamage = ((_a = pokemon.player) === null || _a === void 0 ? void 0 : _a.money) ? (_b = pokemon.player) === null || _b === void 0 ? void 0 : _b.money : 0;
         const damage = 20 + goldDamage;
         if (pokemon.player) {
-            pokemon.player.money += 2;
+            pokemon.player.addMoney(2);
         }
         target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit, true);
     }
@@ -4613,8 +4651,7 @@ class CurseStrategy extends ability_strategy_1.AbilityStrategy {
         const enemies = board.cells.filter((p) => p && p.team !== pokemon.team);
         enemies.sort((a, b) => (a.status.curse ? +1 : b.hp - a.hp));
         const enemyWithHighestHP = enemies[0];
-        const curseDelay = ((_a = [12000, 8000, 4000][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 4000) *
-            (1 - (0.2 * pokemon.ap) / 100);
+        const curseDelay = ((_a = [8000, 4000][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 4000) * (1 - (0.2 * pokemon.ap) / 100);
         enemyWithHighestHP.status.triggerCurse(curseDelay);
     }
 }
@@ -4622,7 +4659,7 @@ exports.CurseStrategy = CurseStrategy;
 class DoomDesireStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
         super.process(pokemon, state, board, target, crit, true);
-        pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+        pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
             if (target && target.life > 0) {
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
@@ -4862,7 +4899,7 @@ class NightSlashStrategy extends ability_strategy_1.AbilityStrategy {
         var _a;
         super.process(pokemon, state, board, target, crit);
         const damage = (_a = [15, 30, 60][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 60;
-        crit = crit || (0, random_1.chance)(pokemon.critChance);
+        crit = crit || (0, random_1.chance)(pokemon.critChance / 100);
         target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
     }
 }
@@ -5073,7 +5110,7 @@ class SunsteelStrikeStrategy extends ability_strategy_1.AbilityStrategy {
         const mostSurroundedCoordinate = state.getMostSurroundedCoordinateAvailablePlace(pokemon, board);
         if (mostSurroundedCoordinate) {
             pokemon.skydiveTo(mostSurroundedCoordinate.x, mostSurroundedCoordinate.y, board);
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
                     skill: Ability_1.Ability.SUNSTEEL_STRIKE,
@@ -5083,7 +5120,7 @@ class SunsteelStrikeStrategy extends ability_strategy_1.AbilityStrategy {
                     targetY: mostSurroundedCoordinate.y
                 });
             }, 500));
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 const cells = board.getAdjacentCells(mostSurroundedCoordinate.x, mostSurroundedCoordinate.y);
                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                     id: pokemon.simulation.id,
@@ -5375,8 +5412,10 @@ class SparkStrategy extends ability_strategy_1.AbilityStrategy {
 exports.SparkStrategy = SparkStrategy;
 class CrunchStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
+        var _a;
         super.process(pokemon, state, board, target, crit);
-        const { death } = target.handleSpecialDamage(150, board, Game_1.AttackType.SPECIAL, pokemon, crit, true);
+        const damage = (_a = [40, 80, 150][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 150;
+        const { death } = target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit, true);
         if (death) {
             pokemon.handleHeal(Math.ceil(0.5 * target.hp), pokemon, 0, crit);
         }
@@ -5598,7 +5637,7 @@ class BounceStrategy extends ability_strategy_1.AbilityStrategy {
         super.process(pokemon, state, board, target, crit, true);
         const nbBounces = Math.round([1, 2, 3][pokemon.stars - 1] * (1 + pokemon.ap / 100));
         for (let i = 0; i < nbBounces; i++) {
-            pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                 const destination = board.getFarthestTargetCoordinateAvailablePlace(pokemon);
                 if (destination && pokemon.hp > 0) {
                     pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
@@ -5756,7 +5795,7 @@ class DrainPunchStrategy extends ability_strategy_1.AbilityStrategy {
     process(pokemon, state, board, target, crit) {
         super.process(pokemon, state, board, target, crit);
         const result = target.handleSpecialDamage(pokemon.atk * 2, board, Game_1.AttackType.SPECIAL, pokemon, crit, true);
-        pokemon.handleHeal(result.takenDamage * 4, pokemon, 1, crit);
+        pokemon.handleHeal(result.takenDamage * 4, pokemon, 0, false);
     }
 }
 exports.DrainPunchStrategy = DrainPunchStrategy;
@@ -5811,12 +5850,12 @@ class GulpMissileStrategy extends ability_strategy_1.AbilityStrategy {
             targetY: target.positionY
         });
         const missile = pokemon_factory_1.default.createPokemonFromName(missilePkm, pokemon.player);
-        pokemon.commands.push(new simulation_command_1.AbilityCommand(() => {
+        pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
             const coord = state.getNearestAvailablePlaceCoordinates(target, board);
             if (coord) {
                 const entity = pokemon.simulation.addPokemon(missile, coord.x, coord.y, pokemon.team, true);
                 entity.pp = entity.maxPP;
-                const cells = board.getAdjacentCells(target.positionX, target.positionY);
+                const cells = board.getAdjacentCells(target.positionX, target.positionY, true);
                 cells.forEach((cell) => {
                     if (cell.value && cell.value.team !== pokemon.team) {
                         cell.value.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, crit);
@@ -5848,6 +5887,88 @@ class PurifyStrategy extends ability_strategy_1.AbilityStrategy {
     }
 }
 exports.PurifyStrategy = PurifyStrategy;
+class PastelVeilStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        var _a;
+        super.process(pokemon, state, board, target, crit, true);
+        const shield = (_a = [20, 40, 80][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 80;
+        const farthestCoordinate = board.getFarthestTargetCoordinateAvailablePlace(pokemon, true);
+        if (farthestCoordinate) {
+            const cells = board.getCellsBetween(pokemon.positionX, pokemon.positionY, farthestCoordinate.x, farthestCoordinate.y);
+            cells.forEach((cell) => {
+                if (cell.value && cell.value.team === pokemon.team) {
+                    cell.value.status.clearNegativeStatus();
+                    cell.value.addShield(shield, pokemon, 1, crit);
+                }
+            });
+            pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
+                id: pokemon.simulation.id,
+                skill: pokemon.skill,
+                positionX: pokemon.positionX,
+                positionY: pokemon.positionY,
+                targetX: farthestCoordinate.x,
+                targetY: farthestCoordinate.y,
+                orientation: pokemon.orientation
+            });
+            pokemon.moveTo(farthestCoordinate.x, farthestCoordinate.y, board);
+        }
+    }
+}
+exports.PastelVeilStrategy = PastelVeilStrategy;
+class CharmStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        var _a;
+        super.process(pokemon, state, board, target, crit);
+        const attackReduce = (_a = [2, 3, 4][pokemon.stars - 1]) !== null && _a !== void 0 ? _a : 4;
+        target.addAttack(-attackReduce, pokemon, 1, crit);
+        target.status.triggerCharm(3000, target, pokemon, false);
+    }
+}
+exports.CharmStrategy = CharmStrategy;
+class EntrainmentStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        super.process(pokemon, state, board, target, crit);
+        const ppGained = 10;
+        pokemon.addPP(ppGained, pokemon, 1, crit);
+        if (target.skill !== Ability_1.Ability.ENTRAINMENT) {
+            target.skill = Ability_1.Ability.ENTRAINMENT;
+        }
+        else {
+            const potentialTargets = [];
+            board.forEach((x, y, value) => {
+                if (value && value.team === pokemon.team && value.life > 0) {
+                    potentialTargets.push({ x, y, value });
+                }
+            });
+            potentialTargets.sort((a, b) => (0, distance_1.distanceC)(pokemon.positionX, pokemon.positionY, a.x, a.y) -
+                (0, distance_1.distanceC)(pokemon.positionX, pokemon.positionY, b.x, b.y));
+            if (potentialTargets.length > 0) {
+                target.skill = Ability_1.Ability.ENTRAINMENT;
+            }
+        }
+    }
+}
+exports.EntrainmentStrategy = EntrainmentStrategy;
+class OktzookaStrategy extends ability_strategy_1.AbilityStrategy {
+    process(pokemon, state, board, target, crit) {
+        super.process(pokemon, state, board, target, crit);
+        const damage = Math.ceil(pokemon.atk * 1.5);
+        pokemon.count.attackCount++;
+        target.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, pokemon, false);
+        target.effects.add(Effect_1.Effect.GAS);
+        const index = target.positionY * board.columns + target.positionX;
+        if (board.effects[index] !== Effect_1.Effect.GAS) {
+            board.effects[index] = Effect_1.Effect.GAS;
+            pokemon.simulation.room.broadcast(types_1.Transfer.BOARD_EVENT, {
+                simulationId: pokemon.simulation.id,
+                type: Game_1.BoardEvent.GAS,
+                x: target.positionX,
+                y: target.positionY
+            });
+        }
+    }
+}
+exports.OktzookaStrategy = OktzookaStrategy;
 __exportStar(require("./hidden-power"), exports);
 exports.AbilityStrategies = {
     [Ability_1.Ability.SONG_OF_DESIRE]: new SongOfDesireStrategy(),
@@ -5857,6 +5978,7 @@ exports.AbilityStrategies = {
     [Ability_1.Ability.CORRUPTED_NATURE]: new CorruptedNatureStrategy(),
     [Ability_1.Ability.CRABHAMMER]: new CrabHammerStrategy(),
     [Ability_1.Ability.KING_SHIELD]: new KingShieldStrategy(),
+    [Ability_1.Ability.U_TURN]: new UTurnStrategy(),
     [Ability_1.Ability.EXPLOSION]: new ExplosionStrategy(),
     [Ability_1.Ability.NIGHTMARE]: new NightmareStrategy(),
     [Ability_1.Ability.CLANGOROUS_SOUL]: new ClangorousSoulStrategy(),
@@ -5951,6 +6073,7 @@ exports.AbilityStrategies = {
     [Ability_1.Ability.PSYCHIC_SURGE]: new PsychicSurgeStrategy(),
     [Ability_1.Ability.MIND_BLOWN]: new MindBlownStrategy(),
     [Ability_1.Ability.PAYDAY]: new PaydayStrategy(),
+    [Ability_1.Ability.PICKUP]: new PickupStrategy(),
     [Ability_1.Ability.BEAT_UP]: new BeatUpStrategy(),
     [Ability_1.Ability.BLUE_FLARE]: new BlueFlareStrategy(),
     [Ability_1.Ability.FUSION_BOLT]: new FusionBoltStrategy(),
@@ -6200,6 +6323,10 @@ exports.AbilityStrategies = {
     [Ability_1.Ability.FELL_STINGER]: new FellStingerStrategy(),
     [Ability_1.Ability.GULP_MISSILE]: new GulpMissileStrategy(),
     [Ability_1.Ability.SCHOOLING]: new SchoolingStrategy(),
-    [Ability_1.Ability.DOUBLE_SHOCK]: new DoubleShockStrategy()
+    [Ability_1.Ability.DOUBLE_SHOCK]: new DoubleShockStrategy(),
+    [Ability_1.Ability.PASTEL_VEIL]: new PastelVeilStrategy(),
+    [Ability_1.Ability.CHARM]: new CharmStrategy(),
+    [Ability_1.Ability.ENTRAINMENT]: new EntrainmentStrategy(),
+    [Ability_1.Ability.OKTZOOKA]: new OktzookaStrategy()
 };
 //# sourceMappingURL=abilities.js.map

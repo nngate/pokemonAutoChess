@@ -331,17 +331,18 @@ class PokemonSprite extends draggable_object_1.default {
             (_a = g.animationManager) === null || _a === void 0 ? void 0 : _a.animatePokemon(this, Game_1.PokemonActionState.IDLE, this.flip);
         });
     }
-    evolutionAnimation() {
+    emoteAnimation() {
         var _a;
-        this.displayAnimation("EVOLUTION");
         const g = this.scene;
         (_a = g.animationManager) === null || _a === void 0 ? void 0 : _a.animatePokemon(this, Game_1.PokemonActionState.EMOTE, this.flip, false);
     }
+    evolutionAnimation() {
+        this.displayAnimation("EVOLUTION");
+        this.emoteAnimation();
+    }
     spawnAnimation() {
-        var _a;
         this.displayAnimation("SPAWN");
-        const g = this.scene;
-        (_a = g.animationManager) === null || _a === void 0 ? void 0 : _a.animatePokemon(this, Game_1.PokemonActionState.EMOTE, this.flip, false);
+        this.emoteAnimation();
     }
     hatchAnimation() {
         var _a;

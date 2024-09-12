@@ -1,7 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { GameUser, IGameUser } from "../../../models/colyseus-models/game-user";
 import Message from "../../../models/colyseus-models/message";
-import { IBot } from "../../../models/mongo-models/bot-v2";
 import { IChatV2 } from "../../../types";
 import { GameMode } from "../../../types/enum/Game";
 export interface IUserPreparationState {
@@ -14,7 +13,6 @@ export interface IUserPreparationState {
     password: string | null;
     noElo: boolean;
     user: GameUser | undefined;
-    botsList: IBot[] | null;
     gameMode: GameMode;
     whitelist: string[];
     blacklist: string[];
@@ -38,11 +36,10 @@ export declare const preparationSlice: import("@reduxjs/toolkit").Slice<IUserPre
     setNoELO: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<boolean>) => void;
     setGameMode: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<GameMode>) => void;
     leavePreparation: () => IUserPreparationState;
-    setBotsList: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<IBot[] | null>) => void;
     setWhiteList: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<string[]>) => void;
     setBlackList: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<string[]>) => void;
 }, "preparation", "preparation", import("@reduxjs/toolkit").SliceSelectors<IUserPreparationState>>;
-export declare const setUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<GameUser, "preparation/setUser">, setName: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setName">, setBotsList: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBot[] | null, "preparation/setBotsList">, pushMessage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Message, "preparation/pushMessage">, removeMessage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Message, "preparation/removeMessage">, addUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<IGameUser, "preparation/addUser">, changeUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
+export declare const setUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<GameUser, "preparation/setUser">, setName: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setName">, pushMessage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Message, "preparation/pushMessage">, removeMessage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Message, "preparation/removeMessage">, addUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<IGameUser, "preparation/addUser">, changeUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
     id: string;
     field: string;
     value: any;

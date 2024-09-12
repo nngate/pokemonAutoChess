@@ -1,4 +1,6 @@
-import { ILobbyUser } from "../../../../../models/colyseus-models/lobby-user";
+import { IGameRecord } from "../../../../../models/colyseus-models/game-record";
+import { IUserMetadata } from "../../../../../models/mongo-models/user-metadata";
 export default function PlayerBox(props: {
-    user: ILobbyUser;
+    user: IUserMetadata;
+    history?: IGameRecord[];
 }): import("react/jsx-runtime").JSX.Element;

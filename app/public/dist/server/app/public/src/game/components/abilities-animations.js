@@ -86,8 +86,17 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.FLAME_CHARGE:
             addAbilitySprite(skill, coordinates, true)
                 .setScale(2)
-                .setRotation(Math.atan2(coordinatesTarget[1] - coordinates[1], coordinatesTarget[0] - coordinates[0]) -
+                .setDepth(1)
+                .setOrigin(1, 1)
+                .setRotation(Math.atan2(coordinatesTarget[1] - coordinates[1], coordinatesTarget[0] - coordinates[0]) +
                 Math.PI / 2);
+            break;
+        case Ability_1.Ability.PASTEL_VEIL:
+            addAbilitySprite(skill, coordinates, true)
+                .setScale(2)
+                .setDepth(1)
+                .setOrigin(1, 1)
+                .setRotation(Math.atan2(coordinatesTarget[1] - coordinates[1], coordinatesTarget[0] - coordinates[0]) + Math.PI);
             break;
         case Ability_1.Ability.AQUA_JET:
             addAbilitySprite(skill, coordinates, true)
@@ -1002,16 +1011,13 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
             addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
             break;
         case Ability_1.Ability.WATERFALL:
-            addAbilitySprite(skill, coordinates, true).setScale(2);
+            addAbilitySprite(skill, coordinates, true).setScale(2).setDepth(1);
             break;
         case Ability_1.Ability.HELPING_HAND:
             addAbilitySprite(skill, coordinates, true).setScale(2);
             break;
         case Ability_1.Ability.MUD_BUBBLE:
             addAbilitySprite(skill, coordinates, true).setScale(2);
-            break;
-        case Ability_1.Ability.PURIFY:
-            addAbilitySprite(Ability_1.Ability.MUD_BUBBLE, coordinates, true).setScale(4);
             break;
         case Ability_1.Ability.ERUPTION: {
             const startCoords = (0, utils_1.transformAttackCoordinate)(targetX + 3, targetY + 3, flip);
@@ -1637,6 +1643,12 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.HIDDEN_POWER_EM:
             hiddenPowerAnimation(scene, skill, positionX, positionY, flip);
             break;
+        case Ability_1.Ability.ENTRAINMENT: {
+            const target = pokemonsOnBoard.find((pkmUI) => pkmUI.positionX === targetX && pkmUI.positionY === targetY);
+            if (target)
+                target.emoteAnimation();
+            break;
+        }
         case Ability_1.Ability.TEETER_DANCE:
             pokemonsOnBoard.forEach((pkmUI) => {
                 const coordinates = (0, utils_1.transformAttackCoordinate)(pkmUI.positionX, pkmUI.positionY, flip);
@@ -1832,11 +1844,14 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.CRUSH_CLAW:
             addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
             break;
-        case "FIELD_DEATH":
-            addAbilitySprite("FIELD_DEATH", coordinates, true).setScale(2);
-            break;
         case Ability_1.Ability.EARTHQUAKE:
             addAbilitySprite(skill, coordinates, true).setScale(3);
+            break;
+        case Ability_1.Ability.OKTZOOKA:
+            addAbilitySprite(Ability_1.Ability.SMOKE_SCREEN, coordinatesTarget, true).setScale(3);
+            break;
+        case "FIELD_DEATH":
+            addAbilitySprite("FIELD_DEATH", coordinates, true).setScale(2);
             break;
         case "GROUND_GROW":
             addAbilitySprite(skill, coordinates, true).setScale(1.5);

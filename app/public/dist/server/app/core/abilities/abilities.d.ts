@@ -15,6 +15,9 @@ export declare class BeatUpStrategy extends AbilityStrategy {
 export declare class PaydayStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
+export declare class PickupStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
 export declare class MindBlownStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
@@ -134,6 +137,9 @@ export declare class HypnosisStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
 export declare class KingShieldStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
+export declare class UTurnStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
 export declare class PoisonJabStrategy extends AbilityStrategy {
@@ -972,6 +978,18 @@ export declare class DoubleShockStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
 export declare class PurifyStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
+export declare class PastelVeilStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
+export declare class CharmStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
+export declare class EntrainmentStrategy extends AbilityStrategy {
+    process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
+}
+export declare class OktzookaStrategy extends AbilityStrategy {
     process(pokemon: PokemonEntity, state: PokemonState, board: Board, target: PokemonEntity, crit: boolean): void;
 }
 export * from "./hidden-power";

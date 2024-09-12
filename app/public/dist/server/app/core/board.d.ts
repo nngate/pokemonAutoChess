@@ -21,14 +21,19 @@ export default class Board {
     find(predicate: (x: number, y: number, entity: PokemonEntity) => boolean): PokemonEntity | null;
     orientation(x0: number, y0: number, x1: number, y1: number, pokemon: IPokemonEntity, target: IPokemonEntity | undefined): Orientation;
     getAdjacentCells(cellX: number, cellY: number, includesCenter?: boolean): Cell[];
+    getOuterRangeCells(cellX: number, cellY: number, range?: number, includesCenter?: boolean): Cell[];
     getCellsInFront(pokemon: PokemonEntity, target: PokemonEntity, range?: number): Cell[];
     getCellsInRange(cellX: number, cellY: number, range: number): Cell[];
     getCellsInRadius(cellX: number, cellY: number, radius: number): Cell[];
+    getAllPokemonCoordinates(): {
+        x: number;
+        y: number;
+    }[];
     getCellsBetween(x0: number, y0: number, x1: number, y1: number): Cell[];
     getTeleportationCell(x: number, y: number): Cell | undefined;
     getFlyAwayCell(x: number, y: number): Cell | null;
     getEffectOnCell(x: number, y: number): Effect | undefined;
-    getFarthestTargetCoordinateAvailablePlace(pokemon: IPokemonEntity): {
+    getFarthestTargetCoordinateAvailablePlace(pokemon: IPokemonEntity, targetAlly?: boolean): {
         x: number;
         y: number;
         distance: number;

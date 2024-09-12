@@ -276,6 +276,8 @@ var Pkm;
     Pkm["PRIMAL_GROUDON"] = "PRIMAL_GROUDON";
     Pkm["MEOWTH"] = "MEOWTH";
     Pkm["PERSIAN"] = "PERSIAN";
+    Pkm["ALOLAN_MEOWTH"] = "ALOLAN_MEOWTH";
+    Pkm["ALOLAN_PERSIAN"] = "ALOLAN_PERSIAN";
     Pkm["DEINO"] = "DEINO";
     Pkm["ZWEILOUS"] = "ZWEILOUS";
     Pkm["HYDREIGON"] = "HYDREIGON";
@@ -383,6 +385,8 @@ var Pkm;
     Pkm["ETERNATUS"] = "ETERNATUS";
     Pkm["PONYTA"] = "PONYTA";
     Pkm["RAPIDASH"] = "RAPIDASH";
+    Pkm["GALARIAN_PONYTA"] = "GALARIAN_PONYTA";
+    Pkm["GALARIAN_RAPIDASH"] = "GALARIAN_RAPIDASH";
     Pkm["NINCADA"] = "NINCADA";
     Pkm["NINJASK"] = "NINJASK";
     Pkm["SHEDINJA"] = "SHEDINJA";
@@ -826,6 +830,16 @@ var Pkm;
     Pkm["PAWMI"] = "PAWMI";
     Pkm["PAWMO"] = "PAWMO";
     Pkm["PAWMOT"] = "PAWMOT";
+    Pkm["GOLDEEN"] = "GOLDEEN";
+    Pkm["SEAKING"] = "SEAKING";
+    Pkm["LUVDISC"] = "LUVDISC";
+    Pkm["AUDINO"] = "AUDINO";
+    Pkm["PETILIL"] = "PETILIL";
+    Pkm["LILIGANT"] = "LILIGANT";
+    Pkm["MANTYKE"] = "MANTYKE";
+    Pkm["MANTINE"] = "MANTINE";
+    Pkm["REMORAID"] = "REMORAID";
+    Pkm["OCTILLERY"] = "OCTILLERY";
 })(Pkm || (exports.Pkm = Pkm = {}));
 exports.PkmIndex = {
     [Pkm.EGG]: "0000-0004",
@@ -1099,6 +1113,8 @@ exports.PkmIndex = {
     [Pkm.PRIMAL_GROUDON]: "0383-0001",
     [Pkm.MEOWTH]: "0052",
     [Pkm.PERSIAN]: "0053",
+    [Pkm.ALOLAN_MEOWTH]: "0052-0001",
+    [Pkm.ALOLAN_PERSIAN]: "0053-0001",
     [Pkm.DEINO]: "0633",
     [Pkm.ZWEILOUS]: "0634",
     [Pkm.HYDREIGON]: "0635",
@@ -1170,6 +1186,8 @@ exports.PkmIndex = {
     [Pkm.SEWADDLE]: "0540",
     [Pkm.SWADLOON]: "0541",
     [Pkm.LEAVANNY]: "0542",
+    [Pkm.PETILIL]: "0548",
+    [Pkm.LILIGANT]: "0549",
     [Pkm.PIKIPEK]: "0731",
     [Pkm.TRUMBEAK]: "0732",
     [Pkm.TOUCANNON]: "0733",
@@ -1180,6 +1198,7 @@ exports.PkmIndex = {
     [Pkm.HAKAMO_O]: "0783",
     [Pkm.KOMMO_O]: "0784",
     [Pkm.MELOETTA]: "0648",
+    [Pkm.PIROUETTE_MELOETTA]: "0648-0001",
     [Pkm.ALTARIA]: "0334",
     [Pkm.MEGA_ALTARIA]: "0334-0001",
     [Pkm.CASTFORM]: "0351",
@@ -1214,6 +1233,8 @@ exports.PkmIndex = {
     [Pkm.SHEDINJA]: "0292",
     [Pkm.PONYTA]: "0077",
     [Pkm.RAPIDASH]: "0078",
+    [Pkm.GALARIAN_PONYTA]: "0077-0001",
+    [Pkm.GALARIAN_RAPIDASH]: "0078-0001",
     [Pkm.CACNEA]: "0331",
     [Pkm.CACTURNE]: "0332",
     [Pkm.TAUROS]: "0128",
@@ -1371,7 +1392,6 @@ exports.PkmIndex = {
     [Pkm.MIME_JR]: "0439",
     [Pkm.MR_MIME]: "0122",
     [Pkm.ORIGIN_GIRATINA]: "0487-0001",
-    [Pkm.PIROUETTE_MELOETTA]: "0648-0001",
     [Pkm.MELMETAL]: "0809",
     [Pkm.HOOPA]: "0720",
     [Pkm.HOOPA_UNBOUND]: "0720-0001",
@@ -1648,7 +1668,15 @@ exports.PkmIndex = {
     [Pkm.WISHIWASHI_SCHOOL]: "0746-0001",
     [Pkm.PAWMI]: "0921",
     [Pkm.PAWMO]: "0922",
-    [Pkm.PAWMOT]: "0923"
+    [Pkm.PAWMOT]: "0923",
+    [Pkm.GOLDEEN]: "0118",
+    [Pkm.SEAKING]: "0119",
+    [Pkm.LUVDISC]: "0370",
+    [Pkm.AUDINO]: "0531",
+    [Pkm.MANTYKE]: "0458",
+    [Pkm.MANTINE]: "0226",
+    [Pkm.REMORAID]: "0223",
+    [Pkm.OCTILLERY]: "0224"
 };
 exports.PkmFamily = {
     [Pkm.EGG]: Pkm.EGG,
@@ -1816,7 +1844,7 @@ exports.PkmFamily = {
     [Pkm.MEGA_STEELIX]: Pkm.ONIX,
     [Pkm.SCYTHER]: Pkm.SCYTHER,
     [Pkm.SCIZOR]: Pkm.SCYTHER,
-    [Pkm.KLEAVOR]: Pkm.KLEAVOR,
+    [Pkm.KLEAVOR]: Pkm.SCYTHER,
     [Pkm.RIOLU]: Pkm.RIOLU,
     [Pkm.LUCARIO]: Pkm.RIOLU,
     [Pkm.EEVEE]: Pkm.EEVEE,
@@ -1919,6 +1947,8 @@ exports.PkmFamily = {
     [Pkm.SPEAROW]: Pkm.SPEAROW,
     [Pkm.MEOWTH]: Pkm.MEOWTH,
     [Pkm.PERSIAN]: Pkm.MEOWTH,
+    [Pkm.ALOLAN_MEOWTH]: Pkm.ALOLAN_MEOWTH,
+    [Pkm.ALOLAN_PERSIAN]: Pkm.ALOLAN_MEOWTH,
     [Pkm.DEINO]: Pkm.DEINO,
     [Pkm.ZWEILOUS]: Pkm.DEINO,
     [Pkm.HYDREIGON]: Pkm.DEINO,
@@ -2014,6 +2044,8 @@ exports.PkmFamily = {
     [Pkm.SHEDINJA]: Pkm.SHEDINJA,
     [Pkm.PONYTA]: Pkm.PONYTA,
     [Pkm.RAPIDASH]: Pkm.PONYTA,
+    [Pkm.GALARIAN_PONYTA]: Pkm.GALARIAN_PONYTA,
+    [Pkm.GALARIAN_RAPIDASH]: Pkm.GALARIAN_PONYTA,
     [Pkm.GENESECT]: Pkm.GENESECT,
     [Pkm.RELICANTH]: Pkm.RELICANTH,
     [Pkm.HATENNA]: Pkm.HATENNA,
@@ -2192,7 +2224,7 @@ exports.PkmFamily = {
     [Pkm.MIME_JR]: Pkm.MIME_JR,
     [Pkm.MR_MIME]: Pkm.MIME_JR,
     [Pkm.ORIGIN_GIRATINA]: Pkm.ORIGIN_GIRATINA,
-    [Pkm.PIROUETTE_MELOETTA]: Pkm.PIROUETTE_MELOETTA,
+    [Pkm.PIROUETTE_MELOETTA]: Pkm.MELOETTA,
     [Pkm.MELMETAL]: Pkm.MELMETAL,
     [Pkm.HOOPA]: Pkm.HOOPA,
     [Pkm.HOOPA_UNBOUND]: Pkm.HOOPA,
@@ -2471,7 +2503,17 @@ exports.PkmFamily = {
     [Pkm.WISHIWASHI_SCHOOL]: Pkm.WISHIWASHI,
     [Pkm.PAWMI]: Pkm.PAWMI,
     [Pkm.PAWMO]: Pkm.PAWMI,
-    [Pkm.PAWMOT]: Pkm.PAWMI
+    [Pkm.PAWMOT]: Pkm.PAWMI,
+    [Pkm.GOLDEEN]: Pkm.GOLDEEN,
+    [Pkm.SEAKING]: Pkm.GOLDEEN,
+    [Pkm.LUVDISC]: Pkm.LUVDISC,
+    [Pkm.AUDINO]: Pkm.AUDINO,
+    [Pkm.PETILIL]: Pkm.PETILIL,
+    [Pkm.LILIGANT]: Pkm.PETILIL,
+    [Pkm.MANTYKE]: Pkm.MANTYKE,
+    [Pkm.MANTINE]: Pkm.MANTYKE,
+    [Pkm.REMORAID]: Pkm.REMORAID,
+    [Pkm.OCTILLERY]: Pkm.REMORAID
 };
 exports.PkmRegionalVariants = {
     [Pkm.RATTATA]: [Pkm.ALOLAN_RATTATA],
@@ -2482,7 +2524,9 @@ exports.PkmRegionalVariants = {
     [Pkm.ZORUA]: [Pkm.HISUI_ZORUA],
     [Pkm.GRIMER]: [Pkm.ALOLAN_GRIMER],
     [Pkm.NIDORANF]: [Pkm.NIDORANM],
-    [Pkm.SNEASEL]: [Pkm.HISUI_SNEASEL]
+    [Pkm.SNEASEL]: [Pkm.HISUI_SNEASEL],
+    [Pkm.MEOWTH]: [Pkm.ALOLAN_MEOWTH],
+    [Pkm.PONYTA]: [Pkm.GALARIAN_PONYTA]
 };
 var PkmDuo;
 (function (PkmDuo) {
@@ -3932,6 +3976,16 @@ exports.AnimationConfig = {
         ability: Animation_1.AnimationType.Attack,
         emote: Animation_1.AnimationType.Shoot
     },
+    [Pkm.ALOLAN_MEOWTH]: {
+        attack: Animation_1.AnimationType.MultiStrike,
+        ability: Animation_1.AnimationType.Pose,
+        emote: Animation_1.AnimationType.DeepBreath
+    },
+    [Pkm.ALOLAN_PERSIAN]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Attack,
+        emote: Animation_1.AnimationType.Shoot
+    },
     [Pkm.DEINO]: {
         attack: Animation_1.AnimationType.Shoot,
         ability: Animation_1.AnimationType.Charge,
@@ -4340,6 +4394,11 @@ exports.AnimationConfig = {
         ability: Animation_1.AnimationType.Twirl,
         emote: Animation_1.AnimationType.Shoot
     },
+    [Pkm.PIROUETTE_MELOETTA]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Swing,
+        emote: Animation_1.AnimationType.Twirl
+    },
     [Pkm.ALTARIA]: {
         attack: Animation_1.AnimationType.Shoot,
         ability: Animation_1.AnimationType.Hop,
@@ -4466,6 +4525,16 @@ exports.AnimationConfig = {
         emote: Animation_1.AnimationType.RearUp
     },
     [Pkm.RAPIDASH]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Walk,
+        emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.GALARIAN_PONYTA]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Walk,
+        emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.GALARIAN_RAPIDASH]: {
         attack: Animation_1.AnimationType.Attack,
         ability: Animation_1.AnimationType.Walk,
         emote: Animation_1.AnimationType.RearUp
@@ -5310,11 +5379,6 @@ exports.AnimationConfig = {
     [Pkm.ORIGIN_GIRATINA]: {
         attack: Animation_1.AnimationType.Scratch,
         ability: Animation_1.AnimationType.Shoot,
-        emote: Animation_1.AnimationType.Shoot
-    },
-    [Pkm.PIROUETTE_MELOETTA]: {
-        attack: Animation_1.AnimationType.Swing,
-        ability: Animation_1.AnimationType.Twirl,
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.MELMETAL]: {
@@ -6727,6 +6791,56 @@ exports.AnimationConfig = {
         attack: Animation_1.AnimationType.Attack,
         ability: Animation_1.AnimationType.Shoot,
         emote: Animation_1.AnimationType.Rumble
+    },
+    [Pkm.GOLDEEN]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.RearUp,
+        emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.SEAKING]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.RearUp,
+        emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.LUVDISC]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Charge,
+        emote: Animation_1.AnimationType.Twirl
+    },
+    [Pkm.AUDINO]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Pose,
+        emote: Animation_1.AnimationType.Pose
+    },
+    [Pkm.PETILIL]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Twirl,
+        emote: Animation_1.AnimationType.Pose
+    },
+    [Pkm.LILIGANT]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.DeepBreath,
+        emote: Animation_1.AnimationType.Pose
+    },
+    [Pkm.MANTYKE]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Hover,
+        emote: Animation_1.AnimationType.Strike
+    },
+    [Pkm.MANTINE]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Hover,
+        emote: Animation_1.AnimationType.Strike
+    },
+    [Pkm.REMORAID]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Charge,
+        emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.OCTILLERY]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Attack,
+        emote: Animation_1.AnimationType.RearUp
     }
 };
 //# sourceMappingURL=Pokemon.js.map

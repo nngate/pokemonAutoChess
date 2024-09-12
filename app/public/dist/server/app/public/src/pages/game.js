@@ -58,6 +58,7 @@ function getGameScene() {
 function Game() {
     const dispatch = (0, hooks_1.useAppDispatch)();
     const { t } = (0, react_i18next_1.useTranslation)();
+    const navigate = (0, react_router_dom_1.useNavigate)();
     const client = (0, hooks_1.useAppSelector)((state) => state.network.client);
     const room = (0, hooks_1.useAppSelector)((state) => state.network.game);
     const uid = (0, hooks_1.useAppSelector)((state) => state.network.uid);
@@ -71,13 +72,12 @@ function Game() {
     const [connectError, setConnectError] = (0, react_1.useState)("");
     const [finalRank, setFinalRank] = (0, react_1.useState)(0);
     const [finalRankVisible, setFinalRankVisible] = (0, react_1.useState)(false);
-    const [toAfter, setToAfter] = (0, react_1.useState)(false);
-    const [toAuth, setToAuth] = (0, react_1.useState)(false);
     const container = (0, react_1.useRef)(null);
     const MAX_ATTEMPS_RECONNECT = 3;
     const connectToGame = (0, react_1.useCallback)((...args_1) => __awaiter(this, [...args_1], void 0, function* (attempts = 1) {
+        var _a;
         logger_1.logger.debug(`connectToGame attempt ${attempts} / ${MAX_ATTEMPS_RECONNECT}`);
-        const cachedReconnectionToken = store_1.localStore.get(store_1.LocalStoreKeys.RECONNECTION_TOKEN);
+        const cachedReconnectionToken = (_a = store_1.localStore.get(store_1.LocalStoreKeys.RECONNECTION_GAME)) === null || _a === void 0 ? void 0 : _a.reconnectionToken;
         if (cachedReconnectionToken) {
             connecting.current = true;
             const statusMessage = document.querySelector("#status-message");
@@ -87,8 +87,7 @@ function Game() {
             client
                 .reconnect(cachedReconnectionToken)
                 .then((room) => {
-                store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_TOKEN, room.reconnectionToken, 60 * 60);
-                store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_GAME, room.id, 60 * 60);
+                store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_GAME, { reconnectionToken: room.reconnectionToken, roomId: room.roomId }, 60 * 60);
                 dispatch((0, NetworkStore_1.joinGame)(room));
                 connected.current = true;
                 connecting.current = false;
@@ -108,7 +107,7 @@ function Game() {
             });
         }
         else {
-            setToAuth(true);
+            navigate("/");
         }
     }), [client, dispatch]);
     function playerClick(id) {
@@ -134,37 +133,84 @@ function Game() {
     }
     const leave = (0, react_1.useCallback)(() => __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c;
-        const savedPlayers = new Array();
+        const afterPlayers = new Array();
         const token = yield ((_a = app_1.default.auth().currentUser) === null || _a === void 0 ? void 0 : _a.getIdToken());
         if (gameContainer && gameContainer.game) {
             gameContainer.game.destroy(true);
         }
         const nbPlayers = (_b = room === null || room === void 0 ? void 0 : room.state.players.size) !== null && _b !== void 0 ? _b : 0;
         if (nbPlayers > 0) {
-            room === null || room === void 0 ? void 0 : room.state.players.forEach((player) => savedPlayers.push(gameContainer.transformToSimplePlayer(player)));
+            room === null || room === void 0 ? void 0 : room.state.players.forEach((p) => {
+                const afterPlayer = {
+                    elo: p.elo,
+                    name: p.name,
+                    id: p.id,
+                    rank: p.rank,
+                    avatar: p.avatar,
+                    title: p.title,
+                    role: p.role,
+                    pokemons: new Array(),
+                    synergies: new Array(),
+                    moneyEarned: p.totalMoneyEarned,
+                    playerDamageDealt: p.totalPlayerDamageDealt,
+                    rerollCount: p.rerollCount
+                };
+                const allSynergies = new Array();
+                p.synergies.forEach((v, k) => {
+                    allSynergies.push({ name: k, value: v });
+                });
+                allSynergies.sort((a, b) => b.value - a.value);
+                afterPlayer.synergies = allSynergies.slice(0, 5);
+                if (p.board && p.board.size > 0) {
+                    p.board.forEach((pokemon) => {
+                        if (pokemon.positionY != 0) {
+                            afterPlayer.pokemons.push({
+                                avatar: (0, utils_1.getPortraitPath)(pokemon),
+                                items: pokemon.items.toArray(),
+                                name: pokemon.name
+                            });
+                        }
+                    });
+                }
+                afterPlayers.push(afterPlayer);
+            });
         }
         const elligibleToXP = nbPlayers >= 2 &&
             ((_c = room === null || room === void 0 ? void 0 : room.state.stageLevel) !== null && _c !== void 0 ? _c : 0) >= Config_1.RequiredStageLevelForXpElligibility;
         const elligibleToELO = elligibleToXP &&
             !(room === null || room === void 0 ? void 0 : room.state.noElo) &&
-            savedPlayers.filter((p) => p.role !== types_1.Role.BOT).length >= 4;
+            afterPlayers.filter((p) => p.role !== types_1.Role.BOT).length >= 4;
         const r = yield client.create("after-game", {
-            players: savedPlayers,
+            players: afterPlayers,
             idToken: token,
             elligibleToXP,
             elligibleToELO
         });
-        store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_TOKEN, r.reconnectionToken, 30);
-        r.connection.close();
-        dispatch((0, GameStore_1.leaveGame)());
-        setToAfter(true);
-        try {
-            yield (room === null || room === void 0 ? void 0 : room.leave());
+        store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_AFTER_GAME, { reconnectionToken: r.reconnectionToken, roomId: r.roomId }, 30);
+        if (r.connection.isOpen) {
+            yield r.leave(false);
         }
-        catch (error) {
-            logger_1.logger.warn("Room already closed");
+        dispatch((0, GameStore_1.leaveGame)());
+        navigate("/after");
+        if (room === null || room === void 0 ? void 0 : room.connection.isOpen) {
+            room.leave();
         }
     }), [client, dispatch, room]);
+    (0, react_1.useEffect)(() => {
+        window.history.pushState(null, "", window.location.href);
+        const confirmLeave = () => {
+            if (confirm("Do you want to leave game ?")) {
+                leave();
+            }
+            else {
+                window.history.pushState(null, "", window.location.href);
+            }
+        };
+        window.addEventListener("popstate", confirmLeave);
+        return () => {
+            window.removeEventListener("popstate", confirmLeave);
+        };
+    }, []);
     (0, react_1.useEffect)(() => {
         const connect = () => {
             logger_1.logger.debug("connecting to game");
@@ -316,7 +362,7 @@ function Game() {
                 dispatch((0, GameStore_1.setNoELO)(value));
             });
             room.state.additionalPokemons.onAdd(() => {
-                dispatch((0, GameStore_1.setAdditionalPokemons)(room.state.additionalPokemons.map(p => p)));
+                dispatch((0, GameStore_1.setAdditionalPokemons)([...room.state.additionalPokemons]));
             });
             room.state.simulations.onRemove(() => {
                 gameContainer.resetSimulation();
@@ -395,9 +441,19 @@ function Game() {
                         setFinalRankVisible(true);
                     }
                 });
-                player.listen("experienceManager", (value) => {
+                player.listen("experienceManager", (experienceManager) => {
                     if (player.id === uid) {
-                        dispatch((0, GameStore_1.setExperienceManager)(value));
+                        dispatch((0, GameStore_1.updateExperienceManager)(experienceManager));
+                        const fields = [
+                            "experience",
+                            "expNeeded",
+                            "level"
+                        ];
+                        fields.forEach((field) => {
+                            experienceManager.listen(field, (value) => {
+                                dispatch((0, GameStore_1.updateExperienceManager)(Object.assign(Object.assign({}, experienceManager), { [field]: value })));
+                            });
+                        });
                     }
                 });
                 player.listen("loadingProgress", (value) => {
@@ -501,12 +557,6 @@ function Game() {
         connectToGame,
         leave
     ]);
-    if (toAuth) {
-        return (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/" });
-    }
-    if (toAfter) {
-        return (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/after" });
-    }
     return ((0, jsx_runtime_1.jsxs)("main", { id: "game-wrapper", children: [loaded ? ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(main_sidebar_1.MainSidebar, { page: "game", leave: leave, leaveLabel: t("leave_game") }), (0, jsx_runtime_1.jsx)(game_final_rank_1.default, { rank: finalRank, hide: () => setFinalRankVisible(false), leave: leave, visible: finalRankVisible }), !spectate && (0, jsx_runtime_1.jsx)(game_shop_1.default, {}), (0, jsx_runtime_1.jsx)(game_stage_info_1.default, {}), (0, jsx_runtime_1.jsx)(game_players_1.default, { click: (id) => playerClick(id) }), (0, jsx_runtime_1.jsx)(game_synergies_1.default, {}), (0, jsx_runtime_1.jsx)(game_items_proposition_1.default, {}), (0, jsx_runtime_1.jsx)(game_pokemons_proposition_1.default, {}), (0, jsx_runtime_1.jsx)(game_dps_meter_1.default, {}), (0, jsx_runtime_1.jsx)(game_toasts_1.default, {})] })) : ((0, jsx_runtime_1.jsx)(game_loading_screen_1.default, { connectError: connectError })), (0, jsx_runtime_1.jsx)("div", { id: "game", ref: container })] }));
 }
 //# sourceMappingURL=game.js.map

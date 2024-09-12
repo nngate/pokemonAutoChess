@@ -98,15 +98,9 @@ export declare class OnPickBerryCommand extends Command<GameRoom, {
 }
 export declare class OnJoinCommand extends Command<GameRoom, {
     client: Client;
-    options: {
-        spectate?: boolean;
-    };
-    auth: any;
 }> {
-    execute({ client, options, auth }: {
+    execute({ client }: {
         client: any;
-        options: any;
-        auth: any;
     }): Promise<void>;
 }
 export declare class OnUpdateCommand extends Command<GameRoom, {

@@ -40,6 +40,7 @@ var Passive;
     Passive["MAGIKARP"] = "MAGIKARP";
     Passive["FEEBAS"] = "FEEBAS";
     Passive["GIRATINA"] = "GIRATINA";
+    Passive["MELOETTA"] = "MELOETTA";
     Passive["UNOWN"] = "UNOWN";
     Passive["GLIGAR"] = "GLIGAR";
     Passive["POISON_HEAL"] = "POISON_HEAL";
@@ -108,5 +109,8 @@ var Passive;
     Passive["POISON_PIN"] = "POISON_PIN";
     Passive["WISHIWASHI"] = "WISHIWASHI";
     Passive["PYUKUMUKU"] = "PYUKUMUKU";
+    Passive["LUVDISC"] = "LUVDISC";
+    Passive["MANTYKE"] = "MANTYKE";
+    Passive["MANTINE"] = "MANTINE";
 })(Passive || (exports.Passive = Passive = {}));
 //# sourceMappingURL=Passive.js.map

@@ -13,7 +13,7 @@ exports.afterSlice = (0, toolkit_1.createSlice)({
     initialState: initialState,
     reducers: {
         addPlayer: (state, action) => {
-            state.players.push(JSON.parse(JSON.stringify(action.payload)));
+            state.players.push(action.payload);
         },
         leaveAfter: () => initialState,
         setElligibilityToXP: (state, action) => {

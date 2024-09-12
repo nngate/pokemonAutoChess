@@ -13,4 +13,4 @@ export declare function transformAttackCoordinate(x: number, y: number, flip: bo
 export declare function transformMiniGameXCoordinate(x: number): number;
 export declare function transformMiniGameYCoordinate(y: number): number;
 export declare function getOrientation(x1: number, y1: number, x2: number, y2: number): Orientation;
-export declare function getPath(pokemon: IPokemonEntity | IPokemon): string;
+export declare function getPortraitPath(pokemon: IPokemonEntity | IPokemon): string;

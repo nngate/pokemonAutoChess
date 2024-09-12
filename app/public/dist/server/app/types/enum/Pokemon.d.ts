@@ -271,6 +271,8 @@ export declare enum Pkm {
     PRIMAL_GROUDON = "PRIMAL_GROUDON",
     MEOWTH = "MEOWTH",
     PERSIAN = "PERSIAN",
+    ALOLAN_MEOWTH = "ALOLAN_MEOWTH",
+    ALOLAN_PERSIAN = "ALOLAN_PERSIAN",
     DEINO = "DEINO",
     ZWEILOUS = "ZWEILOUS",
     HYDREIGON = "HYDREIGON",
@@ -378,6 +380,8 @@ export declare enum Pkm {
     ETERNATUS = "ETERNATUS",
     PONYTA = "PONYTA",
     RAPIDASH = "RAPIDASH",
+    GALARIAN_PONYTA = "GALARIAN_PONYTA",
+    GALARIAN_RAPIDASH = "GALARIAN_RAPIDASH",
     NINCADA = "NINCADA",
     NINJASK = "NINJASK",
     SHEDINJA = "SHEDINJA",
@@ -820,7 +824,17 @@ export declare enum Pkm {
     WISHIWASHI_SCHOOL = "WISHIWASHI_SCHOOL",
     PAWMI = "PAWMI",
     PAWMO = "PAWMO",
-    PAWMOT = "PAWMOT"
+    PAWMOT = "PAWMOT",
+    GOLDEEN = "GOLDEEN",
+    SEAKING = "SEAKING",
+    LUVDISC = "LUVDISC",
+    AUDINO = "AUDINO",
+    PETILIL = "PETILIL",
+    LILIGANT = "LILIGANT",
+    MANTYKE = "MANTYKE",
+    MANTINE = "MANTINE",
+    REMORAID = "REMORAID",
+    OCTILLERY = "OCTILLERY"
 }
 export declare const PkmIndex: {
     [key in Pkm]: string;
@@ -829,7 +843,7 @@ export declare const PkmFamily: {
     [key in Pkm]: Pkm;
 };
 export declare const PkmRegionalVariants: {
-    [key in Pkm]?: Pkm[];
+    [key in Pkm]?: readonly Pkm[];
 };
 export declare enum PkmDuo {
     LATIOS_LATIAS = "LATIOS_LATIAS",

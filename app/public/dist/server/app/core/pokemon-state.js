@@ -13,9 +13,8 @@ const logger_1 = require("../utils/logger");
 const number_1 = require("../utils/number");
 const random_1 = require("../utils/random");
 class PokemonState {
-    attack(pokemon, board, coordinates) {
-        const target = board.getValue(coordinates.x, coordinates.y);
-        if (target) {
+    attack(pokemon, board, target) {
+        if (target.life > 0) {
             let damage = pokemon.atk;
             let physicalDamage = 0;
             let specialDamage = 0;
@@ -234,10 +233,13 @@ class PokemonState {
             logger_1.logger.trace(`NaN Damage from ${attacker ? attacker.name : "Environment"}`);
             return { death: false, takenDamage: 0 };
         }
+        if (pokemon.life <= 0 || pokemon.status.resurecting) {
+            return { death: false, takenDamage: 0 };
+        }
         if (attacker && attacker.status.enraged) {
             damage *= 2;
         }
-        if (pokemon.life == 0) {
+        if (pokemon.life === 0) {
             death = true;
         }
         else if (pokemon.status.protect || pokemon.status.skydiving) {
@@ -511,7 +513,7 @@ class PokemonState {
                 if (pokemon.items.has(Item_1.Item.BIG_NUGGET) &&
                     pokemon.count.growGroundCount === 5 &&
                     player) {
-                    player.money += 3;
+                    player.addMoney(3);
                     pokemon.count.moneyCount += 3;
                 }
             }

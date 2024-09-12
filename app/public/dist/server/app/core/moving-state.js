@@ -11,6 +11,7 @@ const Synergy_1 = require("../types/enum/Synergy");
 const distance_1 = require("../utils/distance");
 const pokemon_entity_1 = require("./pokemon-entity");
 const pokemon_state_1 = __importDefault(require("./pokemon-state"));
+const pathfind_1 = require("../utils/pathfind");
 class MovingState extends pokemon_state_1.default {
     update(pokemon, dt, board, weather, player) {
         super.update(pokemon, dt, board, weather, player);
@@ -75,15 +76,16 @@ class MovingState extends pokemon_state_1.default {
             }
         }
         else {
-            const cells = board.getAdjacentCells(pokemon.positionX, pokemon.positionY);
+            const cells = board.getOuterRangeCells(coordinates.x, coordinates.y, pokemon.range);
             let distance = 999;
             cells.forEach((cell) => {
                 if (cell.value === undefined) {
-                    const candidateDistance = (0, distance_1.distanceC)(coordinates.x, coordinates.y, cell.x, cell.y);
-                    if (candidateDistance < distance) {
-                        distance = candidateDistance;
-                        x = cell.x;
-                        y = cell.y;
+                    const candidateDistance = (0, pathfind_1.findPath)(board, [pokemon.positionX, pokemon.positionY], [cell.x, cell.y]);
+                    if (candidateDistance.length < distance && candidateDistance.length !== 0) {
+                        distance = candidateDistance.length;
+                        const nextStep = candidateDistance[0];
+                        x = nextStep[0];
+                        y = nextStep[1];
                     }
                 }
             });

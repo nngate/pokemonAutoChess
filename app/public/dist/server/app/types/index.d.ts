@@ -6,7 +6,6 @@ import Count from "../models/colyseus-models/count";
 import ExperienceManager from "../models/colyseus-models/experience-manager";
 import { IPokemonRecord } from "../models/colyseus-models/game-record";
 import HistoryItem from "../models/colyseus-models/history-item";
-import LobbyUser from "../models/colyseus-models/lobby-user";
 import Message from "../models/colyseus-models/message";
 import Player from "../models/colyseus-models/player";
 import { Pokemon } from "../models/colyseus-models/pokemon";
@@ -53,13 +52,10 @@ export declare enum Transfer {
     REMOVE_FROM_SHOP = "REMOVE_FROM_SHOP",
     CHANGE_SELECTED_EMOTION = "CHANGE_SELECTED_EMOTION",
     NEW_MESSAGE = "NEW_MESSAGE",
-    BOT_CREATION = "BOT_CREATION",
-    SEARCH = "SEARH",
+    SEARCH = "SEARCH",
     CHANGE_NAME = "CHANGE_NAME",
     CHANGE_AVATAR = "CHANGE_AVATAR",
-    REQUEST_BOT_DATA = "REQUEST_BOT_DATA",
     REQUEST_BOT_MONITOR = "REQUEST_BOT_MONITOR",
-    REQUEST_BOT_LIST = "REQUEST_BOT_LIST",
     OPEN_BOOSTER = "OPEN_BOOSTER",
     BUY_BOOSTER = "BUY_BOOSTER",
     ADD_BOT = "ADD_BOT",
@@ -79,7 +75,6 @@ export declare enum Transfer {
     CHANGE_ROOM_PASSWORD = "CHANGE_ROOM_PASSWORD",
     BUY_EMOTION = "BUY_EMOTION",
     BOOSTER_CONTENT = "BOOSTER_CONTENT",
-    PASTEBIN_URL = "PASTEBIN_URL",
     USER = "USER",
     DRAG_DROP_FAILED = "DRAG_DROP_FAILED",
     SHOW_EMOTE = "SHOW_EMOTE",
@@ -124,7 +119,8 @@ export declare enum Transfer {
     USER_PROFILE = "USER_PROFILE",
     PICK_BERRY = "PICK_BERRY",
     PRELOAD_MAPS = "PRELOAD_MAPS",
-    NPC_DIALOG = "NPC_DIALOG"
+    NPC_DIALOG = "NPC_DIALOG",
+    HEAP_SNAPSHOT = "HEAP_SNAPSHOT"
 }
 export declare enum AttackSprite {
     BUG_MELEE = "BUG/melee",
@@ -163,10 +159,6 @@ export declare enum AttackSprite {
 export declare const AttackSpriteScale: {
     [sprite in AttackSprite]: [number, number];
 };
-export declare enum ModalMode {
-    EXPORT = "EXPORT",
-    IMPORT = "IMPORT"
-}
 export declare enum ReadWriteMode {
     WRITE = "WRITE",
     ERASE = "ERASE"
@@ -206,7 +198,6 @@ export interface IDragDropCombineMessage {
 export interface ICustomLobbyState extends Schema {
     ccu: number;
     messages: ArraySchema<Message>;
-    users: MapSchema<LobbyUser>;
     leaderboard: ILeaderboardInfo[];
     botLeaderboard: ILeaderboardInfo[];
     levelLeaderboard: ILeaderboardInfo[];
@@ -237,6 +228,11 @@ export interface ISimplePlayer {
         name: Synergy;
         value: number;
     }>;
+}
+export interface IAfterGamePlayer extends ISimplePlayer {
+    moneyEarned: number;
+    playerDamageDealt: number;
+    rerollCount: number;
 }
 export interface IGameHistorySimplePlayer extends ISimplePlayer {
     pokemons: IGameHistoryPokemonRecord[];
@@ -365,6 +361,12 @@ export interface ISimulation {
     bluePlayerId: string;
     redPlayerId: string;
 }
+export interface ISimulationCommand {
+    delay: number;
+    executed: boolean;
+    update(dt: number): void;
+    execute(): void;
+}
 export interface IDps {
     update(physicalDamage: number, specialDamage: number, trueDamage: number, physicalDamageReduced: number, specialDamageReduced: number, shieldDamageTaken: number, heal: number, shield: number): any;
     id: string;
@@ -443,6 +445,7 @@ export interface IPokemonEntity {
     emotion: Emotion;
     baseAtk: number;
     isClone: boolean;
+    commands: ISimulationCommand[];
 }
 export interface IStatus {
     magmaStorm: boolean;

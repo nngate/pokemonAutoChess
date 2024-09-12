@@ -2,7 +2,6 @@ import { Command } from "@colyseus/command";
 import { Client } from "colyseus";
 import { IGameUser } from "../../models/colyseus-models/game-user";
 import { IBot } from "../../models/mongo-models/bot-v2";
-import { IUserMetadata } from "../../models/mongo-models/user-metadata";
 import { BotDifficulty } from "../../types/enum/Game";
 import PreparationRoom from "../preparation-room";
 export declare class OnJoinCommand extends Command<PreparationRoom, {
@@ -124,10 +123,5 @@ export declare class OnRemoveBotCommand extends Command<PreparationRoom, {
         target: any;
         user: any;
     }): void;
-}
-export declare class OnListBotsCommand extends Command<PreparationRoom> {
-    execute(data: {
-        user: IUserMetadata;
-    }): Promise<void>;
 }
 export {};

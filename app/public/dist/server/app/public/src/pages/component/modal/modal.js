@@ -37,7 +37,7 @@ function Modal(props) {
                     event.clientY <= rect.top + rect.height &&
                     rect.left <= event.clientX &&
                     event.clientX <= rect.left + rect.width) ||
-                    event.target.tagName === "OPTION";
+                    ["OPTION", "SELECT"].includes(event.target.tagName);
                 if (!isInDialog) {
                     close();
                 }

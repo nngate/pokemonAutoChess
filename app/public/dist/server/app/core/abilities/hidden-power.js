@@ -128,7 +128,7 @@ class HiddenPowerGStrategy extends HiddenPowerStrategy {
     process(unown, state, board, target, crit) {
         super.process(unown, state, board, target, crit);
         if (unown.player) {
-            unown.player.money += 5;
+            unown.player.addMoney(5);
         }
     }
 }

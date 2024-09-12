@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConditionBasedEvolutionRule = exports.HatchEvolutionRule = exports.ItemEvolutionRule = exports.CountEvolutionRule = exports.EvolutionRule = void 0;
+const pokemon_1 = require("../models/colyseus-models/pokemon");
 const pokemon_factory_1 = __importDefault(require("../models/pokemon-factory"));
 const Config_1 = require("../types/Config");
 const Game_1 = require("../types/enum/Game");
 const Item_1 = require("../types/enum/Item");
 const Passive_1 = require("../types/enum/Passive");
 const Pokemon_1 = require("../types/enum/Pokemon");
+const array_1 = require("../utils/array");
 const logger_1 = require("../utils/logger");
 const random_1 = require("../utils/random");
 const schemas_1 = require("../utils/schemas");
@@ -96,6 +98,13 @@ class CountEvolutionRule extends EvolutionRule {
             }
         });
         const pokemonEvolved = pokemon_factory_1.default.createPokemonFromName(pokemonEvolutionName, player);
+        const permanentBuffStats = ["hp", "atk", "def", "speDef"];
+        for (const stat of permanentBuffStats) {
+            const statStacked = (0, array_1.sum)(pokemonsBeforeEvolution.map((p) => p[stat] - new pokemon_1.PokemonClasses[p.name]()[stat]));
+            if (statStacked > 0) {
+                pokemonEvolved[stat] += statStacked;
+            }
+        }
         if (pokemon.onEvolve) {
             pokemon.onEvolve({ pokemonEvolved, pokemonsBeforeEvolution, player });
         }

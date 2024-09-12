@@ -74,7 +74,9 @@ function WikiAllPokemons() {
                 return +a.regional - +b.regional;
             if (a.additional !== b.additional)
                 return +a.additional - +b.additional;
-            return a.index < b.index ? -1 : 1;
+            return Pokemon_1.PkmFamily[a.name] === Pokemon_1.PkmFamily[b.name]
+                ? a.stars - b.stars
+                : Pokemon_1.PkmIndex[Pokemon_1.PkmFamily[a.name]].localeCompare(Pokemon_1.PkmIndex[Pokemon_1.PkmFamily[b.name]]);
         });
     }
     const [hoveredPokemon, setHoveredPokemon] = (0, react_1.useState)();

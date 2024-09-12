@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AttackCommand = exports.AbilityCommand = exports.SimulationCommand = void 0;
+exports.AttackCommand = exports.DelayedCommand = exports.SimulationCommand = void 0;
 const types_1 = require("../types");
 const Effect_1 = require("../types/enum/Effect");
 const Game_1 = require("../types/enum/Game");
@@ -19,7 +19,7 @@ class SimulationCommand {
     }
 }
 exports.SimulationCommand = SimulationCommand;
-class AbilityCommand extends SimulationCommand {
+class DelayedCommand extends SimulationCommand {
     constructor(delayedFunction, delay) {
         super(delay);
         this.delayedFunction = delayedFunction;
@@ -29,16 +29,16 @@ class AbilityCommand extends SimulationCommand {
         this.delayedFunction();
     }
 }
-exports.AbilityCommand = AbilityCommand;
+exports.DelayedCommand = DelayedCommand;
 class AttackCommand extends SimulationCommand {
-    constructor(delay, pokemon, board, targetCoordinate) {
+    constructor(delay, pokemon, target, board) {
         super(delay);
         this.pokemon = pokemon;
         this.board = board;
-        this.targetCoordinate = targetCoordinate;
+        this.target = target;
     }
     execute() {
-        this.pokemon.state.attack(this.pokemon, this.board, this.targetCoordinate);
+        this.pokemon.state.attack(this.pokemon, this.board, this.target);
         if (this.pokemon.effects.has(Effect_1.Effect.RISING_VOLTAGE) ||
             this.pokemon.effects.has(Effect_1.Effect.OVERDRIVE) ||
             this.pokemon.effects.has(Effect_1.Effect.POWER_SURGE)) {
@@ -55,11 +55,11 @@ class AttackCommand extends SimulationCommand {
             }
             if (isTripleAttack) {
                 this.pokemon.count.tripleAttackCount++;
-                this.pokemon.state.attack(this.pokemon, this.board, this.targetCoordinate);
-                this.pokemon.state.attack(this.pokemon, this.board, this.targetCoordinate);
+                this.pokemon.state.attack(this.pokemon, this.board, this.target);
+                this.pokemon.state.attack(this.pokemon, this.board, this.target);
                 if (isPowerSurge) {
                     this.board
-                        .getAdjacentCells(this.targetCoordinate.x, this.targetCoordinate.y)
+                        .getAdjacentCells(this.target.positionX, this.target.positionY)
                         .forEach((cell) => {
                         if (cell) {
                             const enemy = this.board.getValue(cell.x, cell.y);
@@ -68,8 +68,8 @@ class AttackCommand extends SimulationCommand {
                                 this.pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                                     id: this.pokemon.simulation.id,
                                     skill: "LINK_CABLE_link",
-                                    positionX: this.targetCoordinate.x,
-                                    positionY: this.targetCoordinate.y,
+                                    positionX: this.target.positionX,
+                                    positionY: this.target.positionY,
                                     targetX: enemy.positionX,
                                     targetY: enemy.positionY
                                 });

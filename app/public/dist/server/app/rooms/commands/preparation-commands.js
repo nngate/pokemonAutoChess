@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OnListBotsCommand = exports.OnRemoveBotCommand = exports.OnAddBotCommand = exports.InitializeBotsCommand = exports.OnToggleReadyCommand = exports.OnLeaveCommand = exports.OnDeleteRoomCommand = exports.OnKickPlayerCommand = exports.OnToggleEloCommand = exports.OnRoomPasswordCommand = exports.OnRoomNameCommand = exports.RemoveMessageCommand = exports.OnNewMessageCommand = exports.OnGameStartRequestCommand = exports.OnJoinCommand = void 0;
+exports.OnRemoveBotCommand = exports.OnAddBotCommand = exports.InitializeBotsCommand = exports.OnToggleReadyCommand = exports.OnLeaveCommand = exports.OnDeleteRoomCommand = exports.OnKickPlayerCommand = exports.OnToggleEloCommand = exports.OnRoomPasswordCommand = exports.OnRoomNameCommand = exports.RemoveMessageCommand = exports.OnNewMessageCommand = exports.OnGameStartRequestCommand = exports.OnJoinCommand = void 0;
 const node_process_1 = require("node:process");
 const command_1 = require("@colyseus/command");
 const colyseus_1 = require("colyseus");
@@ -27,14 +27,14 @@ const number_1 = require("../../utils/number");
 const profanity_filter_1 = require("../../utils/profanity-filter");
 const random_1 = require("../../utils/random");
 const schemas_1 = require("../../utils/schemas");
+const CloseCodes_1 = require("../../types/enum/CloseCodes");
 class OnJoinCommand extends command_1.Command {
     execute(_a) {
         return __awaiter(this, arguments, void 0, function* ({ client, options, auth }) {
             try {
                 const numberOfHumanPlayers = (0, schemas_1.values)(this.state.users).filter((u) => !u.isBot).length;
                 if (numberOfHumanPlayers >= Config_1.MAX_PLAYERS_PER_GAME) {
-                    client.send(types_1.Transfer.KICK);
-                    client.leave();
+                    client.leave(CloseCodes_1.CloseCodes.ROOM_FULL);
                     return;
                 }
                 if (this.state.ownerId == "" && this.state.gameMode === Game_1.GameMode.NORMAL) {
@@ -52,15 +52,13 @@ class OnJoinCommand extends command_1.Command {
                     const u = yield user_metadata_1.default.findOne({ uid: auth.uid });
                     const numberOfHumanPlayers = (0, schemas_1.values)(this.state.users).filter((u) => !u.isBot).length;
                     if (numberOfHumanPlayers >= Config_1.MAX_PLAYERS_PER_GAME) {
-                        client.send(types_1.Transfer.KICK);
-                        client.leave();
+                        client.leave(CloseCodes_1.CloseCodes.ROOM_FULL);
                         return;
                     }
                     if (u) {
                         if (this.state.minRank != null &&
                             u.elo < Config_1.EloRankThreshold[this.state.minRank]) {
-                            client.send(types_1.Transfer.KICK);
-                            client.leave();
+                            client.leave(CloseCodes_1.CloseCodes.USER_RANK_TOO_LOW);
                             return;
                         }
                         this.state.users.set(client.auth.uid, new game_user_1.GameUser(u.uid, u.displayName, u.elo, u.avatar, false, false, u.title, u.role, auth.email === undefined && auth.photoURL === undefined));
@@ -76,8 +74,7 @@ class OnJoinCommand extends command_1.Command {
                                 if (this.state.users.has(u.uid) &&
                                     !this.state.users.get(u.uid).ready) {
                                     this.state.users.delete(u.uid);
-                                    client.send(types_1.Transfer.KICK);
-                                    client.leave();
+                                    client.leave(CloseCodes_1.CloseCodes.USER_KICKED);
                                 }
                             }, 10000);
                         }
@@ -217,7 +214,7 @@ class OnNewMessageCommand extends command_1.Command {
             if (user && !user.anonymous && message != "") {
                 this.state.addMessage({
                     author: user.name,
-                    authorId: user.id,
+                    authorId: user.uid,
                     avatar: user.avatar,
                     payload: message
                 });
@@ -323,8 +320,7 @@ class OnKickPlayerCommand extends command_1.Command {
                             this.room.setMetadata({
                                 blacklist: this.room.metadata.blacklist.concat(userId)
                             });
-                            cli.send(types_1.Transfer.KICK);
-                            cli.leave();
+                            cli.leave(CloseCodes_1.CloseCodes.USER_KICKED);
                         }
                         else {
                             this.room.state.addMessage({
@@ -351,12 +347,7 @@ class OnDeleteRoomCommand extends command_1.Command {
             const user = this.state.users.get((_a = client.auth) === null || _a === void 0 ? void 0 : _a.uid);
             if (user && [types_1.Role.ADMIN, types_1.Role.MODERATOR].includes(user.role)) {
                 this.room.clients.forEach((cli) => {
-                    cli.send(types_1.Transfer.KICK);
-                    cli.leave();
-                });
-                this.room.clients.forEach((cli) => {
-                    cli.send(types_1.Transfer.KICK);
-                    cli.leave();
+                    cli.leave(CloseCodes_1.CloseCodes.ROOM_DELETED);
                 });
                 this.room.disconnect();
             }
@@ -381,9 +372,9 @@ class OnLeaveCommand extends command_1.Command {
                     });
                     this.state.users.delete(client.auth.uid);
                     if (client.auth.uid === this.state.ownerId) {
-                        const newOwner = (0, schemas_1.values)(this.state.users).find((user) => user.id !== this.state.ownerId && !user.isBot);
+                        const newOwner = (0, schemas_1.values)(this.state.users).find((user) => user.uid !== this.state.ownerId && !user.isBot);
                         if (newOwner) {
-                            this.state.ownerId = newOwner.id;
+                            this.state.ownerId = newOwner.uid;
                             this.state.ownerName = newOwner.name;
                             this.room.setMetadata({ ownerName: this.state.ownerName });
                             this.room.setName(`${newOwner.name}'${newOwner.name.endsWith("s") ? "" : "s"} room`);
@@ -563,45 +554,4 @@ class OnRemoveBotCommand extends command_1.Command {
     }
 }
 exports.OnRemoveBotCommand = OnRemoveBotCommand;
-class OnListBotsCommand extends command_1.Command {
-    execute(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (this.state.users.size >= Config_1.MAX_PLAYERS_PER_GAME) {
-                    return;
-                }
-                const userArray = new Array();
-                this.state.users.forEach((value, key) => {
-                    if (value.isBot) {
-                        userArray.push(key);
-                    }
-                });
-                const bots = yield bot_v2_1.BotV2.find({ id: { $nin: userArray } }, [
-                    "avatar",
-                    "elo",
-                    "name",
-                    "id"
-                ]);
-                if (bots) {
-                    if (bots.length <= 0) {
-                        this.room.state.addMessage({
-                            authorId: "server",
-                            payload: `Error: No bots found !`
-                        });
-                    }
-                    this.room.clients.forEach((client) => {
-                        var _a;
-                        if (((_a = client.auth) === null || _a === void 0 ? void 0 : _a.uid) === this.state.ownerId) {
-                            client.send(types_1.Transfer.REQUEST_BOT_LIST, bots);
-                        }
-                    });
-                }
-            }
-            catch (error) {
-                logger_1.logger.error(error);
-            }
-        });
-    }
-}
-exports.OnListBotsCommand = OnListBotsCommand;
 //# sourceMappingURL=preparation-commands.js.map

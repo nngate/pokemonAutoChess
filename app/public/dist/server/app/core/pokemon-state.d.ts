@@ -5,10 +5,7 @@ import { Weather } from "../types/enum/Weather";
 import Board, { Cell } from "./board";
 import { PokemonEntity } from "./pokemon-entity";
 export default class PokemonState {
-    attack(pokemon: PokemonEntity, board: Board, coordinates: {
-        x: number;
-        y: number;
-    }): void;
+    attack(pokemon: PokemonEntity, board: Board, target: PokemonEntity): void;
     handleHeal(pokemon: IPokemonEntity, heal: number, caster: IPokemonEntity, apBoost: number, crit: boolean): void;
     addShield(pokemon: IPokemonEntity, shield: number, caster: IPokemonEntity, apBoost: number, crit: boolean): void;
     handleDamage({ target: pokemon, damage, board, attackType, attacker, shouldTargetGainMana }: {

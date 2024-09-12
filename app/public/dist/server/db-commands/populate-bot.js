@@ -15,23 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = require("mongoose");
 const nanoid_1 = require("nanoid");
-const api_1 = require("pastebin-ts/dist/api");
 const bot_v2_1 = require("../app/models/mongo-models/bot-v2");
+const pastebin_1 = require("../app/services/pastebin");
 const logger_1 = require("../app/utils/logger");
 const args = process.argv.slice(2);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         dotenv_1.default.config();
-        const pastebin = new api_1.PastebinAPI({
-            api_dev_key: process.env.PASTEBIN_API_DEV_KEY,
-            api_user_name: process.env.PASTEBIN_API_USERNAME,
-            api_user_password: process.env.PASTEBIN_API_PASSWORD
-        });
         const url = args[0];
         const id = url.slice(21);
         logger_1.logger.debug(`retrieving id : ${id} ...`);
         logger_1.logger.debug("retrieving data ...");
-        const data = yield pastebin.getPaste(id, false);
+        const data = yield pastebin_1.pastebinService.getPaste(id, false);
+        if (data == null) {
+            logger_1.logger.error("No data found for this pastebin url");
+            return;
+        }
         logger_1.logger.debug("parsing JSON data ...");
         try {
             const json = JSON.parse(data);

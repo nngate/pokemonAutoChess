@@ -304,6 +304,15 @@ class OnDragDropItemCommand extends command_1.Command {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
+        if (item === Item_1.Item.FIRE_SHARD) {
+            if (pokemon.types.has(Synergy_1.Synergy.FIRE)) {
+                pokemon.atk += 2;
+                player.life = (0, number_1.min)(1)(player.life - 2);
+                (0, array_1.removeInArray)(player.items, item);
+            }
+            client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
+            return;
+        }
         if (item === Item_1.Item.OLD_ROD ||
             item === Item_1.Item.GOOD_ROD ||
             item === Item_1.Item.SUPER_ROD) {
@@ -420,7 +429,8 @@ class OnSellDropCommand extends command_1.Command {
             }
             if (pokemon) {
                 this.state.shop.releasePokemon(pokemon.name, player);
-                player.money += (0, shop_1.getSellPrice)(pokemon.name, pokemon.shiny, this.state.specialGameRule);
+                const sellPrice = (0, shop_1.getSellPrice)(pokemon.name, pokemon.shiny, this.state.specialGameRule);
+                player.addMoney(sellPrice);
                 pokemon.items.forEach((it) => {
                     player.items.push(it);
                 });
@@ -487,13 +497,10 @@ class OnPickBerryCommand extends command_1.Command {
 exports.OnPickBerryCommand = OnPickBerryCommand;
 class OnJoinCommand extends command_1.Command {
     execute(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ client, options, auth }) {
+        return __awaiter(this, arguments, void 0, function* ({ client }) {
             try {
                 const players = (0, schemas_1.values)(this.state.players);
-                if (options.spectate === true) {
-                    this.state.spectators.add(client.auth.uid);
-                }
-                else if (players.some((p) => p.id === auth.uid)) {
+                if (players.some((p) => p.id === client.auth.uid)) {
                     if (this.state.players.size >= Config_1.MAX_PLAYERS_PER_GAME) {
                         const humanPlayers = players.filter((p) => !p.isBot);
                         if (humanPlayers.length === 1) {
@@ -502,10 +509,7 @@ class OnJoinCommand extends command_1.Command {
                     }
                 }
                 else {
-                    logger_1.logger.warn(`player not in this game players list tried to join game`, {
-                        userId: client.auth.uid,
-                        roomId: this.room.roomId
-                    });
+                    this.state.spectators.add(client.auth.uid);
                 }
             }
             catch (error) {
@@ -754,7 +758,7 @@ class OnUpdatePhaseCommand extends command_1.Command {
                 income += player.interest;
                 income += (0, number_1.max)(5)(player.streak);
                 income += 5;
-                player.money += income;
+                player.addMoney(income);
                 if (income > 0) {
                     const client = this.room.clients.find((cli) => cli.auth.uid === player.id);
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, income);
@@ -804,12 +808,19 @@ class OnUpdatePhaseCommand extends command_1.Command {
                     : this.room.additionalEpicPool;
             let remainingAddPicks = 8;
             this.state.players.forEach((player) => {
+                var _a;
                 if (!player.isBot) {
                     const items = (0, random_1.pickNRandomIn)(Item_1.ItemComponents, 3);
                     for (let i = 0; i < 3; i++) {
                         const p = pool.pop();
                         if (p) {
-                            player.pokemonsProposition.push(p);
+                            const regionalVariants = ((_a = Pokemon_1.PkmRegionalVariants[p]) !== null && _a !== void 0 ? _a : []).filter((pkm) => pokemon_1.PokemonClasses[pkm].prototype.isInRegion(pkm, player.map));
+                            if (regionalVariants.length > 0) {
+                                player.pokemonsProposition.push((0, random_1.pickRandomIn)(regionalVariants));
+                            }
+                            else {
+                                player.pokemonsProposition.push(p);
+                            }
                             player.itemsProposition.push(items[i]);
                         }
                     }
@@ -827,13 +838,20 @@ class OnUpdatePhaseCommand extends command_1.Command {
         const isAfterPVE = this.state.stageLevel - 1 in pve_stages_1.PVEStages;
         const commands = new Array();
         this.state.players.forEach((player) => {
-            var _a;
+            var _a, _b;
+            const fireLevel = (_a = player.synergies.get(Synergy_1.Synergy.FIRE)) !== null && _a !== void 0 ? _a : 0;
+            const fireSynergLevel = Config_1.SynergyTriggers[Synergy_1.Synergy.FIRE].filter((n) => n <= fireLevel).length;
+            if (fireSynergLevel === 4 &&
+                player.items.includes(Item_1.Item.FIRE_SHARD) === false &&
+                player.life > 2) {
+                player.items.push(Item_1.Item.FIRE_SHARD);
+            }
             const bestRod = Item_1.FishingRods.find((rod) => player.items.includes(rod));
             if (bestRod && (0, board_1.getFreeSpaceOnBench)(player.board) > 0 && !isAfterPVE) {
                 const fish = this.state.shop.pickFish(player, bestRod);
                 this.room.spawnOnBench(player, fish, "fishing");
             }
-            const grassLevel = (_a = player.synergies.get(Synergy_1.Synergy.GRASS)) !== null && _a !== void 0 ? _a : 0;
+            const grassLevel = (_b = player.synergies.get(Synergy_1.Synergy.GRASS)) !== null && _b !== void 0 ? _b : 0;
             const nbTrees = Config_1.SynergyTriggers[Synergy_1.Synergy.GRASS].filter((n) => n <= grassLevel).length;
             for (let i = 0; i < nbTrees; i++) {
                 player.berryTreesStage[i] = (0, number_1.max)(3)(player.berryTreesStage[i] + 1);

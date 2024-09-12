@@ -31,7 +31,7 @@ export default class GameRoom extends Room<GameState> {
     }): Promise<void>;
     startGame(): void;
     onAuth(client: Client, options: any, request: any): Promise<import("firebase-admin/lib/auth/user-record").UserRecord | undefined>;
-    onJoin(client: Client, options: any, auth: any): void;
+    onJoin(client: Client): Promise<void>;
     onLeave(client: Client, consented: boolean): Promise<void>;
     onDispose(): Promise<void>;
     transformToSimplePlayer(player: Player): IGameHistorySimplePlayer;

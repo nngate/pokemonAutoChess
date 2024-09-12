@@ -19,7 +19,6 @@ const elo_1 = require("../core/elo");
 const evolution_rules_1 = require("../core/evolution-rules");
 const mini_game_1 = require("../core/matter/mini-game");
 const player_1 = __importDefault(require("../models/colyseus-models/player"));
-const pokemon_1 = require("../models/colyseus-models/pokemon");
 const banned_user_1 = __importDefault(require("../models/mongo-models/banned-user"));
 const bot_v2_1 = require("../models/mongo-models/bot-v2");
 const detailled_statistic_v2_1 = __importDefault(require("../models/mongo-models/detailled-statistic-v2"));
@@ -33,6 +32,7 @@ const utils_1 = require("../public/src/utils");
 const types_1 = require("../types");
 const Config_1 = require("../types/Config");
 const Game_1 = require("../types/enum/Game");
+const Item_1 = require("../types/enum/Item");
 const Pokemon_1 = require("../types/enum/Pokemon");
 const SpecialGameRule_1 = require("../types/enum/SpecialGameRule");
 const array_1 = require("../utils/array");
@@ -81,8 +81,8 @@ class GameRoom extends colyseus_1.Room {
             yield Promise.all(Object.keys(options.users).map((id) => __awaiter(this, void 0, void 0, function* () {
                 const user = options.users[id];
                 if (user.isBot) {
-                    const player = new player_1.default(user.id, user.name, user.elo, user.avatar, true, this.state.players.size + 1, new Map(), "", types_1.Role.BOT, this.state);
-                    this.state.players.set(user.id, player);
+                    const player = new player_1.default(user.uid, user.name, user.elo, user.avatar, true, this.state.players.size + 1, new Map(), "", types_1.Role.BOT, this.state);
+                    this.state.players.set(user.uid, player);
                     this.state.botManager.addBot(player);
                 }
                 else {
@@ -383,26 +383,27 @@ class GameRoom extends colyseus_1.Room {
                 _super.onAuth.call(this, client, options, request);
                 const token = yield firebase_admin_1.default.auth().verifyIdToken(options.idToken);
                 const user = yield firebase_admin_1.default.auth().getUser(token.uid);
-                const isBanned = yield banned_user_1.default.findOne({ uid: user.uid });
-                const userProfile = yield user_metadata_1.default.findOne({ uid: user.uid });
-                client.send(types_1.Transfer.USER_PROFILE, userProfile);
                 if (!user.displayName) {
-                    throw "No display name";
+                    logger_1.logger.error("No display name for this account", user.uid);
+                    throw new Error("No display name for this account. Please report this error.");
                 }
-                else if (isBanned) {
-                    throw "User banned";
-                }
-                else {
-                    return user;
-                }
+                return user;
             }
             catch (error) {
                 logger_1.logger.error(error);
             }
         });
     }
-    onJoin(client, options, auth) {
-        this.dispatcher.dispatch(new game_commands_1.OnJoinCommand(), { client, options, auth });
+    onJoin(client) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const isBanned = yield banned_user_1.default.findOne({ uid: client.auth.uid });
+            if (isBanned) {
+                throw "Account banned";
+            }
+            const userProfile = yield user_metadata_1.default.findOne({ uid: client.auth.uid });
+            client.send(types_1.Transfer.USER_PROFILE, userProfile);
+            this.dispatcher.dispatch(new game_commands_1.OnJoinCommand(), { client });
+        });
     }
     onLeave(client, consented) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -411,6 +412,9 @@ class GameRoom extends colyseus_1.Room {
                     throw new Error("consented leave");
                 }
                 yield this.allowReconnection(client, 180);
+                const userProfile = yield user_metadata_1.default.findOne({ uid: client.auth.uid });
+                client.send(types_1.Transfer.USER_PROFILE, userProfile);
+                this.dispatcher.dispatch(new game_commands_1.OnJoinCommand(), { client });
             }
             catch (e) {
                 if (client && client.auth && client.auth.displayName) {
@@ -680,6 +684,11 @@ class GameRoom extends colyseus_1.Room {
                 if (pokemonEvolved) {
                     hasEvolved = true;
                     this.checkEvolutionsAfterItemAcquired(playerId, pokemonEvolved);
+                    if (pokemonEvolved.items.has(Item_1.Item.RARE_CANDY) &&
+                        pokemonEvolved.evolution === Pokemon_1.Pkm.DEFAULT) {
+                        player.items.push(Item_1.Item.RARE_CANDY);
+                        pokemonEvolved.items.delete(Item_1.Item.RARE_CANDY);
+                    }
                 }
             }
         });
@@ -717,6 +726,7 @@ class GameRoom extends colyseus_1.Room {
         return size;
     }
     pickPokemonProposition(playerId, pkm, bypassLackOfSpace = false) {
+        var _a, _b;
         const player = this.state.players.get(playerId);
         if (!player || player.pokemonsProposition.length === 0)
             return;
@@ -735,15 +745,15 @@ class GameRoom extends colyseus_1.Room {
         const selectedIndex = player.pokemonsProposition.indexOf(pkm);
         player.pokemonsProposition.clear();
         if (Config_1.AdditionalPicksStages.includes(this.state.stageLevel)) {
-            this.state.additionalPokemons.push(pkm);
-            this.state.shop.addAdditionalPokemon(pkm);
-            if (pkm in Pokemon_1.PkmRegionalVariants) {
-                const variants = Pokemon_1.PkmRegionalVariants[pkm];
-                for (const variant of variants) {
-                    if (pokemon_1.PokemonClasses[variant].prototype.isInRegion(variant, player.map, this.state)) {
-                        player.regionalPokemons.push(variant);
-                    }
-                }
+            if ((_a = pokemonsObtained[0]) === null || _a === void 0 ? void 0 : _a.regional) {
+                const basePkm = ((_b = Object.keys(Pokemon_1.PkmRegionalVariants).find((p) => Pokemon_1.PkmRegionalVariants[p].includes(pokemonsObtained[0].name))) !== null && _b !== void 0 ? _b : pokemonsObtained[0].name);
+                this.state.additionalPokemons.push(basePkm);
+                this.state.shop.addAdditionalPokemon(basePkm);
+                player.regionalPokemons.push(pkm);
+            }
+            else {
+                this.state.additionalPokemons.push(pkm);
+                this.state.shop.addAdditionalPokemon(pkm);
             }
             if (player.itemsProposition.length > 0 &&
                 player.itemsProposition[selectedIndex] != null) {

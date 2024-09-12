@@ -52,6 +52,9 @@ export default class Player extends Schema implements IPlayer {
     map: DungeonPMDO;
     effects: Effects;
     regionalPokemons: ArraySchema<Pkm>;
+    rerollCount: number;
+    totalMoneyEarned: number;
+    totalPlayerDamageDealt: number;
     commonRegionalPool: Pkm[];
     uncommonRegionalPool: Pkm[];
     rareRegionalPool: Pkm[];
@@ -60,7 +63,6 @@ export default class Player extends Schema implements IPlayer {
     isBot: boolean;
     opponents: Map<string, number>;
     titles: Set<Title>;
-    rerollCount: number;
     artificialItems: Item[];
     weatherRocks: Item[];
     randomComponentsGiven: Item[];
@@ -71,6 +73,7 @@ export default class Player extends Schema implements IPlayer {
     wildChance: number;
     ghost: boolean;
     constructor(id: string, name: string, elo: number, avatar: string, isBot: boolean, rank: number, pokemonCollection: Map<string, IPokemonConfig>, title: Title | "", role: Role, state: GameState);
+    addMoney(value: number): void;
     addBattleResult(id: string, name: string, result: BattleResult, avatar: string, weather: Weather | undefined): void;
     getPokemonAt(x: number, y: number): Pokemon | undefined;
     transformPokemon(pokemon: Pokemon, newEntry: Pkm): Pokemon;

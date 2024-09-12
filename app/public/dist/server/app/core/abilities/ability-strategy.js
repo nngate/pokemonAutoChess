@@ -54,7 +54,7 @@ class AbilityStrategy {
             pokemon.addPP(20, pokemon, 0, false);
         }
         if (pokemon.items.has(Item_1.Item.STAR_DUST)) {
-            pokemon.addShield(Math.round(0.6 * pokemon.maxPP), pokemon, 0, false);
+            pokemon.addShield(Math.round(0.5 * pokemon.maxPP), pokemon, 0, false);
             pokemon.count.starDustCount++;
         }
         if (pokemon.items.has(Item_1.Item.LEPPA_BERRY)) {

@@ -31,15 +31,5 @@ export default class PreparationRoom extends Room<PreparationState> {
         gameId: string;
         preparationId: string;
     }): void;
-    status(): {
-        players: {
-            id?: string;
-            avatar?: string;
-            name?: string;
-            elo?: number;
-        }[];
-        name: string;
-        id: string;
-    };
     updatePlayersInfo(): void;
 }

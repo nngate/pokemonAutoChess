@@ -15,52 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = require("@colyseus/command");
 const colyseus_1 = require("colyseus");
 const cron_1 = require("cron");
-const discord_js_1 = require("discord.js");
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
-const api_1 = require("pastebin-ts/dist/api");
 const message_1 = __importDefault(require("../models/colyseus-models/message"));
 const tournament_1 = require("../models/colyseus-models/tournament");
 const banned_user_1 = __importDefault(require("../models/mongo-models/banned-user"));
 const chat_v2_1 = __importDefault(require("../models/mongo-models/chat-v2"));
 const tournament_2 = __importDefault(require("../models/mongo-models/tournament"));
 const user_metadata_1 = __importDefault(require("../models/mongo-models/user-metadata"));
-const bots_1 = require("../services/bots");
 const types_1 = require("../types");
 const Config_1 = require("../types/Config");
+const CloseCodes_1 = require("../types/enum/CloseCodes");
 const EloRank_1 = require("../types/enum/EloRank");
 const Game_1 = require("../types/enum/Game");
 const logger_1 = require("../utils/logger");
 const lobby_commands_1 = require("./commands/lobby-commands");
 const lobby_state_1 = __importDefault(require("./states/lobby-state"));
-const MAX_CCU = 700;
 class CustomLobbyRoom extends colyseus_1.Room {
     constructor() {
         super();
-        this.pastebin = undefined;
-        this.cleanUpCronJobs = [];
-        this.maxClients = 50;
-        if (process.env.PASTEBIN_API_DEV_KEY &&
-            process.env.PASTEBIN_API_USERNAME &&
-            process.env.PASTEBIN_API_DEV_KEY) {
-            this.pastebin = new api_1.PastebinAPI({
-                api_dev_key: process.env.PASTEBIN_API_DEV_KEY,
-                api_user_name: process.env.PASTEBIN_API_USERNAME,
-                api_user_password: process.env.PASTEBIN_API_PASSWORD
-            });
-        }
-        if (process.env.DISCORD_WEBHOOK_URL) {
-            this.discordWebhook = new discord_js_1.WebhookClient({
-                url: process.env.DISCORD_WEBHOOK_URL
-            });
-        }
-        if (process.env.DISCORD_BAN_WEBHOOK_URL) {
-            this.discordBanWebhook = new discord_js_1.WebhookClient({
-                url: process.env.DISCORD_BAN_WEBHOOK_URL
-            });
-        }
-        this.dispatcher = new command_1.Dispatcher(this);
         this.bots = new Map();
         this.tournamentCronJobs = new Map();
+        this.cleanUpCronJobs = [];
+        this.users = new Map();
+        this.dispatcher = new command_1.Dispatcher(this);
     }
     removeRoom(index, roomId) {
         var _a;
@@ -122,8 +99,8 @@ class CustomLobbyRoom extends colyseus_1.Room {
             this.onMessage(types_1.Transfer.DELETE_BOT_DATABASE, (client, message) => __awaiter(this, void 0, void 0, function* () {
                 this.dispatcher.dispatch(new lobby_commands_1.DeleteBotCommand(), { client, message });
             }));
-            this.onMessage(types_1.Transfer.ADD_BOT_DATABASE, (client, message) => __awaiter(this, void 0, void 0, function* () {
-                this.dispatcher.dispatch(new lobby_commands_1.AddBotCommand(), { client, message });
+            this.onMessage(types_1.Transfer.ADD_BOT_DATABASE, (client, url) => __awaiter(this, void 0, void 0, function* () {
+                this.dispatcher.dispatch(new lobby_commands_1.AddBotCommand(), { client, url });
             }));
             this.onMessage(types_1.Transfer.SELECT_LANGUAGE, (client, message) => __awaiter(this, void 0, void 0, function* () {
                 this.dispatcher.dispatch(new lobby_commands_1.SelectLanguageCommand(), {
@@ -183,31 +160,14 @@ class CustomLobbyRoom extends colyseus_1.Room {
                     numberOfBoosters: Number(numberOfBoosters) || 1
                 });
             });
+            this.onMessage(types_1.Transfer.HEAP_SNAPSHOT, (client) => {
+                this.dispatcher.dispatch(new lobby_commands_1.HeapSnapshotCommand());
+            });
             this.onMessage(types_1.Transfer.GIVE_TITLE, (client, { uid, title }) => {
                 this.dispatcher.dispatch(new lobby_commands_1.GiveTitleCommand(), { client, uid, title });
             });
             this.onMessage(types_1.Transfer.SET_ROLE, (client, { uid, role }) => {
                 this.dispatcher.dispatch(new lobby_commands_1.GiveRoleCommand(), { client, uid, role });
-            });
-            this.onMessage(types_1.Transfer.BOT_CREATION, (client, { bot }) => {
-                this.dispatcher.dispatch(new lobby_commands_1.OnBotUploadCommand(), { client, bot });
-            });
-            this.onMessage(types_1.Transfer.REQUEST_BOT_LIST, (client, options) => {
-                try {
-                    client.send(types_1.Transfer.REQUEST_BOT_LIST, (0, bots_1.createBotList)(this.bots, options));
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
-            });
-            this.onMessage(types_1.Transfer.REQUEST_BOT_DATA, (client, bot) => {
-                try {
-                    const botData = this.bots.get(bot);
-                    client.send(types_1.Transfer.REQUEST_BOT_DATA, botData);
-                }
-                catch (error) {
-                    logger_1.logger.error(error);
-                }
             });
             this.onMessage(types_1.Transfer.OPEN_BOOSTER, (client) => {
                 this.dispatcher.dispatch(new lobby_commands_1.OpenBoosterCommand(), { client });
@@ -292,24 +252,11 @@ class CustomLobbyRoom extends colyseus_1.Room {
                 _super.onAuth.call(this, client, options, request);
                 const token = yield firebase_admin_1.default.auth().verifyIdToken(options.idToken);
                 const user = yield firebase_admin_1.default.auth().getUser(token.uid);
-                const isBanned = yield banned_user_1.default.findOne({ uid: user.uid });
-                const userProfile = yield user_metadata_1.default.findOne({ uid: user.uid });
-                client.send(types_1.Transfer.USER_PROFILE, userProfile);
                 if (!user.displayName) {
                     logger_1.logger.error("No display name for this account", user.uid);
                     throw new Error("No display name for this account. Please report this error.");
                 }
-                else if (isBanned) {
-                    throw new Error("Account banned");
-                }
-                else if (this.state.ccu > MAX_CCU &&
-                    (userProfile === null || userProfile === void 0 ? void 0 : userProfile.role) !== types_1.Role.ADMIN &&
-                    (userProfile === null || userProfile === void 0 ? void 0 : userProfile.role) !== types_1.Role.MODERATOR) {
-                    throw new Error("The servers are currently at maximum capacity. Please try again later.");
-                }
-                else {
-                    return user;
-                }
+                return user;
             }
             catch (error) {
                 throw error;
@@ -317,15 +264,41 @@ class CustomLobbyRoom extends colyseus_1.Room {
         });
     }
     onJoin(client, options, auth) {
-        this.dispatcher.dispatch(new lobby_commands_1.OnJoinCommand(), {
-            client,
-            options,
-            auth,
-            rooms: this.rooms
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield user_metadata_1.default.findOne({ uid: client.auth.uid });
+            const isBanned = yield banned_user_1.default.findOne({ uid: client.auth.uid });
+            try {
+                if (isBanned) {
+                    throw new Error("Account banned");
+                }
+                else if ((this.state.ccu > Config_1.MAX_CONCURRENT_PLAYERS_ON_SERVER ||
+                    this.clients.length > Config_1.MAX_CONCURRENT_PLAYERS_ON_LOBBY) &&
+                    (user === null || user === void 0 ? void 0 : user.role) !== types_1.Role.ADMIN &&
+                    (user === null || user === void 0 ? void 0 : user.role) !== types_1.Role.MODERATOR) {
+                    throw new Error("This server is currently at maximum capacity. Please try again later or join another server.");
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+            this.dispatcher.dispatch(new lobby_commands_1.OnJoinCommand(), { client, user });
         });
     }
-    onLeave(client) {
-        this.dispatcher.dispatch(new lobby_commands_1.OnLeaveCommand(), { client });
+    onLeave(client, consented) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                if (consented) {
+                    throw new Error("consented leave");
+                }
+                yield this.allowReconnection(client, 30);
+                const user = (_a = this.users.get(client.auth.uid)) !== null && _a !== void 0 ? _a : null;
+                this.dispatcher.dispatch(new lobby_commands_1.OnJoinCommand(), { client, user });
+            }
+            catch (error) {
+                this.dispatcher.dispatch(new lobby_commands_1.OnLeaveCommand(), { client });
+            }
+        });
     }
     onDispose() {
         try {
@@ -434,7 +407,7 @@ class CustomLobbyRoom extends colyseus_1.Room {
             start: true
         });
         this.cleanUpCronJobs.push(scribbleLobbyJob);
-        if (process.env.NODE_APP_INSTANCE) {
+        if (process.env.NODE_APP_INSTANCE || process.env.MODE === "dev") {
             const staleJob = cron_1.CronJob.from({
                 cronTime: "*/1 * * * *",
                 timeZone: "Europe/Paris",
@@ -470,10 +443,11 @@ class CustomLobbyRoom extends colyseus_1.Room {
                 cronTime: "*/1 * * * *",
                 timeZone: "Europe/Paris",
                 onTick: () => __awaiter(this, void 0, void 0, function* () {
+                    logger_1.logger.debug("checking inactive users");
                     this.clients.forEach((c) => {
                         if (c.userData.joinedAt &&
-                            c.userData.joinedAt < Date.now() - 60000) {
-                            c.leave();
+                            c.userData.joinedAt < Date.now() - Config_1.INACTIVITY_TIMEOUT) {
+                            c.leave(CloseCodes_1.CloseCodes.USER_INACTIVE);
                         }
                     });
                 }),

@@ -109,7 +109,8 @@ export declare enum Item {
     ICY_ROCK = "ICY_ROCK",
     HEAT_ROCK = "HEAT_ROCK",
     SMOOTH_ROCK = "SMOOTH_ROCK",
-    BLACK_AUGURITE = "BLACK_AUGURITE"
+    BLACK_AUGURITE = "BLACK_AUGURITE",
+    FIRE_SHARD = "FIRE_SHARD"
 }
 export declare const AllItems: Item[];
 export declare const SpecialItems: Item[];

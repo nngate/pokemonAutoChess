@@ -105,6 +105,7 @@ export default class PokemonSprite extends DraggableObject {
     resurectAnimation(): void;
     displayAnimation(anim: string): void;
     fishingAnimation(): void;
+    emoteAnimation(): void;
     evolutionAnimation(): void;
     spawnAnimation(): void;
     hatchAnimation(): void;

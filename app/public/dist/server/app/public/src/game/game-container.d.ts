@@ -4,7 +4,7 @@ import { PokemonEntity } from "../../../core/pokemon-entity";
 import Simulation from "../../../core/simulation";
 import Player from "../../../models/colyseus-models/player";
 import GameState from "../../../rooms/states/game-state";
-import { IDragDropCombineMessage, IDragDropItemMessage, IDragDropMessage, IPlayer, IPokemon, ISimplePlayer } from "../../../types";
+import { IDragDropCombineMessage, IDragDropItemMessage, IDragDropMessage, IPlayer, IPokemon } from "../../../types";
 import { Ability } from "../../../types/enum/Ability";
 import { AttackType, HealType, Orientation } from "../../../types/enum/Game";
 import { Weather } from "../../../types/enum/Weather";
@@ -66,6 +66,5 @@ declare class GameContainer {
     onDragDrop(event: CustomEvent<IDragDropMessage>): void;
     onDragDropCombine(event: CustomEvent<IDragDropCombineMessage>): void;
     onDragDropItem(event: CustomEvent<IDragDropItemMessage>): void;
-    transformToSimplePlayer(player: IPlayer): ISimplePlayer;
 }
 export default GameContainer;

@@ -14,10 +14,8 @@ require("./booster.css");
 function Booster() {
     const { t } = (0, react_i18next_1.useTranslation)();
     const dispatch = (0, hooks_1.useAppDispatch)();
-    const { user, boosterContent } = (0, hooks_1.useAppSelector)((state) => ({
-        user: state.lobby.user,
-        boosterContent: state.lobby.boosterContent
-    }));
+    const user = (0, hooks_1.useAppSelector)((state) => state.network.profile);
+    const boosterContent = (0, hooks_1.useAppSelector)((state) => state.lobby.boosterContent);
     const numberOfBooster = user ? user.booster : 0;
     (0, react_1.useEffect)(() => () => {
         dispatch((0, LobbyStore_1.setBoosterContent)([]));

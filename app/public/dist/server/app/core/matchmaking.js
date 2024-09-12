@@ -45,6 +45,9 @@ function completeMatchupCombination(combination, matchups, players) {
     }
     else {
         const remainingMatchups = matchups.filter((m) => remainingPlayers.includes(m.a) && remainingPlayers.includes(m.b));
+        if (remainingMatchups.length === 0) {
+            return completeMatchupCombination([...combination], matchups, players);
+        }
         return remainingMatchups.flatMap((m) => completeMatchupCombination([...combination, m], matchups, players));
     }
 }

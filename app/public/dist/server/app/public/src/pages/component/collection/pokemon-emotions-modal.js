@@ -21,14 +21,14 @@ function PokemonEmotionsModal(props) {
     var _a;
     const { t } = (0, react_i18next_1.useTranslation)();
     const dispatch = (0, hooks_1.useAppDispatch)();
-    const pokemonCollection = (0, hooks_1.useAppSelector)((state) => state.lobby.pokemonCollection);
-    const user = (0, hooks_1.useAppSelector)((state) => state.lobby.user);
+    const pokemonCollection = (0, hooks_1.useAppSelector)((state) => { var _a, _b; return (_b = (_a = state.network.profile) === null || _a === void 0 ? void 0 : _a.pokemonCollection) !== null && _b !== void 0 ? _b : new Map(); });
+    const user = (0, hooks_1.useAppSelector)((state) => state.network.profile);
     const index = Pokemon_1.PkmIndex[props.pokemon];
     const availableEmotions = Object.values(types_1.Emotion).filter((e, i) => { var _a; return ((_a = precomputed_emotions_1.PRECOMPUTED_EMOTIONS_PER_POKEMON_INDEX[index]) === null || _a === void 0 ? void 0 : _a[i]) === 1; });
     const shinyAvailable = ((_a = Pokemon_1.AnimationConfig[props.pokemon]) === null || _a === void 0 ? void 0 : _a.shinyUnavailable) !== true;
     const pConfig = (0, react_1.useMemo)(() => {
         var _a;
-        const foundPokemon = (_a = pokemonCollection.find((c) => c.id == index)) !== null && _a !== void 0 ? _a : {
+        const foundPokemon = (_a = pokemonCollection.get(index)) !== null && _a !== void 0 ? _a : {
             dust: 0,
             emotions: [],
             shinyEmotions: [],

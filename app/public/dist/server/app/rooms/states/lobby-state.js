@@ -22,7 +22,6 @@ const schema_1 = require("@colyseus/schema");
 const cron_1 = require("cron");
 const nanoid_1 = require("nanoid");
 const lobby_1 = require("../../models/colyseus-models/lobby");
-const lobby_user_1 = __importDefault(require("../../models/colyseus-models/lobby-user"));
 const message_1 = __importDefault(require("../../models/colyseus-models/message"));
 const tournament_1 = require("../../models/colyseus-models/tournament");
 const chat_v2_1 = __importDefault(require("../../models/mongo-models/chat-v2"));
@@ -35,7 +34,6 @@ class LobbyState extends schema_1.Schema {
     constructor() {
         super(...arguments);
         this.messages = new schema_1.ArraySchema();
-        this.users = new schema_1.MapSchema();
         this.nextSpecialGame = null;
         this.tournaments = new schema_1.ArraySchema();
         this.ccu = 0;
@@ -122,12 +120,6 @@ exports.default = LobbyState;
 __decorate([
     (0, schema_1.type)([message_1.default])
 ], LobbyState.prototype, "messages", void 0);
-__decorate([
-    (0, schema_1.filterChildren)(function (client, key) {
-        return client.auth.uid === key;
-    }),
-    (0, schema_1.type)({ map: lobby_user_1.default })
-], LobbyState.prototype, "users", void 0);
 __decorate([
     (0, schema_1.type)(lobby_1.SpecialGamePlannedSchema)
 ], LobbyState.prototype, "nextSpecialGame", void 0);

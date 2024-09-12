@@ -90,6 +90,9 @@ class Player extends schema_1.Schema {
         this.berryTreesStage = [1, 1, 1];
         this.effects = new effects_1.Effects();
         this.regionalPokemons = new schema_1.ArraySchema();
+        this.rerollCount = 0;
+        this.totalMoneyEarned = 0;
+        this.totalPlayerDamageDealt = 0;
         this.commonRegionalPool = new Array();
         this.uncommonRegionalPool = new Array();
         this.rareRegionalPool = new Array();
@@ -97,7 +100,6 @@ class Player extends schema_1.Schema {
         this.ultraRegionalPool = new Array();
         this.opponents = new Map();
         this.titles = new Set();
-        this.rerollCount = 0;
         this.artificialItems = (0, random_1.pickNRandomIn)(Item_1.ArtificialItems, 3);
         this.weatherRocks = (0, random_1.pickNRandomIn)(Item_1.WeatherRocks, 3);
         this.randomComponentsGiven = [];
@@ -154,6 +156,10 @@ class Player extends schema_1.Schema {
                 ditto.onAcquired(this);
             }
         }
+    }
+    addMoney(value) {
+        this.money += value;
+        this.totalMoneyEarned += value;
     }
     addBattleResult(id, name, result, avatar, weather) {
         this.history.push(new history_item_1.default(id, name, result, avatar, weather ? weather : Weather_1.Weather.NEUTRAL));
@@ -452,4 +458,13 @@ __decorate([
 __decorate([
     (0, schema_1.type)(["string"])
 ], Player.prototype, "regionalPokemons", void 0);
+__decorate([
+    (0, schema_1.type)("uint8")
+], Player.prototype, "rerollCount", void 0);
+__decorate([
+    (0, schema_1.type)("uint8")
+], Player.prototype, "totalMoneyEarned", void 0);
+__decorate([
+    (0, schema_1.type)("uint8")
+], Player.prototype, "totalPlayerDamageDealt", void 0);
 //# sourceMappingURL=player.js.map

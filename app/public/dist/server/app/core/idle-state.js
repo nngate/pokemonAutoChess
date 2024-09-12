@@ -11,7 +11,7 @@ class IdleState extends pokemon_state_1.default {
     update(pokemon, dt, board, weather, player) {
         super.update(pokemon, dt, board, weather, player);
         if (pokemon.status.tree) {
-            if (pokemon.pp >= pokemon.maxPP) {
+            if (pokemon.pp >= pokemon.maxPP && pokemon.canMove) {
                 pokemon.status.tree = false;
                 pokemon.toMovingState();
             }

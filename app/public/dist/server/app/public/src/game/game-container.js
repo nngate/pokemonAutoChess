@@ -314,7 +314,6 @@ class GameContainer {
                     "positionX",
                     "positionY",
                     "action",
-                    "types",
                     "hp",
                     "atk",
                     "ap"
@@ -323,7 +322,7 @@ class GameContainer {
                     pokemon.listen(field, (value, previousValue) => {
                         var _a, _b;
                         if (field && player.id === this.spectatedPlayerId) {
-                            (_b = (_a = this.gameScene) === null || _a === void 0 ? void 0 : _a.board) === null || _b === void 0 ? void 0 : _b.changePokemon(pokemon, field, value);
+                            (_b = (_a = this.gameScene) === null || _a === void 0 ? void 0 : _a.board) === null || _b === void 0 ? void 0 : _b.changePokemon(pokemon, field, value, previousValue);
                         }
                     });
                 });
@@ -504,37 +503,6 @@ class GameContainer {
     }
     onDragDropItem(event) {
         this.room.send(types_1.Transfer.DRAG_DROP_ITEM, event.detail);
-    }
-    transformToSimplePlayer(player) {
-        const simplePlayer = {
-            elo: player.elo,
-            name: player.name,
-            id: player.id,
-            rank: player.rank,
-            avatar: player.avatar,
-            title: player.title,
-            role: player.role,
-            pokemons: new Array(),
-            synergies: new Array()
-        };
-        const allSynergies = new Array();
-        player.synergies.forEach((v, k) => {
-            allSynergies.push({ name: k, value: v });
-        });
-        allSynergies.sort((a, b) => b.value - a.value);
-        simplePlayer.synergies = allSynergies.slice(0, 5);
-        if (player.board && player.board.size > 0) {
-            player.board.forEach((pokemon) => {
-                if (pokemon.positionY != 0) {
-                    simplePlayer.pokemons.push({
-                        avatar: (0, utils_1.getPath)(pokemon),
-                        items: pokemon.items.toArray(),
-                        name: pokemon.name
-                    });
-                }
-            });
-        }
-        return simplePlayer;
     }
 }
 exports.default = GameContainer;

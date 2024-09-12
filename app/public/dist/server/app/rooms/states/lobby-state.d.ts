@@ -1,11 +1,9 @@
-import { ArraySchema, MapSchema, Schema } from "@colyseus/schema";
-import LobbyUser from "../../models/colyseus-models/lobby-user";
+import { ArraySchema, Schema } from "@colyseus/schema";
 import Message from "../../models/colyseus-models/message";
 import { TournamentSchema } from "../../models/colyseus-models/tournament";
 import { ISpecialGamePlanned } from "../../types/interfaces/Lobby";
 export default class LobbyState extends Schema {
     messages: ArraySchema<Message>;
-    users: MapSchema<LobbyUser, string>;
     nextSpecialGame: ISpecialGamePlanned | null;
     tournaments: ArraySchema<TournamentSchema>;
     ccu: number;

@@ -54,7 +54,7 @@ class AttackingState extends pokemon_state_1.default {
                 pokemon.targetY = targetCoordinate.y;
                 pokemon.orientation = board.orientation(pokemon.positionX, pokemon.positionY, targetCoordinate.x, targetCoordinate.y, pokemon, target);
                 const { delayBeforeShoot, travelTime } = (0, animation_manager_1.getAttackTimings)(pokemon);
-                pokemon.commands.push(new simulation_command_1.AttackCommand(delayBeforeShoot + travelTime, pokemon, board, targetCoordinate));
+                pokemon.commands.push(new simulation_command_1.AttackCommand(delayBeforeShoot + travelTime, pokemon, target, board));
             }
         }
         else {

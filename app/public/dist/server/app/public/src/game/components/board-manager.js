@@ -368,7 +368,7 @@ class BoardManager {
             }
         }
     }
-    changePokemon(pokemon, field, value) {
+    changePokemon(pokemon, field, value, previousValue) {
         const pokemonUI = this.pokemons.get(pokemon.id);
         let coordinates;
         if (pokemonUI) {
@@ -403,12 +403,13 @@ class BoardManager {
                 }
                 case "atk":
                     pokemonUI.atk = value;
+                    if (value > previousValue)
+                        this.displayBoost(Game_1.Stat.ATK, pokemonUI);
                     break;
                 case "ap":
                     pokemonUI.ap = value;
-                    break;
-                default:
-                    pokemonUI[field] = value;
+                    if (value > previousValue)
+                        this.displayBoost(Game_1.Stat.AP, pokemonUI);
                     break;
             }
         }
@@ -448,6 +449,18 @@ class BoardManager {
     }
     addSmeargle() {
         this.smeargle = new pokemon_special_1.default(this.scene, 1512, 396, Pokemon_1.Pkm.SMEARGLE, this.animationManager, (0, i18next_1.t)(`scribble_description.${this.specialGameRule}`), (0, i18next_1.t)(`scribble.${this.specialGameRule}`));
+    }
+    displayBoost(stat, pokemon) {
+        pokemon.emoteAnimation();
+        const coordinates = (0, utils_1.transformCoordinate)(pokemon.positionX, pokemon.positionY);
+        const boost = this.scene.add
+            .sprite(coordinates[0], coordinates[1] - 10, "boosts", `BOOST_${stat}/000.png`)
+            .setDepth(7)
+            .setScale(2, 2);
+        boost.anims.play(`BOOST_${stat}`);
+        boost.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+            boost.destroy();
+        });
     }
 }
 exports.default = BoardManager;

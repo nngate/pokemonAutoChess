@@ -30,6 +30,7 @@ const schemas_1 = require("../utils/schemas");
 const board_1 = __importDefault(require("./board"));
 const dps_1 = __importDefault(require("./dps"));
 const pokemon_entity_1 = require("./pokemon-entity");
+const simulation_command_1 = require("./simulation-command");
 class Simulation extends schema_1.Schema {
     constructor(id, room, blueTeam, redTeam, bluePlayer, redPlayer, stageLevel, weather) {
         var _a;
@@ -208,12 +209,12 @@ class Simulation extends schema_1.Schema {
         this.applyWeatherEffects(pokemonEntity);
         this.board.setValue(pokemonEntity.positionX, pokemonEntity.positionY, pokemonEntity);
         if (team == Game_1.Team.BLUE_TEAM) {
-            const dps = new dps_1.default(pokemonEntity.id, (0, utils_1.getPath)(pokemonEntity));
+            const dps = new dps_1.default(pokemonEntity.id, (0, utils_1.getPortraitPath)(pokemonEntity));
             this.blueTeam.set(pokemonEntity.id, pokemonEntity);
             this.blueDpsMeter.set(pokemonEntity.id, dps);
         }
         if (team == Game_1.Team.RED_TEAM) {
-            const dps = new dps_1.default(pokemonEntity.id, (0, utils_1.getPath)(pokemonEntity));
+            const dps = new dps_1.default(pokemonEntity.id, (0, utils_1.getPortraitPath)(pokemonEntity));
             this.redTeam.set(pokemonEntity.id, pokemonEntity);
             this.redDpsMeter.set(pokemonEntity.id, dps);
         }
@@ -353,7 +354,7 @@ class Simulation extends schema_1.Schema {
             pokemon.addShield(0.3 * pokemon.hp, pokemon, 0, false);
         }
         if (item === Item_1.Item.DYNAMAX_BAND) {
-            pokemon.addMaxHP(3 * pokemon.hp, pokemon, 0, false);
+            pokemon.addMaxHP(2.5 * pokemon.hp, pokemon, 0, false);
         }
         if (item === Item_1.Item.GOLD_BOTTLE_CAP && pokemon.player) {
             pokemon.addCritChance(pokemon.player.money, pokemon, 0, false);
@@ -371,8 +372,8 @@ class Simulation extends schema_1.Schema {
         else if (pokemon.team === Game_1.Team.RED_TEAM) {
             this.applyEffects(pokemon, pokemon.types, this.redEffects, ((_b = this.redPlayer) === null || _b === void 0 ? void 0 : _b.synergies.countActiveSynergies()) || 0);
         }
-        if (pokemon.types.has(Synergy_1.Synergy.WATER)) {
-            pokemon.addDodgeChance(0.2, pokemon, 0, false);
+        if (pokemon.types.has(Synergy_1.Synergy.GHOST)) {
+            pokemon.addDodgeChance(0.25, pokemon, 0, false);
         }
     }
     applyWeatherEffects(pokemon) {
@@ -462,8 +463,27 @@ class Simulation extends schema_1.Schema {
                                 pokemon.def = value.def;
                             if (value.speDef > pokemon.speDef)
                                 pokemon.speDef = value.speDef;
+                            if (value.ap > pokemon.ap)
+                                pokemon.ap = value.ap;
                         }
                     });
+                }
+                if (pokemon.passive === Passive_1.Passive.LUVDISC) {
+                    const lovers = [-1, 1].map((offset) => this.board.getValue(pokemon.positionX + offset, pokemon.positionY));
+                    if (lovers[0] && lovers[1]) {
+                        const bestAtk = Math.max(lovers[0].atk, lovers[1].atk);
+                        const bestDef = Math.max(lovers[0].def, lovers[1].def);
+                        const bestSpeDef = Math.max(lovers[0].speDef, lovers[1].speDef);
+                        const bestAP = Math.max(lovers[0].ap, lovers[1].ap);
+                        lovers[0].atk = bestAtk;
+                        lovers[1].atk = bestAtk;
+                        lovers[0].def = bestDef;
+                        lovers[1].def = bestDef;
+                        lovers[0].speDef = bestSpeDef;
+                        lovers[1].speDef = bestSpeDef;
+                        lovers[0].ap = bestAP;
+                        lovers[1].ap = bestAP;
+                    }
                 }
                 if (pokemon.items.has(Item_1.Item.WHITE_FLUTE)) {
                     const wilds = precomputed_types_1.PRECOMPUTED_POKEMONS_PER_TYPE[Synergy_1.Synergy.WILD].map((p) => (0, precomputed_pokemon_data_1.getPokemonData)(p));
@@ -524,7 +544,7 @@ class Simulation extends schema_1.Schema {
                     });
                 }
                 if (pokemon.items.has(Item_1.Item.COMET_SHARD)) {
-                    setTimeout(() => {
+                    pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                         const farthestCoordinate = this.board.getFarthestTargetCoordinateAvailablePlace(pokemon);
                         if (farthestCoordinate) {
                             const target = farthestCoordinate.target;
@@ -532,7 +552,7 @@ class Simulation extends schema_1.Schema {
                             pokemon.targetX = target.positionX;
                             pokemon.targetY = target.positionY;
                             pokemon.status.triggerProtect(3000);
-                            setTimeout(() => {
+                            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                                 pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                                     id: pokemon.simulation.id,
                                     skill: "COMET_CRASH",
@@ -541,14 +561,22 @@ class Simulation extends schema_1.Schema {
                                     targetX: target.positionX,
                                     targetY: target.positionY
                                 });
-                            }, 500);
-                            setTimeout(() => {
+                            }, 500));
+                            pokemon.commands.push(new simulation_command_1.DelayedCommand(() => {
                                 if ((target === null || target === void 0 ? void 0 : target.life) > 0) {
-                                    target.handleSpecialDamage(3 * pokemon.atk, this.board, Game_1.AttackType.SPECIAL, pokemon, false);
+                                    const crit = (0, random_1.chance)(pokemon.critChance / 100);
+                                    target.handleSpecialDamage(3 * pokemon.atk, this.board, Game_1.AttackType.SPECIAL, pokemon, crit);
+                                    this.board
+                                        .getAdjacentCells(target.positionX, target.positionY)
+                                        .forEach((cell) => {
+                                        if (cell.value && cell.value.team !== pokemon.team) {
+                                            cell.value.handleSpecialDamage(pokemon.atk, this.board, Game_1.AttackType.SPECIAL, pokemon, crit);
+                                        }
+                                    });
                                 }
-                            }, 1000);
+                            }, 1000));
                         }
-                    }, 100);
+                    }, 100));
                 }
                 if (pokemon.passive === Passive_1.Passive.SPOT_PANDA) {
                     pokemon.effects.add(Effect_1.Effect.IMMUNITY_CONFUSION);
@@ -1127,14 +1155,19 @@ class Simulation extends schema_1.Schema {
                     : Game_1.BattleResult.DRAW, this.redPlayer.opponentAvatar, this.weather);
             const client = this.room.clients.find((cli) => cli.auth.uid === this.redPlayerId);
             if (this.winnerId === this.redPlayerId) {
-                this.redPlayer.money += 1;
-                client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
+                if (this.bluePlayerId !== "pve") {
+                    this.redPlayer.addMoney(1);
+                    client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
+                }
             }
             else {
                 const playerDamage = this.room.computeRoundDamage(this.blueTeam, this.stageLevel);
                 this.redPlayer.life -= playerDamage;
                 if (playerDamage > 0) {
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_DAMAGE, playerDamage);
+                }
+                if (this.bluePlayer) {
+                    this.bluePlayer.totalPlayerDamageDealt += playerDamage;
                 }
             }
         }
@@ -1146,14 +1179,19 @@ class Simulation extends schema_1.Schema {
                     : Game_1.BattleResult.DRAW, this.bluePlayer.opponentAvatar, this.weather);
             const client = this.room.clients.find((cli) => cli.auth.uid === this.bluePlayerId);
             if (this.winnerId === this.bluePlayerId) {
-                this.bluePlayer.money += 1;
-                client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
+                if (this.redPlayerId !== "pve") {
+                    this.bluePlayer.addMoney(1);
+                    client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
+                }
             }
             else {
                 const playerDamage = this.room.computeRoundDamage(this.redTeam, this.stageLevel);
                 this.bluePlayer.life -= playerDamage;
                 if (playerDamage > 0) {
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_DAMAGE, playerDamage);
+                }
+                if (this.redPlayer) {
+                    this.redPlayer.totalPlayerDamageDealt += playerDamage;
                 }
             }
         }

@@ -1,8 +1,6 @@
 import { ArraySchema } from "@colyseus/schema";
 import { Emotion, Role, Title } from "../../types";
 import { Language } from "../../types/enum/Language";
-import MapTileset from "../colyseus-models/map-tileset";
-import WinTileset from "../colyseus-models/win-tileset";
 export interface IUserMetadata {
     uid: string;
     displayName: string;
@@ -12,10 +10,6 @@ export interface IUserMetadata {
     exp: number;
     level: number;
     elo: number;
-    donor: boolean;
-    mapWin: WinTileset;
-    map: MapTileset;
-    honors: string[];
     pokemonCollection: Map<string, IPokemonConfig>;
     booster: number;
     titles: Title[];

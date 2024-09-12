@@ -136,6 +136,19 @@ class Board {
         }
         return cells;
     }
+    getOuterRangeCells(cellX, cellY, range = 1, includesCenter = false) {
+        const cells = new Array();
+        for (let y = cellY - range; y <= cellY + range; y++) {
+            for (let x = cellX - range; x <= cellX + range; x++) {
+                if (x == cellX && y == cellY && !includesCenter)
+                    continue;
+                if (y >= 0 && y < this.rows && x >= 0 && x < this.columns) {
+                    cells.push({ x, y, value: this.cells[this.columns * y + x] });
+                }
+            }
+        }
+        return cells;
+    }
     getCellsInFront(pokemon, target, range = 1) {
         const cells = new Array();
         pokemon.orientation = this.orientation(pokemon.positionX, pokemon.positionY, target.positionX, target.positionY, pokemon, target);
@@ -195,6 +208,15 @@ class Board {
             }
         }
         return cells;
+    }
+    getAllPokemonCoordinates() {
+        const pokemonCoordinates = [];
+        this.forEach((x, y, value) => {
+            if (value !== undefined) {
+                pokemonCoordinates.push({ x, y });
+            }
+        });
+        return pokemonCoordinates;
     }
     getCellsBetween(x0, y0, x1, y1) {
         const cells = [
@@ -270,11 +292,13 @@ class Board {
             return this.effects[this.columns * y + x];
         }
     }
-    getFarthestTargetCoordinateAvailablePlace(pokemon) {
+    getFarthestTargetCoordinateAvailablePlace(pokemon, targetAlly = false) {
         const candidateCells = new Array();
         this.forEach((x, y, value) => {
             if (value !== undefined &&
-                value.team !== pokemon.team &&
+                (targetAlly
+                    ? value.team === pokemon.team
+                    : value.team !== pokemon.team) &&
                 value.isTargettable) {
                 candidateCells.push(...this.getAdjacentCells(x, y)
                     .filter((cell) => this.getValue(cell.x, cell.y) === undefined)

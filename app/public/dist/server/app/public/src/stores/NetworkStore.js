@@ -1,12 +1,12 @@
 "use strict";
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTournament = exports.deleteRoom = exports.kick = exports.setTitle = exports.searchById = exports.lockClick = exports.levelClick = exports.shopClick = exports.itemClick = exports.toggleEloRoom = exports.toggleReady = exports.listBots = exports.removeBot = exports.addBot = exports.requestBotData = exports.createBot = exports.requestBotList = exports.changeAvatar = exports.changeName = exports.joinAfter = exports.joinGame = exports.joinPreparation = exports.searchName = exports.sendMessage = exports.joinLobby = exports.setProfile = exports.logOut = exports.logIn = exports.gameStartRequest = exports.changeRoomPassword = exports.changeRoomName = exports.buyBooster = exports.buyEmotion = exports.changeSelectedEmotion = exports.openBooster = exports.showEmote = exports.giveBooster = exports.participateInTournament = exports.createTournamentLobbies = exports.removeTournament = exports.removeMessage = exports.giveRole = exports.giveTitle = exports.pokemonPropositionClick = exports.ban = exports.addBotDatabase = exports.deleteBotDatabase = exports.unban = exports.selectLanguage = exports.networkSlice = void 0;
-exports.setNetworkError = void 0;
+exports.setErrorAlertMessage = exports.createTournament = exports.deleteRoom = exports.kick = exports.setTitle = exports.searchById = exports.lockClick = exports.levelClick = exports.shopClick = exports.itemClick = exports.toggleEloRoom = exports.toggleReady = exports.removeBot = exports.addBot = exports.changeAvatar = exports.changeName = exports.joinAfter = exports.joinGame = exports.joinPreparation = exports.searchName = exports.sendMessage = exports.joinLobby = exports.setProfile = exports.logOut = exports.logIn = exports.gameStartRequest = exports.changeRoomPassword = exports.changeRoomName = exports.buyBooster = exports.buyEmotion = exports.changeSelectedEmotion = exports.openBooster = exports.showEmote = exports.giveBooster = exports.participateInTournament = exports.createTournamentLobbies = exports.removeTournament = exports.removeMessage = exports.giveRole = exports.giveTitle = exports.pokemonPropositionClick = exports.ban = exports.addBotDatabase = exports.deleteBotDatabase = exports.unban = exports.selectLanguage = exports.heapSnapshot = exports.networkSlice = void 0;
 const toolkit_1 = require("@reduxjs/toolkit");
 const colyseus_js_1 = require("colyseus.js");
 const types_1 = require("../../../types");
 const logger_1 = require("../../../utils/logger");
+const utils_1 = require("../utils");
 const endpoint = `${window.location.protocol.replace("http", "ws")}//${window.location.host}`;
 logger_1.logger.info(endpoint);
 const initalState = {
@@ -25,29 +25,28 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
     initialState: initalState,
     reducers: {
         logIn: (state, action) => {
+            var _a;
             if (action.payload) {
                 state.uid = action.payload.uid;
-                state.displayName = action.payload.displayName
-                    ? action.payload.displayName
-                    : "";
+                state.displayName = (_a = action.payload.displayName) !== null && _a !== void 0 ? _a : "Anonymous";
             }
         },
         logOut: (state) => {
             var _a, _b, _c, _d;
             state.client = new colyseus_js_1.Client(endpoint);
             state.uid = "";
-            state.displayName = "";
-            (_a = state.preparation) === null || _a === void 0 ? void 0 : _a.connection.close();
+            (_a = state.preparation) === null || _a === void 0 ? void 0 : _a.leave();
             state.preparation = undefined;
-            (_b = state.lobby) === null || _b === void 0 ? void 0 : _b.connection.close();
+            (_b = state.lobby) === null || _b === void 0 ? void 0 : _b.leave();
             state.lobby = undefined;
-            (_c = state.game) === null || _c === void 0 ? void 0 : _c.connection.close();
+            (_c = state.game) === null || _c === void 0 ? void 0 : _c.leave();
             state.game = undefined;
-            (_d = state.after) === null || _d === void 0 ? void 0 : _d.connection.close();
+            (_d = state.after) === null || _d === void 0 ? void 0 : _d.leave();
             state.after = undefined;
         },
         setProfile: (state, action) => {
             state.profile = action.payload;
+            state.profile.pokemonCollection = new Map(Object.entries(action.payload.pokemonCollection));
         },
         joinLobby: (state, action) => {
             var _a, _b, _c;
@@ -111,23 +110,15 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
         },
         changeName: (state, action) => {
             var _a;
+            if (state.profile)
+                state.profile.displayName = action.payload;
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.CHANGE_NAME, { name: action.payload });
         },
         changeAvatar: (state, action) => {
             var _a;
+            if (state.profile)
+                state.profile.avatar = (0, utils_1.getAvatarString)(action.payload.index, action.payload.shiny, action.payload.emotion);
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.CHANGE_AVATAR, action.payload);
-        },
-        requestBotList: (state, action) => {
-            var _a;
-            (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.REQUEST_BOT_LIST, action.payload);
-        },
-        createBot: (state, action) => {
-            var _a;
-            (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.BOT_CREATION, { bot: action.payload });
-        },
-        requestBotData: (state, action) => {
-            var _a;
-            (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.REQUEST_BOT_DATA, action.payload);
         },
         addBot: (state, action) => {
             var _a;
@@ -136,10 +127,6 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
         removeBot: (state, action) => {
             var _a;
             (_a = state.preparation) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.REMOVE_BOT, action.payload);
-        },
-        listBots: (state) => {
-            var _a;
-            (_a = state.preparation) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.REQUEST_BOT_LIST);
         },
         toggleReady: (state, action) => {
             var _a;
@@ -185,6 +172,13 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
         },
         changeSelectedEmotion: (state, action) => {
             var _a;
+            if (state.profile) {
+                const pokemonConfig = state.profile.pokemonCollection.get(action.payload.index);
+                if (pokemonConfig) {
+                    pokemonConfig.selectedEmotion = action.payload.emotion;
+                    pokemonConfig.selectedShiny = action.payload.shiny;
+                }
+            }
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.CHANGE_SELECTED_EMOTION, action.payload);
         },
         buyEmotion: (state, action) => {
@@ -209,6 +203,8 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
         },
         setTitle: (state, action) => {
             var _a;
+            if (state.profile)
+                state.profile.title = action.payload;
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.SET_TITLE, action.payload);
         },
         removeTournament: (state, action) => {
@@ -226,6 +222,10 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
         giveBooster: (state, action) => {
             var _a;
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.GIVE_BOOSTER, action.payload);
+        },
+        heapSnapshot: (state) => {
+            var _a;
+            (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.HEAP_SNAPSHOT);
         },
         giveRole: (state, action) => {
             var _a;
@@ -267,11 +267,11 @@ exports.networkSlice = (0, toolkit_1.createSlice)({
             var _a;
             (_a = state.lobby) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.NEW_TOURNAMENT, action.payload);
         },
-        setNetworkError: (state, action) => {
+        setErrorAlertMessage: (state, action) => {
             state.error = action.payload;
         }
     }
 });
-_a = exports.networkSlice.actions, exports.selectLanguage = _a.selectLanguage, exports.unban = _a.unban, exports.deleteBotDatabase = _a.deleteBotDatabase, exports.addBotDatabase = _a.addBotDatabase, exports.ban = _a.ban, exports.pokemonPropositionClick = _a.pokemonPropositionClick, exports.giveTitle = _a.giveTitle, exports.giveRole = _a.giveRole, exports.removeMessage = _a.removeMessage, exports.removeTournament = _a.removeTournament, exports.createTournamentLobbies = _a.createTournamentLobbies, exports.participateInTournament = _a.participateInTournament, exports.giveBooster = _a.giveBooster, exports.showEmote = _a.showEmote, exports.openBooster = _a.openBooster, exports.changeSelectedEmotion = _a.changeSelectedEmotion, exports.buyEmotion = _a.buyEmotion, exports.buyBooster = _a.buyBooster, exports.changeRoomName = _a.changeRoomName, exports.changeRoomPassword = _a.changeRoomPassword, exports.gameStartRequest = _a.gameStartRequest, exports.logIn = _a.logIn, exports.logOut = _a.logOut, exports.setProfile = _a.setProfile, exports.joinLobby = _a.joinLobby, exports.sendMessage = _a.sendMessage, exports.searchName = _a.searchName, exports.joinPreparation = _a.joinPreparation, exports.joinGame = _a.joinGame, exports.joinAfter = _a.joinAfter, exports.changeName = _a.changeName, exports.changeAvatar = _a.changeAvatar, exports.requestBotList = _a.requestBotList, exports.createBot = _a.createBot, exports.requestBotData = _a.requestBotData, exports.addBot = _a.addBot, exports.removeBot = _a.removeBot, exports.listBots = _a.listBots, exports.toggleReady = _a.toggleReady, exports.toggleEloRoom = _a.toggleEloRoom, exports.itemClick = _a.itemClick, exports.shopClick = _a.shopClick, exports.levelClick = _a.levelClick, exports.lockClick = _a.lockClick, exports.searchById = _a.searchById, exports.setTitle = _a.setTitle, exports.kick = _a.kick, exports.deleteRoom = _a.deleteRoom, exports.createTournament = _a.createTournament, exports.setNetworkError = _a.setNetworkError;
+_a = exports.networkSlice.actions, exports.heapSnapshot = _a.heapSnapshot, exports.selectLanguage = _a.selectLanguage, exports.unban = _a.unban, exports.deleteBotDatabase = _a.deleteBotDatabase, exports.addBotDatabase = _a.addBotDatabase, exports.ban = _a.ban, exports.pokemonPropositionClick = _a.pokemonPropositionClick, exports.giveTitle = _a.giveTitle, exports.giveRole = _a.giveRole, exports.removeMessage = _a.removeMessage, exports.removeTournament = _a.removeTournament, exports.createTournamentLobbies = _a.createTournamentLobbies, exports.participateInTournament = _a.participateInTournament, exports.giveBooster = _a.giveBooster, exports.showEmote = _a.showEmote, exports.openBooster = _a.openBooster, exports.changeSelectedEmotion = _a.changeSelectedEmotion, exports.buyEmotion = _a.buyEmotion, exports.buyBooster = _a.buyBooster, exports.changeRoomName = _a.changeRoomName, exports.changeRoomPassword = _a.changeRoomPassword, exports.gameStartRequest = _a.gameStartRequest, exports.logIn = _a.logIn, exports.logOut = _a.logOut, exports.setProfile = _a.setProfile, exports.joinLobby = _a.joinLobby, exports.sendMessage = _a.sendMessage, exports.searchName = _a.searchName, exports.joinPreparation = _a.joinPreparation, exports.joinGame = _a.joinGame, exports.joinAfter = _a.joinAfter, exports.changeName = _a.changeName, exports.changeAvatar = _a.changeAvatar, exports.addBot = _a.addBot, exports.removeBot = _a.removeBot, exports.toggleReady = _a.toggleReady, exports.toggleEloRoom = _a.toggleEloRoom, exports.itemClick = _a.itemClick, exports.shopClick = _a.shopClick, exports.levelClick = _a.levelClick, exports.lockClick = _a.lockClick, exports.searchById = _a.searchById, exports.setTitle = _a.setTitle, exports.kick = _a.kick, exports.deleteRoom = _a.deleteRoom, exports.createTournament = _a.createTournament, exports.setErrorAlertMessage = _a.setErrorAlertMessage;
 exports.default = exports.networkSlice.reducer;
 //# sourceMappingURL=NetworkStore.js.map

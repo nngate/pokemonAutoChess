@@ -9,7 +9,7 @@ const jsx_1 = require("../../utils/jsx");
 function GadgetsTab() {
     var _a;
     const { t } = (0, react_i18next_1.useTranslation)();
-    const user = (0, hooks_1.useAppSelector)((state) => state.lobby.user);
+    const user = (0, hooks_1.useAppSelector)((state) => state.network.profile);
     const level = (_a = user === null || user === void 0 ? void 0 : user.level) !== null && _a !== void 0 ? _a : 0;
     const gadgets = Object.values(gadgets_1.GADGETS);
     const nbGadgetsUnlocked = gadgets.filter((g) => g.levelRequired <= level).length;

@@ -1,12 +1,12 @@
 import { Dispatcher } from "@colyseus/command";
 import { Client, Room } from "colyseus";
-import SimplePlayer from "../models/colyseus-models/simple-player";
+import { IAfterGamePlayer } from "../types";
 import AfterGameState from "./states/after-game-state";
 export default class AfterGameRoom extends Room<AfterGameState> {
     dispatcher: Dispatcher<this>;
     constructor();
     onCreate(options: {
-        players: SimplePlayer[];
+        players: IAfterGamePlayer[];
         idToken: string;
         elligibleToXP: boolean;
         elligibleToELO: boolean;

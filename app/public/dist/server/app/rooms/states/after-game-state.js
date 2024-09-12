@@ -10,7 +10,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const schema_1 = require("@colyseus/schema");
-const simple_player_1 = __importDefault(require("../../models/colyseus-models/simple-player"));
+const after_game_player_1 = __importDefault(require("../../models/colyseus-models/after-game-player"));
 class AfterGameState extends schema_1.Schema {
     constructor({ elligibleToELO, elligibleToXP }) {
         super();
@@ -23,7 +23,7 @@ class AfterGameState extends schema_1.Schema {
 }
 exports.default = AfterGameState;
 __decorate([
-    (0, schema_1.type)({ map: simple_player_1.default })
+    (0, schema_1.type)({ map: after_game_player_1.default })
 ], AfterGameState.prototype, "players", void 0);
 __decorate([
     (0, schema_1.type)("boolean")

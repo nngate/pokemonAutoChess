@@ -1,7 +1,8 @@
+import { NonFunctionPropNames } from "@colyseus/schema/lib/types/HelperTypes";
 import Player from "../../../../models/colyseus-models/player";
 import GameState from "../../../../rooms/states/game-state";
 import { IPokemon } from "../../../../types";
-import { GameMode } from "../../../../types/enum/Game";
+import { GameMode, Stat } from "../../../../types/enum/Game";
 import { SpecialGameRule } from "../../../../types/enum/SpecialGameRule";
 import AnimationManager from "../animation-manager";
 import GameScene from "../scenes/game-scene";
@@ -50,9 +51,10 @@ export default class BoardManager {
     minigameMode(): void;
     setPlayer(player: Player): void;
     updatePokemonItems(playerId: string, pokemon: IPokemon): void;
-    changePokemon(pokemon: IPokemon, field: string, value: any): void;
+    changePokemon<F extends NonFunctionPropNames<IPokemon>>(pokemon: IPokemon, field: F, value: IPokemon[F], previousValue: IPokemon[F]): void;
     closeTooltips(): void;
     getBenchSize(): number;
     showEmote(playerId: string, emote?: string): void;
     addSmeargle(): void;
+    displayBoost(stat: Stat, pokemon: PokemonSprite): void;
 }

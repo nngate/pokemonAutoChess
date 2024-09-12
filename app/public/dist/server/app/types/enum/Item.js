@@ -114,12 +114,14 @@ var Item;
     Item["HEAT_ROCK"] = "HEAT_ROCK";
     Item["SMOOTH_ROCK"] = "SMOOTH_ROCK";
     Item["BLACK_AUGURITE"] = "BLACK_AUGURITE";
+    Item["FIRE_SHARD"] = "FIRE_SHARD";
 })(Item || (exports.Item = Item = {}));
 exports.AllItems = Object.values(Item);
 exports.SpecialItems = [
     Item.COMFEY,
     Item.METEORITE,
     Item.BERRY_JUICE,
+    Item.FIRE_SHARD,
     Item.OLD_ROD,
     Item.GOOD_ROD,
     Item.SUPER_ROD,

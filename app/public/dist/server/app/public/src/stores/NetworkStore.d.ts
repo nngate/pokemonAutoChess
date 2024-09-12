@@ -41,14 +41,8 @@ export declare const networkSlice: import("@reduxjs/toolkit").Slice<INetwork, {
         emotion: Emotion;
         shiny: boolean;
     }>) => void;
-    requestBotList: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<{
-        withSteps: boolean;
-    } | undefined>) => void;
-    createBot: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<IBot>) => void;
-    requestBotData: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string>) => void;
     addBot: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<BotDifficulty | IBot>) => void;
     removeBot: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string>) => void;
-    listBots: (state: import("immer").WritableDraft<INetwork>) => void;
     toggleReady: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<boolean | undefined>) => void;
     toggleEloRoom: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<boolean>) => void;
     lockClick: (state: import("immer").WritableDraft<INetwork>) => void;
@@ -75,7 +69,7 @@ export declare const networkSlice: import("@reduxjs/toolkit").Slice<INetwork, {
     openBooster: (state: import("immer").WritableDraft<INetwork>) => void;
     showEmote: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string | undefined>) => void;
     searchById: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string>) => void;
-    setTitle: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string>) => void;
+    setTitle: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<Title>) => void;
     removeTournament: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<{
         id: string;
     }>) => void;
@@ -90,6 +84,7 @@ export declare const networkSlice: import("@reduxjs/toolkit").Slice<INetwork, {
         uid: string;
         numberOfBoosters: number;
     }>) => void;
+    heapSnapshot: (state: import("immer").WritableDraft<INetwork>) => void;
     giveRole: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<{
         uid: string;
         role: Role;
@@ -115,9 +110,9 @@ export declare const networkSlice: import("@reduxjs/toolkit").Slice<INetwork, {
         name: string;
         startDate: string;
     }>) => void;
-    setNetworkError: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string | null>) => void;
+    setErrorAlertMessage: (state: import("immer").WritableDraft<INetwork>, action: PayloadAction<string | null>) => void;
 }, "network", "network", import("@reduxjs/toolkit").SliceSelectors<INetwork>>;
-export declare const selectLanguage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Language, "network/selectLanguage">, unban: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
+export declare const heapSnapshot: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/heapSnapshot">, selectLanguage: import("@reduxjs/toolkit").ActionCreatorWithPayload<Language, "network/selectLanguage">, unban: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
     uid: string;
     name: string;
 }, "network/unban">, deleteBotDatabase: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/deleteBotDatabase">, addBotDatabase: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/addBotDatabase">, ban: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
@@ -155,11 +150,9 @@ export declare const selectLanguage: import("@reduxjs/toolkit").ActionCreatorWit
     index: string;
     emotion: Emotion;
     shiny: boolean;
-}, "network/changeAvatar">, requestBotList: import("@reduxjs/toolkit").ActionCreatorWithOptionalPayload<{
-    withSteps: boolean;
-} | undefined, "network/requestBotList">, createBot: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBot, "network/createBot">, requestBotData: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/requestBotData">, addBot: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBot | BotDifficulty, "network/addBot">, removeBot: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/removeBot">, listBots: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/listBots">, toggleReady: import("@reduxjs/toolkit").ActionCreatorWithOptionalPayload<boolean | undefined, "network/toggleReady">, toggleEloRoom: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "network/toggleEloRoom">, itemClick: import("@reduxjs/toolkit").ActionCreatorWithPayload<Item, "network/itemClick">, shopClick: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "network/shopClick">, levelClick: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/levelClick">, lockClick: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/lockClick">, searchById: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/searchById">, setTitle: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/setTitle">, kick: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/kick">, deleteRoom: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/deleteRoom">, createTournament: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
+}, "network/changeAvatar">, addBot: import("@reduxjs/toolkit").ActionCreatorWithPayload<IBot | BotDifficulty, "network/addBot">, removeBot: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/removeBot">, toggleReady: import("@reduxjs/toolkit").ActionCreatorWithOptionalPayload<boolean | undefined, "network/toggleReady">, toggleEloRoom: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "network/toggleEloRoom">, itemClick: import("@reduxjs/toolkit").ActionCreatorWithPayload<Item, "network/itemClick">, shopClick: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "network/shopClick">, levelClick: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/levelClick">, lockClick: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/lockClick">, searchById: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/searchById">, setTitle: import("@reduxjs/toolkit").ActionCreatorWithPayload<Title, "network/setTitle">, kick: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "network/kick">, deleteRoom: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"network/deleteRoom">, createTournament: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
     name: string;
     startDate: string;
-}, "network/createTournament">, setNetworkError: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "network/setNetworkError">;
+}, "network/createTournament">, setErrorAlertMessage: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "network/setErrorAlertMessage">;
 declare const _default: import("redux").Reducer<INetwork>;
 export default _default;

@@ -1,6 +1,6 @@
 import { Command } from "@colyseus/command";
-import { Client, RoomListingData } from "colyseus";
-import { IBot } from "../../models/mongo-models/bot-v2";
+import { Client } from "colyseus";
+import { IUserMetadata } from "../../models/mongo-models/user-metadata";
 import { Emotion, IPlayer, Role, Title } from "../../types";
 import { EloRank } from "../../types/enum/EloRank";
 import { GameMode } from "../../types/enum/Game";
@@ -8,15 +8,11 @@ import { Language } from "../../types/enum/Language";
 import CustomLobbyRoom from "../custom-lobby-room";
 export declare class OnJoinCommand extends Command<CustomLobbyRoom, {
     client: Client;
-    options: any;
-    auth: any;
-    rooms: RoomListingData<any>[] | undefined;
+    user: IUserMetadata | null;
 }> {
-    execute({ client, rooms }: {
+    execute({ client, user }: {
         client: Client;
-        options: any;
-        auth: any;
-        rooms: RoomListingData<any>[] | undefined;
+        user: IUserMetadata | null;
     }): Promise<void>;
 }
 export declare class OnLeaveCommand extends Command<CustomLobbyRoom, {
@@ -36,6 +32,9 @@ export declare class GiveTitleCommand extends Command<CustomLobbyRoom, {
         uid: string;
         title: Title;
     }): Promise<void>;
+}
+export declare class HeapSnapshotCommand extends Command<CustomLobbyRoom> {
+    execute(): void;
 }
 export declare class GiveBoostersCommand extends Command<CustomLobbyRoom, {
     client: Client;
@@ -201,11 +200,11 @@ export declare class SelectLanguageCommand extends Command<CustomLobbyRoom, {
 }
 export declare class AddBotCommand extends Command<CustomLobbyRoom, {
     client: Client;
-    message: any;
+    url: string;
 }> {
-    execute({ client, message }: {
+    execute({ client, url }: {
         client: Client;
-        message: any;
+        url: string;
     }): Promise<void>;
 }
 export declare class DeleteBotCommand extends Command<CustomLobbyRoom, {
@@ -216,15 +215,6 @@ export declare class DeleteBotCommand extends Command<CustomLobbyRoom, {
         client: Client;
         message: string;
     }): Promise<void>;
-}
-export declare class OnBotUploadCommand extends Command<CustomLobbyRoom, {
-    client: Client;
-    bot: IBot;
-}> {
-    execute({ client, bot }: {
-        client: Client;
-        bot: IBot;
-    }): void;
 }
 export declare class OpenSpecialGameCommand extends Command<CustomLobbyRoom, {
     gameMode: GameMode;

@@ -6,7 +6,7 @@ exports.transformAttackCoordinate = transformAttackCoordinate;
 exports.transformMiniGameXCoordinate = transformMiniGameXCoordinate;
 exports.transformMiniGameYCoordinate = transformMiniGameYCoordinate;
 exports.getOrientation = getOrientation;
-exports.getPath = getPath;
+exports.getPortraitPath = getPortraitPath;
 const Game_1 = require("../../../../types/enum/Game");
 exports.FIREBASE_CONFIG = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -67,7 +67,7 @@ function getOrientation(x1, y1, x2, y2) {
         return Game_1.Orientation.RIGHT;
     }
 }
-function getPath(pokemon) {
+function getPortraitPath(pokemon) {
     let pokemonPath = "";
     const index = pokemon.index;
     pokemonPath += index + "/";

@@ -337,7 +337,7 @@ class Shop {
         if (incenseHolder && (0, random_1.chance)(5 / 100)) {
             specificTypeWanted = (0, random_1.pickRandomIn)((0, schemas_1.values)(incenseHolder.types));
         }
-        else if (!incenseHolder && wildChance > 0 && (0, random_1.chance)(wildChance)) {
+        else if (wildChance > 0 && (0, random_1.chance)(wildChance)) {
             specificTypeWanted = Synergy_1.Synergy.WILD;
         }
         const probas = Config_1.RarityProbabilityPerLevel[player.experienceManager.level];
@@ -361,6 +361,9 @@ class Shop {
         return this.getRandomPokemonFromPool(rarity, player, finals, specificTypeWanted);
     }
     pickFish(player, rod) {
+        const hasMantyke = (0, schemas_1.values)(player.board).some((p) => p.name === Pokemon_1.Pkm.MANTYKE || p.name === Pokemon_1.Pkm.MANTINE);
+        if (hasMantyke && (0, random_1.chance)(0.2))
+            return Pokemon_1.Pkm.REMORAID;
         const rarityProbability = Config_1.FishRarityProbability[rod];
         const rarity_seed = Math.random();
         let fish = Pokemon_1.Pkm.MAGIKARP;
