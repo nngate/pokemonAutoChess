@@ -44,6 +44,11 @@ The google provider needs a valid redirect uri. Go to the your google console ap
 - In Firebase, setup a Firebase Web SDK, "Add Firebase to your web app" and keep all generated secrets. Those informations will be needed when filling the server environment variables.
 ![alt text](image-13.png)
 
+### Server hosting: Which branch should i use ?
+
+- `master` is the development branch. It contains all the progress of the current development, including those for next release
+- `prod` contains the actual state of production branch of [https://pokemon-auto-chess.com](https://pokemon-auto-chess.com) 
+
 ### Server hosting: deploy with Render (Free / $7/month)
 
 Deployment on Render is free. Render’s Free Instance lets you run a service for 750 hours in a month. Idle services spin down after 15 minutes of activity. You can upgrade your render instance to a paid tier ($7/month) to bypass those limitations.
@@ -117,7 +122,9 @@ FIREBASE_CLIENT_EMAIL=<client_email>
 FIREBASE_PRIVATE_KEY=<private_key>
 ```
 
-For some reasons, `npm run assetpack` during build phase does not work on Heroku. To work around this issue, you'll need to:
+### If the assetpack task is failing / you don't see some icons and sprites
+
+For some reasons, `npm run assetpack` during build phase does not work on Heroku and Render. To work around this issue, you'll need to:
 
  - Install the game locally. Steps are detailled in the readme. If you want the same environment than your production branch, you can copy all the required environment variables to your local .env.
  - `npm run build` 
