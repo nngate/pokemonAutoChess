@@ -24,31 +24,22 @@ export function GameRoomsMenu() {
         (state) => state.network.lobby
     )
 
-    const joinGame = throttle(async function joinGame(
-        selectedRoom: RoomAvailable<IGameMetadata>,
-        spectate: boolean
-    ) {
-        if (lobby && !isJoining) {
+    const joinGame = throttle(async function joinGame(selectedRoom: RoomAvailable<IGameMetadata>) {
+        const token = await firebase.auth().currentUser?.getIdToken()
+        if (lobby && !isJoining && token) {
             setJoining(true)
-            const idToken = await firebase.auth().currentUser?.getIdToken()
-            if (idToken) {
-                const game: Room<GameState> = await client.joinById(
-                    selectedRoom.roomId,
-                    {
-                        idToken,
-                        spectate
-                    }
-                )
-                localStore.set(
-                    LocalStoreKeys.RECONNECTION_TOKEN,
-                    game.reconnectionToken,
-                    30
-                )
-                await lobby.leave()
-                game.connection.close()
-                dispatch(leaveLobby())
-                navigate("/game")
-            }
+            const game: Room<GameState> = await client.joinById(selectedRoom.roomId, { idToken: token })
+            localStore.set(
+                LocalStoreKeys.RECONNECTION_GAME,
+                { reconnectionToken: game.reconnectionToken, roomId: game.roomId },
+                30
+            )
+            await Promise.allSettled([
+                lobby.connection.isOpen && lobby.leave(false),
+                game.connection.isOpen && game.leave(false)
+            ])
+            dispatch(leaveLobby())
+            navigate("/game")
         }
     }, 1000)
 
@@ -62,7 +53,7 @@ export function GameRoomsMenu() {
                 <li key={r.roomId}>
                     <GameRoomItem
                         room={r}
-                        onJoin={(spectate) => joinGame(r, spectate)}
+                        onJoin={(spectate) => joinGame(r)}
                     />
                 </li>
             ))}
