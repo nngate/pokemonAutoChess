@@ -16,7 +16,6 @@ import { TournamentSchema } from "../models/colyseus-models/tournament"
 import { Effects } from "../models/effects"
 import GameRoom from "../rooms/game-room"
 import { ILeaderboardInfo } from "../types/interfaces/LeaderboardInfo"
-import { ISpecialGamePlanned } from "../types/interfaces/Lobby"
 import { Ability } from "./enum/Ability"
 import { DungeonPMDO } from "./enum/Dungeon"
 import { Effect } from "./enum/Effect"
@@ -28,7 +27,8 @@ import {
   Orientation,
   PokemonActionState,
   Rarity,
-  Stat
+  Stat,
+  Team
 } from "./enum/Game"
 import { Item } from "./enum/Item"
 import { Passive } from "./enum/Passive"
@@ -61,6 +61,7 @@ export enum Transfer {
   DRAG_DROP = "DRAG_DROP",
   DRAG_DROP_COMBINE = "DRAG_DROP_COMBINE",
   DRAG_DROP_ITEM = "DRAG_DROP_ITEM",
+  SWITCH_BENCH_AND_BOARD = "SWITCH_BENCH_AND_BOARD",
   SELL_POKEMON = "SELL_POKEMON",
   REMOVE_FROM_SHOP = "REMOVE_FROM_SHOP",
   CHANGE_SELECTED_EMOTION = "CHANGE_SELECTED_EMOTION",
@@ -118,6 +119,7 @@ export enum Transfer {
   PLAYER_INCOME = "PLAYER_INCOME",
   PLAYER_DAMAGE = "PLAYER_DAMAGE",
   ROOMS = "ROOMS",
+  REQUEST_ROOM = "REQUEST_ROOM",
   ADD_ROOM = "ADD_ROOM",
   REMOVE_ROOM = "REMOVE_ROOM",
   ADD_BOT_DATABASE = "ADD_BOT_DATABASE",
@@ -256,7 +258,6 @@ export interface ICustomLobbyState extends Schema {
   leaderboard: ILeaderboardInfo[]
   botLeaderboard: ILeaderboardInfo[]
   levelLeaderboard: ILeaderboardInfo[]
-  nextSpecialGame: ISpecialGamePlanned
   tournaments: ArraySchema<TournamentSchema>
   clients: number
 }
@@ -333,12 +334,13 @@ export interface IPlayer {
   board: MapSchema<Pokemon>
   shop: ArraySchema<Pkm>
   simulationId: string
-  simulationTeamIndex: number
+  team: Team
   experienceManager: ExperienceManager
   synergies: Synergies
   money: number
   life: number
   shopLocked: boolean
+  shopFreeRolls: number
   streak: number
   interest: number
   opponentId: string
@@ -356,7 +358,6 @@ export interface IPlayer {
   role: Role
   itemsProposition: ArraySchema<Item>
   pokemonsProposition: ArraySchema<PkmProposition>
-  rerollCount: number
   loadingProgress: number
   effects: Effects
   isBot: boolean
@@ -369,6 +370,10 @@ export interface IPlayer {
   ultraRegionalPool: Pkm[]
   opponents: Map<string, number>
   ghost: boolean
+  rerollCount: number
+  totalMoneyEarned: number
+  totalPlayerDamageDealt: number
+  eggChance: number
 }
 
 export interface IPokemon {
@@ -647,6 +652,7 @@ export interface IPreparationMetadata {
   type: "preparation"
   gameStartedAt: string | null
   minRank: string | null
+  maxRank: string | null
   gameMode: GameMode
   whitelist: string[]
   blacklist: string[]
