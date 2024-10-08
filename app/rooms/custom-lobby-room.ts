@@ -50,6 +50,7 @@ import {
   GiveRoleCommand,
   GiveTitleCommand,
   HeapSnapshotCommand,
+  JoinOrOpenRoomCommand,
   NextTournamentStageCommand,
   OnCreateTournamentCommand,
   OnJoinCommand,
@@ -58,7 +59,6 @@ import {
   OnSearchByIdCommand,
   OnSearchCommand,
   OpenBoosterCommand,
-  OpenSpecialGameCommand,
   ParticipateInTournamentCommand,
   RemoveMessageCommand,
   RemoveTournamentCommand,
@@ -66,8 +66,6 @@ import {
   UnbanUserCommand
 } from "./commands/lobby-commands"
 import LobbyState from "./states/lobby-state"
-
-const MAX_CCU = 700
 
 export default class CustomLobbyRoom extends Room<LobbyState> {
   bots: Map<string, IBot> = new Map<string, IBot>()
@@ -80,34 +78,7 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
 
   constructor() {
     super()
-    this.maxClients = 50
-    if (
-      process.env.PASTEBIN_API_DEV_KEY &&
-      process.env.PASTEBIN_API_USERNAME &&
-      process.env.PASTEBIN_API_DEV_KEY
-    ) {
-      this.pastebin = new PastebinAPI({
-        api_dev_key: process.env.PASTEBIN_API_DEV_KEY!,
-        api_user_name: process.env.PASTEBIN_API_USERNAME!,
-        api_user_password: process.env.PASTEBIN_API_PASSWORD!
-      })
-    }
-
-    if (process.env.DISCORD_WEBHOOK_URL) {
-      this.discordWebhook = new WebhookClient({
-        url: process.env.DISCORD_WEBHOOK_URL
-      })
-    }
-
-    if (process.env.DISCORD_BAN_WEBHOOK_URL) {
-      this.discordBanWebhook = new WebhookClient({
-        url: process.env.DISCORD_BAN_WEBHOOK_URL
-      })
-    }
-
     this.dispatcher = new Dispatcher(this)
-    this.bots = new Map<string, IBot>()
-    this.tournamentCronJobs = new Map<string, CronJob>()
   }
 
   removeRoom(index: number, roomId: string) {
@@ -150,9 +121,9 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
   async onCreate(): Promise<void> {
     logger.info("create lobby", this.roomId)
     this.setState(new LobbyState())
-    this.state.getNextSpecialGame()
     this.autoDispose = false
     this.listing.unlisted = true
+    this.maxClients = MAX_CONCURRENT_PLAYERS_ON_LOBBY
 
     this.clock.setInterval(async () => {
       const ccu = await matchMaker.stats.getGlobalCCU()
@@ -184,6 +155,16 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
     this.onMessage(Transfer.ADD_BOT_DATABASE, async (client, url) => {
       this.dispatcher.dispatch(new AddBotCommand(), { client, url })
     })
+
+    this.onMessage(
+      Transfer.REQUEST_ROOM,
+      async (client, gameMode: GameMode) => {
+        this.dispatcher.dispatch(new JoinOrOpenRoomCommand(), {
+          client,
+          gameMode
+        })
+      }
+    )
 
     this.onMessage(
       Transfer.SELECT_LANGUAGE,
@@ -391,9 +372,9 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
       }
     )
 
-    this.presence.subscribe("ranked-lobby-winner", (player: IPlayer) => {
+    /*this.presence.subscribe("ranked-lobby-winner", (player: IPlayer) => {
       this.state.addAnnouncement(`${player.name} won the ranked match !`)
-    })
+    })*/
 
     this.presence.subscribe("tournament-winner", (player: IPlayer) => {
       this.state.addAnnouncement(`${player.name} won the tournament !`)
@@ -418,23 +399,6 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
       }
     )
 
-    this.presence.subscribe(
-      "lobby-full",
-      (params: {
-        gameMode: GameMode
-        minRank: EloRank | null
-        noElo?: boolean
-      }) => {
-        // open another special lobby when the previous one is full
-        if (
-          params.gameMode === GameMode.RANKED ||
-          params.gameMode === GameMode.SCRIBBLE
-        ) {
-          this.dispatcher.dispatch(new OpenSpecialGameCommand(), params)
-        }
-      }
-    )
-
     this.presence.subscribe("server-announcement", (message: string) => {
       this.state.addAnnouncement(message)
     })
@@ -445,9 +409,6 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
   }
 
   async onAuth(client: Client, options: any, request: any) {
-    const userProfile = await UserMetadata.findOne({ uid: client.auth.uid })
-    const isBanned = await BannedUser.findOne({ uid: client.auth.uid })
-  
     try {
       super.onAuth(client, options, request)
       const token = await admin.auth().verifyIdToken(options.idToken)
@@ -458,18 +419,6 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
         throw new Error(
           "No display name for this account. Please report this error."
         )
-      } else if (isBanned) {
-        throw new Error("Account banned")
-      } else if (
-        this.state.ccu > MAX_CCU &&
-        userProfile?.role !== Role.ADMIN &&
-        userProfile?.role !== Role.MODERATOR
-      ) {
-        throw new Error(
-          "The servers are currently at maximum capacity. Please try again later."
-        )
-      } else {
-        return user
       }
 
       return user
@@ -638,44 +587,6 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
 
   initCronJobs() {
     logger.debug("init lobby cron jobs")
-    const greatBallRankedLobbyJob = CronJob.from({
-      cronTime: GREATBALL_RANKED_LOBBY_CRON,
-      timeZone: "Europe/Paris",
-      onTick: () => {
-        this.dispatcher.dispatch(new OpenSpecialGameCommand(), {
-          gameMode: GameMode.RANKED,
-          minRank: EloRank.GREATBALL
-        })
-      },
-      start: true
-    })
-    this.cleanUpCronJobs.push(greatBallRankedLobbyJob)
-
-    const ultraBallRankedLobbyJob = CronJob.from({
-      cronTime: ULTRABALL_RANKED_LOBBY_CRON,
-      timeZone: "Europe/Paris",
-      onTick: () => {
-        this.dispatcher.dispatch(new OpenSpecialGameCommand(), {
-          gameMode: GameMode.RANKED,
-          minRank: EloRank.ULTRABALL
-        })
-      },
-      start: true
-    })
-    this.cleanUpCronJobs.push(ultraBallRankedLobbyJob)
-
-    const scribbleLobbyJob = CronJob.from({
-      cronTime: SCRIBBLE_LOBBY_CRON,
-      timeZone: "Europe/Paris",
-      onTick: () => {
-        this.dispatcher.dispatch(new OpenSpecialGameCommand(), {
-          gameMode: GameMode.SCRIBBLE,
-          noElo: true
-        })
-      },
-      start: true
-    })
-    this.cleanUpCronJobs.push(scribbleLobbyJob)
 
     if (process.env.NODE_APP_INSTANCE || process.env.MODE === "dev") {
       const staleJob = CronJob.from({
@@ -705,10 +616,14 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
             ) {
               this.presence.hdel("roomcaches", room.roomId)
               this.removeRoom(roomIndex, room.roomId)
-              //   // Attempt to see if the room exit. If it exist, disconnect it
-              //   const disconnection = await matchMaker.remoteRoomCall(
-              //     room.roomId,
-              //     "disconnect"
+            }
+            if (
+              type === "game" &&
+              gameStartedAt != null &&
+              new Date(gameStartedAt).getTime() < Date.now() - 86400000
+            ) {
+              this.presence.hdel("roomcaches", room.roomId)
+              this.removeRoom(roomIndex, room.roomId)
             }
           })
         },
@@ -725,7 +640,7 @@ export default class CustomLobbyRoom extends Room<LobbyState> {
           this.clients.forEach((c) => {
             if (
               c.userData.joinedAt &&
-              c.userData.joinedAt < Date.now() - 60000
+              c.userData.joinedAt < Date.now() - INACTIVITY_TIMEOUT
             ) {
               //logger.info("disconnected user for inactivity", c.id)
               c.leave(CloseCodes.USER_INACTIVE)
