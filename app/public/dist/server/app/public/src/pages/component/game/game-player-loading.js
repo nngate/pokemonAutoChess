@@ -20,6 +20,6 @@ function GamePlayerLoadingBar(props) {
                     backgroundImage: `url('${(0, utils_1.getAvatarSrc)(props.player.avatar)}')`
                 }, children: (0, jsx_runtime_1.jsx)(react_circular_progressbar_1.CircularProgressbar, { value: loadingPercent, styles: (0, react_circular_progressbar_1.buildStyles)({
                         pathTransitionDuration: 0
-                    }) }) }), (0, jsx_runtime_1.jsx)("p", { children: props.player.name }), (0, jsx_runtime_1.jsxs)("p", { children: [t("elo"), ": ", props.player.elo] })] }));
+                    }) }) }), (0, jsx_runtime_1.jsx)("p", { style: { fontWeight: "500" }, children: props.player.name }), (0, jsx_runtime_1.jsxs)("p", { children: [t("elo"), ": ", (0, jsx_runtime_1.jsx)("b", { children: props.player.elo })] })] }));
 }
 //# sourceMappingURL=game-player-loading.js.map

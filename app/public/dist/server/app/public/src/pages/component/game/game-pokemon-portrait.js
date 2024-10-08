@@ -23,7 +23,7 @@ const synergy_icon_1 = __importDefault(require("../icons/synergy-icon"));
 const game_pokemon_detail_1 = require("./game-pokemon-detail");
 require("./game-pokemon-portrait.css");
 function GamePokemonPortrait(props) {
-    var _a, _b;
+    var _a, _b, _c;
     const pokemon = (0, react_1.useMemo)(() => typeof props.pokemon === "string"
         ? pokemon_factory_1.default.createPokemonFromName(props.pokemon)
         : props.pokemon, [props.pokemon]);
@@ -87,7 +87,8 @@ function GamePokemonPortrait(props) {
     const canBuy = (currentPlayer === null || currentPlayer === void 0 ? void 0 : currentPlayer.alive) && (currentPlayer === null || currentPlayer === void 0 ? void 0 : currentPlayer.money) >= cost;
     return ((0, jsx_runtime_1.jsxs)("div", { className: (0, jsx_1.cc)("my-box", "clickable", "game-pokemon-portrait", {
             shimmer: shouldShimmer,
-            disabled: !canBuy && props.origin === "shop"
+            disabled: !canBuy && props.origin === "shop",
+            planned: (_c = props.inPlanner) !== null && _c !== void 0 ? _c : false
         }), style: {
             backgroundColor: rarityColor,
             borderColor: rarityColor,
@@ -95,7 +96,7 @@ function GamePokemonPortrait(props) {
         }, onClick: (e) => {
             if (canBuy && props.click)
                 props.click(e);
-        }, onMouseEnter: props.onMouseEnter, onMouseLeave: props.onMouseLeave, "data-tooltip-id": `tooltip-${props.origin}-${props.index}`, children: [(0, jsx_runtime_1.jsx)(react_tooltip_1.Tooltip, { id: `tooltip-${props.origin}-${props.index}`, className: "custom-theme-tooltip game-pokemon-detail-tooltip", place: "top", children: (0, jsx_runtime_1.jsx)(game_pokemon_detail_1.GamePokemonDetail, { pokemon: pokemonInPortrait, emotion: pokemonInPortraitConfig === null || pokemonInPortraitConfig === void 0 ? void 0 : pokemonInPortraitConfig.selectedEmotion, shiny: pokemonInPortraitConfig === null || pokemonInPortraitConfig === void 0 ? void 0 : pokemonInPortraitConfig.selectedShiny }, pokemonInPortrait.id) }), willEvolve && pokemonEvolution && ((0, jsx_runtime_1.jsxs)("div", { className: "game-pokemon-portrait-evolution", children: [(0, jsx_runtime_1.jsx)("img", { src: (0, utils_1.getPortraitSrc)(pokemon.index, pokemonConfig === null || pokemonConfig === void 0 ? void 0 : pokemonConfig.selectedShiny, pokemonConfig === null || pokemonConfig === void 0 ? void 0 : pokemonConfig.selectedEmotion), className: "game-pokemon-portrait-evolution-portrait" }), (0, jsx_runtime_1.jsx)("img", { src: "/assets/ui/evolution.png", alt: "", className: "game-pokemon-portrait-evolution-icon" })] })), props.origin === "shop" && ((0, jsx_runtime_1.jsx)("div", { className: "game-pokemon-portrait-cost", children: (0, jsx_runtime_1.jsx)(money_1.Money, { value: cost }) })), (0, jsx_runtime_1.jsx)("ul", { className: "game-pokemon-portrait-types", children: Array.from(pokemon.types.values()).map((type) => {
+        }, onMouseEnter: props.onMouseEnter, onMouseLeave: props.onMouseLeave, "data-tooltip-id": `tooltip-${props.origin}-${props.index}`, children: [(0, jsx_runtime_1.jsx)(react_tooltip_1.Tooltip, { id: `tooltip-${props.origin}-${props.index}`, className: "custom-theme-tooltip game-pokemon-detail-tooltip", place: "top", children: (0, jsx_runtime_1.jsx)(game_pokemon_detail_1.GamePokemonDetail, { pokemon: pokemonInPortrait, emotion: pokemonInPortraitConfig === null || pokemonInPortraitConfig === void 0 ? void 0 : pokemonInPortraitConfig.selectedEmotion, shiny: pokemonInPortraitConfig === null || pokemonInPortraitConfig === void 0 ? void 0 : pokemonInPortraitConfig.selectedShiny }, pokemonInPortrait.id) }), willEvolve && pokemonEvolution && ((0, jsx_runtime_1.jsxs)("div", { className: "game-pokemon-portrait-evolution", children: [(0, jsx_runtime_1.jsx)("img", { src: (0, utils_1.getPortraitSrc)(pokemon.index, pokemonConfig === null || pokemonConfig === void 0 ? void 0 : pokemonConfig.selectedShiny, pokemonConfig === null || pokemonConfig === void 0 ? void 0 : pokemonConfig.selectedEmotion), className: "game-pokemon-portrait-evolution-portrait" }), (0, jsx_runtime_1.jsx)("img", { src: "/assets/ui/evolution.png", alt: "", className: "game-pokemon-portrait-evolution-icon" })] })), props.inPlanner && (!willEvolve || !pokemonEvolution) && ((0, jsx_runtime_1.jsx)("img", { src: "/assets/ui/planned.png", alt: "", className: "game-pokemon-portrait-planned-icon" })), props.origin === "shop" && ((0, jsx_runtime_1.jsx)("div", { className: "game-pokemon-portrait-cost", children: (0, jsx_runtime_1.jsx)(money_1.Money, { value: cost }) })), (0, jsx_runtime_1.jsx)("ul", { className: "game-pokemon-portrait-types", children: Array.from(pokemonInPortrait.types.values()).map((type) => {
                     return ((0, jsx_runtime_1.jsx)("li", { children: (0, jsx_runtime_1.jsx)(synergy_icon_1.default, { type: type }) }, type));
                 }) })] }));
 }

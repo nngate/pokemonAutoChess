@@ -4,7 +4,7 @@ import { Pokemon } from "../models/colyseus-models/pokemon";
 import GameRoom from "../rooms/game-room";
 import { IPokemon, IPokemonEntity, ISimulation } from "../types";
 import { Effect } from "../types/enum/Effect";
-import { BattleResult } from "../types/enum/Game";
+import { BattleResult, Team } from "../types/enum/Game";
 import { Item } from "../types/enum/Item";
 import { Synergy } from "../types/enum/Synergy";
 import { Weather } from "../types/enum/Weather";
@@ -32,22 +32,23 @@ export default class Simulation extends Schema implements ISimulation {
     redPlayer: Player | undefined;
     stormLightningTimer: number;
     tidalwaveTimer: number;
-    constructor(id: string, room: GameRoom, blueTeam: MapSchema<Pokemon>, redTeam: MapSchema<Pokemon>, bluePlayer: Player, redPlayer: Player | undefined, stageLevel: number, weather: Weather);
+    isGhostBattle: boolean;
+    constructor(id: string, room: GameRoom, blueTeam: MapSchema<Pokemon>, redTeam: MapSchema<Pokemon>, bluePlayer: Player, redPlayer: Player | undefined, stageLevel: number, weather: Weather, isGhostBattle?: boolean);
     getCurrentBattleResult(playerId: string): BattleResult;
     getEffects(playerId: string): Set<Effect> | undefined;
     getDpsMeter(playerId: string): MapSchema<Dps, string> | undefined;
     getTeam(playerId: string): MapSchema<IPokemonEntity, string> | undefined;
     getOpponentTeam(playerId: string): MapSchema<IPokemonEntity, string> | undefined;
-    addPokemon(pokemon: IPokemon, x: number, y: number, team: number, isClone?: boolean): PokemonEntity;
-    getFirstAvailablePlaceOnBoard(teamIndex: number): {
+    addPokemon(pokemon: IPokemon, x: number, y: number, team: Team, isClone?: boolean): PokemonEntity;
+    getFirstAvailablePlaceOnBoard(team: Team): {
         x: number;
         y: number;
     };
-    getClosestAvailablePlaceOnBoardTo(positionX: number, positionY: number, teamIndex: number): {
+    getClosestAvailablePlaceOnBoardTo(positionX: number, positionY: number, team: Team): {
         x: number;
         y: number;
     };
-    getClosestAvailablePlaceOnBoardToPokemon(pokemon: IPokemon | IPokemonEntity, teamIndex: number): {
+    getClosestAvailablePlaceOnBoardToPokemon(pokemon: IPokemon | IPokemonEntity, team: Team): {
         x: number;
         y: number;
     };

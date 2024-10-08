@@ -14,15 +14,16 @@ const utils_1 = require("../../../utils");
 const game_player_dps_meter_1 = __importDefault(require("./game-player-dps-meter"));
 const game_player_dps_taken_meter_1 = __importDefault(require("./game-player-dps-taken-meter"));
 const game_player_hps_meter_1 = __importDefault(require("./game-player-hps-meter"));
+const Game_1 = require("../../../../../types/enum/Game");
 require("./game-dps-meter.css");
 function GameDpsMeter() {
     const { t } = (0, react_i18next_1.useTranslation)();
     const currentPlayer = (0, hooks_1.useAppSelector)(hooks_1.selectCurrentPlayer);
-    const teamIndex = (0, hooks_1.useAppSelector)((state) => state.game.currentSimulationTeamIndex);
+    const team = (0, hooks_1.useAppSelector)((state) => state.game.currentTeam);
     const blueDpsMeter = (0, hooks_1.useAppSelector)((state) => state.game.blueDpsMeter);
     const redDpsMeter = (0, hooks_1.useAppSelector)((state) => state.game.redDpsMeter);
-    const myDpsMeter = teamIndex === 0 ? blueDpsMeter : redDpsMeter;
-    const opponentDpsMeter = teamIndex === 0 ? redDpsMeter : blueDpsMeter;
+    const myDpsMeter = team === Game_1.Team.BLUE_TEAM ? blueDpsMeter : redDpsMeter;
+    const opponentDpsMeter = team === Game_1.Team.BLUE_TEAM ? redDpsMeter : blueDpsMeter;
     const [isOpen, setOpen] = (0, react_1.useState)(preferences_1.preferences.showDpsMeter);
     if (!currentPlayer)
         return null;

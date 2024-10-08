@@ -30,11 +30,11 @@ function effectInLine(board, pokemon, target, effect) {
         : target;
     const targetsHit = new Set();
     const applyEffect = (x, y) => {
-        const targetInLine = board.getValue(x, y);
-        if (targetInLine != null) {
-            effect(targetInLine);
-            targetsHit.add(targetInLine);
+        const value = board.getValue(x, y);
+        if (value != null) {
+            targetsHit.add(value);
         }
+        effect({ x, y, value });
     };
     switch (orientation) {
         case Game_1.Orientation.UP:
@@ -79,7 +79,7 @@ function effectInLine(board, pokemon, target, effect) {
             break;
     }
     if (target instanceof pokemon_entity_1.PokemonEntity && targetsHit.has(target) === false) {
-        effect(target);
+        effect({ x: target.positionX, y: target.positionY, value: target });
     }
 }
 //# sourceMappingURL=orientation.js.map

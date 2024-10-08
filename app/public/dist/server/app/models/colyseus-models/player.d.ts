@@ -1,8 +1,9 @@
 import { ArraySchema, MapSchema, Schema } from "@colyseus/schema";
+import { PokemonEntity } from "../../core/pokemon-entity";
 import type GameState from "../../rooms/states/game-state";
 import type { IPlayer, Role, Title } from "../../types";
 import { DungeonPMDO } from "../../types/enum/Dungeon";
-import { BattleResult } from "../../types/enum/Game";
+import { BattleResult, Team } from "../../types/enum/Game";
 import { Item } from "../../types/enum/Item";
 import { Pkm, type PkmProposition } from "../../types/enum/Pokemon";
 import { Synergy } from "../../types/enum/Synergy";
@@ -16,7 +17,7 @@ import Synergies from "./synergies";
 export default class Player extends Schema implements IPlayer {
     id: string;
     simulationId: string;
-    simulationTeamIndex: number;
+    team: Team;
     name: string;
     avatar: string;
     board: MapSchema<Pokemon, string>;
@@ -26,6 +27,7 @@ export default class Player extends Schema implements IPlayer {
     money: number;
     life: number;
     shopLocked: boolean;
+    shopFreeRolls: number;
     streak: number;
     interest: number;
     opponentId: string;
@@ -55,6 +57,7 @@ export default class Player extends Schema implements IPlayer {
     rerollCount: number;
     totalMoneyEarned: number;
     totalPlayerDamageDealt: number;
+    eggChance: number;
     commonRegionalPool: Pkm[];
     uncommonRegionalPool: Pkm[];
     rareRegionalPool: Pkm[];
@@ -73,7 +76,7 @@ export default class Player extends Schema implements IPlayer {
     wildChance: number;
     ghost: boolean;
     constructor(id: string, name: string, elo: number, avatar: string, isBot: boolean, rank: number, pokemonCollection: Map<string, IPokemonConfig>, title: Title | "", role: Role, state: GameState);
-    addMoney(value: number): void;
+    addMoney(value: number, countTotalEarned: boolean, origin: PokemonEntity | null): void;
     addBattleResult(id: string, name: string, result: BattleResult, avatar: string, weather: Weather | undefined): void;
     getPokemonAt(x: number, y: number): Pokemon | undefined;
     transformPokemon(pokemon: Pokemon, newEntry: Pkm): Pokemon;
@@ -81,6 +84,6 @@ export default class Player extends Schema implements IPlayer {
     updateArtificialItems(updatedSynergies: Map<Synergy, number>): boolean;
     updateWeatherRocks(updatedSynergies: Map<Synergy, number>): boolean;
     updateFishingRods(updatedSynergies: Map<Synergy, number>): void;
-    updateRegionalPool(state: GameState): void;
+    updateRegionalPool(state: GameState, mapChanged: boolean): void;
     onLightChange(): void;
 }

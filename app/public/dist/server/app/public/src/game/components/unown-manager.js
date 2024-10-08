@@ -128,7 +128,7 @@ exports.UNOWNS_PER_ABILITY = new Map([
     ],
     [
         Ability_1.Ability.HIDDEN_POWER_R,
-        [Pokemon_1.Pkm.UNOWN_R, Pokemon_1.Pkm.UNOWN_O, Pokemon_1.Pkm.UNOWN_C, Pokemon_1.Pkm.UNOWN_K]
+        [Pokemon_1.Pkm.UNOWN_R, Pokemon_1.Pkm.UNOWN_O, Pokemon_1.Pkm.UNOWN_L, Pokemon_1.Pkm.UNOWN_L]
     ],
     [
         Ability_1.Ability.HIDDEN_POWER_S,

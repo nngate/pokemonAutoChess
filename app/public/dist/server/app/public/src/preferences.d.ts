@@ -2,6 +2,8 @@ export type Keybindings = {
     sell: string;
     buy_xp: string;
     refresh: string;
+    lock: string;
+    switch: string;
     emote: string;
 };
 export interface IPreferencesState {

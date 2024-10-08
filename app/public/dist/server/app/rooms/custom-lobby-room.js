@@ -25,8 +25,6 @@ const user_metadata_1 = __importDefault(require("../models/mongo-models/user-met
 const types_1 = require("../types");
 const Config_1 = require("../types/Config");
 const CloseCodes_1 = require("../types/enum/CloseCodes");
-const EloRank_1 = require("../types/enum/EloRank");
-const Game_1 = require("../types/enum/Game");
 const logger_1 = require("../utils/logger");
 const lobby_commands_1 = require("./commands/lobby-commands");
 const lobby_state_1 = __importDefault(require("./states/lobby-state"));
@@ -73,9 +71,9 @@ class CustomLobbyRoom extends colyseus_1.Room {
         return __awaiter(this, void 0, void 0, function* () {
             logger_1.logger.info("create lobby", this.roomId);
             this.setState(new lobby_state_1.default());
-            this.state.getNextSpecialGame();
             this.autoDispose = false;
             this.listing.unlisted = true;
+            this.maxClients = Config_1.MAX_CONCURRENT_PLAYERS_ON_LOBBY;
             this.clock.setInterval(() => __awaiter(this, void 0, void 0, function* () {
                 const ccu = yield colyseus_1.matchMaker.stats.getGlobalCCU();
                 this.state.ccu = ccu;
@@ -101,6 +99,12 @@ class CustomLobbyRoom extends colyseus_1.Room {
             }));
             this.onMessage(types_1.Transfer.ADD_BOT_DATABASE, (client, url) => __awaiter(this, void 0, void 0, function* () {
                 this.dispatcher.dispatch(new lobby_commands_1.AddBotCommand(), { client, url });
+            }));
+            this.onMessage(types_1.Transfer.REQUEST_ROOM, (client, gameMode) => __awaiter(this, void 0, void 0, function* () {
+                this.dispatcher.dispatch(new lobby_commands_1.JoinOrOpenRoomCommand(), {
+                    client,
+                    gameMode
+                });
             }));
             this.onMessage(types_1.Transfer.SELECT_LANGUAGE, (client, message) => __awaiter(this, void 0, void 0, function* () {
                 this.dispatcher.dispatch(new lobby_commands_1.SelectLanguageCommand(), {
@@ -217,9 +221,6 @@ class CustomLobbyRoom extends colyseus_1.Room {
                     shiny
                 });
             });
-            this.presence.subscribe("ranked-lobby-winner", (player) => {
-                this.state.addAnnouncement(`${player.name} won the ranked match !`);
-            });
             this.presence.subscribe("tournament-winner", (player) => {
                 this.state.addAnnouncement(`${player.name} won the tournament !`);
             });
@@ -229,12 +230,6 @@ class CustomLobbyRoom extends colyseus_1.Room {
                     bracketId,
                     players
                 });
-            });
-            this.presence.subscribe("lobby-full", (params) => {
-                if (params.gameMode === Game_1.GameMode.RANKED ||
-                    params.gameMode === Game_1.GameMode.SCRIBBLE) {
-                    this.dispatcher.dispatch(new lobby_commands_1.OpenSpecialGameCommand(), params);
-                }
             });
             this.presence.subscribe("server-announcement", (message) => {
                 this.state.addAnnouncement(message);
@@ -371,42 +366,6 @@ class CustomLobbyRoom extends colyseus_1.Room {
     }
     initCronJobs() {
         logger_1.logger.debug("init lobby cron jobs");
-        const greatBallRankedLobbyJob = cron_1.CronJob.from({
-            cronTime: Config_1.GREATBALL_RANKED_LOBBY_CRON,
-            timeZone: "Europe/Paris",
-            onTick: () => {
-                this.dispatcher.dispatch(new lobby_commands_1.OpenSpecialGameCommand(), {
-                    gameMode: Game_1.GameMode.RANKED,
-                    minRank: EloRank_1.EloRank.GREATBALL
-                });
-            },
-            start: true
-        });
-        this.cleanUpCronJobs.push(greatBallRankedLobbyJob);
-        const ultraBallRankedLobbyJob = cron_1.CronJob.from({
-            cronTime: Config_1.ULTRABALL_RANKED_LOBBY_CRON,
-            timeZone: "Europe/Paris",
-            onTick: () => {
-                this.dispatcher.dispatch(new lobby_commands_1.OpenSpecialGameCommand(), {
-                    gameMode: Game_1.GameMode.RANKED,
-                    minRank: EloRank_1.EloRank.ULTRABALL
-                });
-            },
-            start: true
-        });
-        this.cleanUpCronJobs.push(ultraBallRankedLobbyJob);
-        const scribbleLobbyJob = cron_1.CronJob.from({
-            cronTime: Config_1.SCRIBBLE_LOBBY_CRON,
-            timeZone: "Europe/Paris",
-            onTick: () => {
-                this.dispatcher.dispatch(new lobby_commands_1.OpenSpecialGameCommand(), {
-                    gameMode: Game_1.GameMode.SCRIBBLE,
-                    noElo: true
-                });
-            },
-            start: true
-        });
-        this.cleanUpCronJobs.push(scribbleLobbyJob);
         if (process.env.NODE_APP_INSTANCE || process.env.MODE === "dev") {
             const staleJob = cron_1.CronJob.from({
                 cronTime: "*/1 * * * *",
@@ -431,6 +390,12 @@ class CustomLobbyRoom extends colyseus_1.Room {
                             gameStartedAt != null &&
                             new Date(gameStartedAt).getTime() < Date.now() - 60000) ||
                             !query.map((r) => r.roomId).includes(room.roomId)) {
+                            this.presence.hdel("roomcaches", room.roomId);
+                            this.removeRoom(roomIndex, room.roomId);
+                        }
+                        if (type === "game" &&
+                            gameStartedAt != null &&
+                            new Date(gameStartedAt).getTime() < Date.now() - 86400000) {
                             this.presence.hdel("roomcaches", room.roomId);
                             this.removeRoom(roomIndex, room.roomId);
                         }

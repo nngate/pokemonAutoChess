@@ -15,7 +15,7 @@ export default class ItemContainer extends DraggableObject {
     playerId: string;
     mouseoutTimeout: NodeJS.Timeout | null;
     constructor(scene: Phaser.Scene, x: number, y: number, item: Item, pokemonId: string | null, playerId: string);
-    get cellIndex(): 2 | 0 | 1 | 3 | 4 | 5;
+    get cellIndex(): 0 | 1 | 2 | 3 | 4 | 5;
     updateDropZone(value: boolean): void;
     onPointerOver(pointer: any): void;
     onPointerOut(): void;

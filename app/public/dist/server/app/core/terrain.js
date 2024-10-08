@@ -24,8 +24,9 @@ class Terrain {
         });
     }
     newRandom(seed) {
+        let s;
         try {
-            var s = seed.toString();
+            s = seed.toString();
         }
         catch (_) {
             s = (new Date().getTime() + Math.random()).toString();

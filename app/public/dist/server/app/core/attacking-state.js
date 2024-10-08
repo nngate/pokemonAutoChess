@@ -12,6 +12,10 @@ const pokemon_state_1 = __importDefault(require("./pokemon-state"));
 const simulation_command_1 = require("./simulation-command");
 const animation_manager_1 = require("../public/src/game/animation-manager");
 class AttackingState extends pokemon_state_1.default {
+    constructor() {
+        super(...arguments);
+        this.name = "attacking";
+    }
     update(pokemon, dt, board, weather, player) {
         super.update(pokemon, dt, board, weather, player);
         if (pokemon.cooldown <= 0) {

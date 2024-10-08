@@ -16,22 +16,23 @@ const message_1 = __importDefault(require("../../models/colyseus-models/message"
 const Game_1 = require("../../types/enum/Game");
 class PreparationState extends schema_1.Schema {
     constructor(params) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         super();
         this.messages = new schema_1.ArraySchema();
         this.users = new schema_1.MapSchema();
-        this.gameMode = Game_1.GameMode.NORMAL;
+        this.gameMode = Game_1.GameMode.CUSTOM_LOBBY;
         this.ownerId =
-            params.gameMode === Game_1.GameMode.NORMAL ? (_a = params.ownerId) !== null && _a !== void 0 ? _a : "" : "";
+            params.gameMode === Game_1.GameMode.CUSTOM_LOBBY ? ((_a = params.ownerId) !== null && _a !== void 0 ? _a : "") : "";
         this.name = params.roomName;
         this.gameStartedAt = null;
         this.ownerName = "";
-        this.password = null;
-        this.noElo = (_b = params.noElo) !== null && _b !== void 0 ? _b : false;
-        this.minRank = (_c = params.minRank) !== null && _c !== void 0 ? _c : null;
+        this.password = (_b = params.password) !== null && _b !== void 0 ? _b : null;
+        this.noElo = (_c = params.noElo) !== null && _c !== void 0 ? _c : false;
+        this.minRank = (_d = params.minRank) !== null && _d !== void 0 ? _d : null;
+        this.maxRank = (_e = params.maxRank) !== null && _e !== void 0 ? _e : null;
         this.gameMode = params.gameMode;
-        this.whitelist = (_d = params.whitelist) !== null && _d !== void 0 ? _d : [];
-        this.blacklist = (_e = params.blacklist) !== null && _e !== void 0 ? _e : [];
+        this.whitelist = (_f = params.whitelist) !== null && _f !== void 0 ? _f : [];
+        this.blacklist = (_g = params.blacklist) !== null && _g !== void 0 ? _g : [];
     }
     addMessage(params) {
         var _a, _b;
@@ -72,6 +73,9 @@ __decorate([
 __decorate([
     (0, schema_1.type)("string")
 ], PreparationState.prototype, "minRank", void 0);
+__decorate([
+    (0, schema_1.type)("string")
+], PreparationState.prototype, "maxRank", void 0);
 __decorate([
     (0, schema_1.type)("string")
 ], PreparationState.prototype, "gameMode", void 0);

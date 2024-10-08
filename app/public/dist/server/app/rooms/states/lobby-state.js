@@ -19,22 +19,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const schema_1 = require("@colyseus/schema");
-const cron_1 = require("cron");
 const nanoid_1 = require("nanoid");
-const lobby_1 = require("../../models/colyseus-models/lobby");
 const message_1 = __importDefault(require("../../models/colyseus-models/message"));
 const tournament_1 = require("../../models/colyseus-models/tournament");
 const chat_v2_1 = __importDefault(require("../../models/mongo-models/chat-v2"));
 const tournament_2 = __importDefault(require("../../models/mongo-models/tournament"));
-const Config_1 = require("../../types/Config");
-const EloRank_1 = require("../../types/enum/EloRank");
-const Game_1 = require("../../types/enum/Game");
 const logger_1 = require("../../utils/logger");
 class LobbyState extends schema_1.Schema {
     constructor() {
         super(...arguments);
         this.messages = new schema_1.ArraySchema();
-        this.nextSpecialGame = null;
         this.tournaments = new schema_1.ArraySchema();
         this.ccu = 0;
     }
@@ -75,23 +69,6 @@ class LobbyState extends schema_1.Schema {
     addAnnouncement(message) {
         this.addMessage(message, "server", "Server Announcement", "0294/Joyous");
     }
-    getNextSpecialGame() {
-        const getNextDate = (t) => new cron_1.CronTime(t, "Europe/Paris").sendAt().toUnixInteger();
-        const nextGreatballRanked = getNextDate(Config_1.GREATBALL_RANKED_LOBBY_CRON);
-        const nextUltraballRanked = getNextDate(Config_1.ULTRABALL_RANKED_LOBBY_CRON);
-        const nextScribble = getNextDate(Config_1.SCRIBBLE_LOBBY_CRON);
-        const nextSpecialGameDateInt = Math.min(nextGreatballRanked, nextUltraballRanked, nextScribble);
-        const nextSpecialGameDate = new Date(nextSpecialGameDateInt * 1000).toISOString();
-        if (nextSpecialGameDateInt === nextGreatballRanked) {
-            this.nextSpecialGame = new lobby_1.SpecialGamePlannedSchema(Game_1.GameMode.RANKED, nextSpecialGameDate, EloRank_1.EloRank.GREATBALL);
-        }
-        else if (nextSpecialGameDateInt === nextUltraballRanked) {
-            this.nextSpecialGame = new lobby_1.SpecialGamePlannedSchema(Game_1.GameMode.RANKED, nextSpecialGameDate, EloRank_1.EloRank.ULTRABALL);
-        }
-        else if (nextSpecialGameDateInt === nextScribble) {
-            this.nextSpecialGame = new lobby_1.SpecialGamePlannedSchema(Game_1.GameMode.SCRIBBLE, nextSpecialGameDate);
-        }
-    }
     createTournament(name, startDate) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = (0, nanoid_1.nanoid)();
@@ -120,9 +97,6 @@ exports.default = LobbyState;
 __decorate([
     (0, schema_1.type)([message_1.default])
 ], LobbyState.prototype, "messages", void 0);
-__decorate([
-    (0, schema_1.type)(lobby_1.SpecialGamePlannedSchema)
-], LobbyState.prototype, "nextSpecialGame", void 0);
 __decorate([
     (0, schema_1.type)([tournament_1.TournamentSchema])
 ], LobbyState.prototype, "tournaments", void 0);

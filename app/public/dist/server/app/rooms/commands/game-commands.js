@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OnUpdatePhaseCommand = exports.OnUpdateCommand = exports.OnJoinCommand = exports.OnPickBerryCommand = exports.OnLevelUpCommand = exports.OnSpectateCommand = exports.OnLockCommand = exports.OnRefreshCommand = exports.OnSellDropCommand = exports.OnDragDropItemCommand = exports.OnDragDropCombineCommand = exports.OnDragDropCommand = exports.OnPokemonCatchCommand = exports.OnRemoveFromShopCommand = exports.OnShopCommand = void 0;
+exports.OnUpdatePhaseCommand = exports.OnUpdateCommand = exports.OnJoinCommand = exports.OnPickBerryCommand = exports.OnLevelUpCommand = exports.OnSpectateCommand = exports.OnLockCommand = exports.OnRefreshCommand = exports.OnSellDropCommand = exports.OnDragDropItemCommand = exports.OnDragDropCombineCommand = exports.OnSwitchBenchAndBoardCommand = exports.OnDragDropCommand = exports.OnPokemonCatchCommand = exports.OnRemoveFromShopCommand = exports.OnShopCommand = void 0;
 const command_1 = require("@colyseus/command");
 const colyseus_1 = require("colyseus");
 const nanoid_1 = require("nanoid");
@@ -24,7 +24,6 @@ const experience_manager_1 = require("../../models/colyseus-models/experience-ma
 const pokemon_1 = require("../../models/colyseus-models/pokemon");
 const egg_factory_1 = require("../../models/egg-factory");
 const pokemon_factory_1 = __importDefault(require("../../models/pokemon-factory"));
-const precomputed_pokemon_data_1 = require("../../models/precomputed/precomputed-pokemon-data");
 const pve_stages_1 = require("../../models/pve-stages");
 const shop_1 = require("../../models/shop");
 const utils_1 = require("../../public/src/utils");
@@ -76,9 +75,9 @@ class OnShopCommand extends command_1.Command {
         player.board.set(pokemon.id, pokemon);
         pokemon.onAcquired(player);
         if (pokemon.passive === Passive_1.Passive.UNOWN &&
-            player.effects.has(Effect_1.Effect.EERIE_SPELL) &&
             player.shop.every((p) => Pokemon_1.Unowns.includes(p))) {
             this.state.shop.assignShop(player, true, this.state);
+            player.shopFreeRolls -= 1;
         }
         else {
             player.shop = player.shop.with(index, Pokemon_1.Pkm.DEFAULT);
@@ -100,6 +99,7 @@ class OnRemoveFromShopCommand extends command_1.Command {
         const cost = (0, shop_1.getBuyPrice)(name, this.state.specialGameRule);
         if (player.money >= cost) {
             player.shop = player.shop.with(index, Pokemon_1.Pkm.DEFAULT);
+            player.shopLocked = true;
             this.state.shop.releasePokemon(name, player);
         }
     }
@@ -146,8 +146,7 @@ class OnDragDropCommand extends command_1.Command {
             message.updateItems = false;
             const pokemon = player.board.get(detail.id);
             if (pokemon) {
-                const x = parseInt(detail.x);
-                const y = parseInt(detail.y);
+                const { x, y } = detail;
                 const dropOnBench = y == 0;
                 const dropFromBench = (0, pokemon_1.isOnBench)(pokemon);
                 if (pokemon.name === Pokemon_1.Pkm.DITTO &&
@@ -213,6 +212,40 @@ class OnDragDropCommand extends command_1.Command {
     }
 }
 exports.OnDragDropCommand = OnDragDropCommand;
+class OnSwitchBenchAndBoardCommand extends command_1.Command {
+    execute({ client, pokemonId }) {
+        const playerId = client.auth.uid;
+        const player = this.room.state.players.get(playerId);
+        if (!player)
+            return;
+        const pokemon = player.board.get(pokemonId);
+        if (!pokemon)
+            return;
+        if (this.state.phase !== Game_1.GamePhaseState.PICK)
+            return;
+        if (pokemon.positionY === 0) {
+            const teamSize = this.room.getTeamSize(player.board);
+            const isBoardFull = teamSize >=
+                (0, board_1.getMaxTeamSize)(player.experienceManager.level, this.room.state.specialGameRule);
+            const destination = (0, board_1.getFirstAvailablePositionOnBoard)(player.board);
+            if (pokemon.canBePlaced && destination && !isBoardFull) {
+                const [dx, dy] = destination;
+                this.room.swap(player, pokemon, dx, dy);
+                pokemon.onChangePosition(dx, dy, player);
+            }
+        }
+        else {
+            const dx = (0, board_1.getFirstAvailablePositionInBench)(player.board);
+            if (dx !== undefined) {
+                this.room.swap(player, pokemon, dx, 0);
+                pokemon.onChangePosition(dx, 0, player);
+            }
+        }
+        player.updateSynergies();
+        player.boardSize = this.room.getTeamSize(player.board);
+    }
+}
+exports.OnSwitchBenchAndBoardCommand = OnSwitchBenchAndBoardCommand;
 class OnDragDropCombineCommand extends command_1.Command {
     execute({ client, detail }) {
         const playerId = client.auth.uid;
@@ -281,7 +314,7 @@ class OnDragDropItemCommand extends command_1.Command {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
-        const pokemon = player.getPokemonAt(x, y);
+        let pokemon = player.getPokemonAt(x, y);
         if (pokemon === undefined) {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
@@ -304,8 +337,50 @@ class OnDragDropItemCommand extends command_1.Command {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
+        if (item === Item_1.Item.TEAL_MASK ||
+            item === Item_1.Item.WELLSPRING_MASK ||
+            item === Item_1.Item.HEARTHFLAME_MASK ||
+            item === Item_1.Item.CORNERSTONE_MASK) {
+            if (pokemon.passive === Passive_1.Passive.OGERPON_TEAL ||
+                pokemon.passive === Passive_1.Passive.OGERPON_WELLSPRING ||
+                pokemon.passive === Passive_1.Passive.OGERPON_HEARTHFLAME ||
+                pokemon.passive === Passive_1.Passive.OGERPON_CORNERSTONE) {
+                if (pokemon.passive === Passive_1.Passive.OGERPON_TEAL) {
+                    pokemon.items.delete(Item_1.Item.TEAL_MASK);
+                }
+                else if (pokemon.passive === Passive_1.Passive.OGERPON_WELLSPRING) {
+                    pokemon.items.delete(Item_1.Item.WELLSPRING_MASK);
+                }
+                else if (pokemon.passive === Passive_1.Passive.OGERPON_HEARTHFLAME) {
+                    pokemon.items.delete(Item_1.Item.HEARTHFLAME_MASK);
+                }
+                else if (pokemon.passive === Passive_1.Passive.OGERPON_CORNERSTONE) {
+                    pokemon.items.delete(Item_1.Item.CORNERSTONE_MASK);
+                }
+                if (item === Item_1.Item.TEAL_MASK) {
+                    pokemon.items.add(Item_1.Item.TEAL_MASK);
+                    player.transformPokemon(pokemon, Pokemon_1.Pkm.OGERPON_TEAL_MASK);
+                }
+                else if (item === Item_1.Item.WELLSPRING_MASK) {
+                    pokemon.items.add(Item_1.Item.WELLSPRING_MASK);
+                    player.transformPokemon(pokemon, Pokemon_1.Pkm.OGERPON_WELLSPRING_MASK);
+                }
+                else if (item === Item_1.Item.HEARTHFLAME_MASK) {
+                    pokemon.items.add(Item_1.Item.HEARTHFLAME_MASK);
+                    player.transformPokemon(pokemon, Pokemon_1.Pkm.OGERPON_HEARTHFLAME_MASK);
+                }
+                else if (item === Item_1.Item.CORNERSTONE_MASK) {
+                    pokemon.items.add(Item_1.Item.CORNERSTONE_MASK);
+                    player.transformPokemon(pokemon, Pokemon_1.Pkm.OGERPON_CORNERSTONE_MASK);
+                }
+            }
+            else {
+                client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
+                return;
+            }
+        }
         if (item === Item_1.Item.FIRE_SHARD) {
-            if (pokemon.types.has(Synergy_1.Synergy.FIRE)) {
+            if (pokemon.types.has(Synergy_1.Synergy.FIRE) && player.life > 2) {
                 pokemon.atk += 2;
                 player.life = (0, number_1.min)(1)(player.life - 2);
                 (0, array_1.removeInArray)(player.items, item);
@@ -319,41 +394,11 @@ class OnDragDropItemCommand extends command_1.Command {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
-        if (item === Item_1.Item.GOLDEN_ROD) {
-            let needsRecomputingSynergiesAgain = false;
-            pokemon === null || pokemon === void 0 ? void 0 : pokemon.items.forEach((item) => {
-                pokemon.items.delete(item);
-                player.items.push(item);
-                if (item in Item_1.SynergyGivenByItem) {
-                    const type = Item_1.SynergyGivenByItem[item];
-                    const nativeTypes = (0, precomputed_pokemon_data_1.getPokemonData)(pokemon.name).types;
-                    if (nativeTypes.includes(type) === false) {
-                        pokemon.types.delete(type);
-                        if (!(0, pokemon_1.isOnBench)(pokemon)) {
-                            needsRecomputingSynergiesAgain = true;
-                        }
-                    }
-                }
-            });
-            if (needsRecomputingSynergiesAgain) {
-                player.updateSynergies();
-            }
-            client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
-            return;
-        }
         if (!pokemon.canHoldItems) {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
         if (item === Item_1.Item.EVIOLITE && pokemon.evolution === Pokemon_1.Pkm.DEFAULT) {
-            client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
-            return;
-        }
-        if (item === Item_1.Item.RARE_CANDY &&
-            (pokemon.evolution === Pokemon_1.Pkm.DEFAULT ||
-                pokemon.rarity === Game_1.Rarity.UNIQUE ||
-                pokemon.rarity === Game_1.Rarity.LEGENDARY ||
-                pokemon.rarity === Game_1.Rarity.HATCH)) {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
         }
@@ -381,6 +426,16 @@ class OnDragDropItemCommand extends command_1.Command {
         if (!isBasicItem && pokemon.items.has(item)) {
             client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
             return;
+        }
+        if (item === Item_1.Item.RARE_CANDY) {
+            const evolution = pokemon === null || pokemon === void 0 ? void 0 : pokemon.evolution;
+            if (!evolution ||
+                evolution === Pokemon_1.Pkm.DEFAULT ||
+                pokemon.items.has(Item_1.Item.EVIOLITE)) {
+                client.send(types_1.Transfer.DRAG_DROP_FAILED, message);
+                return;
+            }
+            pokemon = player.transformPokemon(pokemon, evolution);
         }
         if (isBasicItem && existingBasicItemToCombine) {
             const recipe = Object.entries(Item_1.ItemRecipe).find(([_result, recipe]) => (recipe[0] === existingBasicItemToCombine && recipe[1] === item) ||
@@ -429,8 +484,8 @@ class OnSellDropCommand extends command_1.Command {
             }
             if (pokemon) {
                 this.state.shop.releasePokemon(pokemon.name, player);
-                const sellPrice = (0, shop_1.getSellPrice)(pokemon.name, pokemon.shiny, this.state.specialGameRule);
-                player.addMoney(sellPrice);
+                const sellPrice = (0, shop_1.getSellPrice)(pokemon, this.state.specialGameRule);
+                player.addMoney(sellPrice, false, null);
                 pokemon.items.forEach((it) => {
                     player.items.push(it);
                 });
@@ -445,10 +500,15 @@ exports.OnSellDropCommand = OnSellDropCommand;
 class OnRefreshCommand extends command_1.Command {
     execute(id) {
         const player = this.state.players.get(id);
-        if (player && player.money >= 1 && player.alive) {
+        if (!player)
+            return;
+        const rollCost = player.shopFreeRolls > 0 ? 0 : 1;
+        if (player.money >= rollCost && player.alive) {
             this.state.shop.assignShop(player, true, this.state);
-            player.money -= 1;
+            player.money -= rollCost;
             player.rerollCount++;
+            if (player.shopFreeRolls > 0)
+                player.shopFreeRolls--;
         }
     }
 }
@@ -758,7 +818,7 @@ class OnUpdatePhaseCommand extends command_1.Command {
                 income += player.interest;
                 income += (0, number_1.max)(5)(player.streak);
                 income += 5;
-                player.addMoney(income);
+                player.addMoney(income, true, null);
                 if (income > 0) {
                     const client = this.room.clients.find((cli) => cli.auth.uid === player.id);
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, income);
@@ -814,7 +874,7 @@ class OnUpdatePhaseCommand extends command_1.Command {
                     for (let i = 0; i < 3; i++) {
                         const p = pool.pop();
                         if (p) {
-                            const regionalVariants = ((_a = Pokemon_1.PkmRegionalVariants[p]) !== null && _a !== void 0 ? _a : []).filter((pkm) => pokemon_1.PokemonClasses[pkm].prototype.isInRegion(pkm, player.map));
+                            const regionalVariants = ((_a = Pokemon_1.PkmRegionalVariants[p]) !== null && _a !== void 0 ? _a : []).filter((pkm) => new pokemon_1.PokemonClasses[pkm]().isInRegion(player.map));
                             if (regionalVariants.length > 0) {
                                 player.pokemonsProposition.push((0, random_1.pickRandomIn)(regionalVariants));
                             }
@@ -834,6 +894,7 @@ class OnUpdatePhaseCommand extends command_1.Command {
                     this.state.shop.addAdditionalPokemon(p);
                 }
             });
+            this.state.players.forEach((p) => p.updateRegionalPool(this.state, false));
         }
         const isAfterPVE = this.state.stageLevel - 1 in pve_stages_1.PVEStages;
         const commands = new Array();
@@ -856,12 +917,6 @@ class OnUpdatePhaseCommand extends command_1.Command {
             for (let i = 0; i < nbTrees; i++) {
                 player.berryTreesStage[i] = (0, number_1.max)(3)(player.berryTreesStage[i] + 1);
             }
-            player.board.forEach((pokemon) => {
-                if (pokemon.items.has(Item_1.Item.RARE_CANDY) &&
-                    pokemon.evolution !== Pokemon_1.Pkm.DEFAULT) {
-                    this.room.spawnOnBench(player, Pokemon_1.PkmFamily[pokemon.name]);
-                }
-            });
         });
         this.spawnWanderingPokemons();
         return commands;
@@ -910,7 +965,7 @@ class OnUpdatePhaseCommand extends command_1.Command {
         this.checkDeath();
         this.computeIncome();
         this.state.players.forEach((player) => {
-            var _a, _b, _c;
+            var _a, _b;
             if (player.alive) {
                 if (player.isBot) {
                     player.experienceManager.level = (0, number_1.max)(9)(Math.round(this.state.stageLevel / 2));
@@ -925,46 +980,46 @@ class OnUpdatePhaseCommand extends command_1.Command {
                         player.pveRewardsPropositions.clear();
                     }
                 }
-                let eggChance = 0, shinyChance = 0, nbMaxEggs = 0;
-                if (((_b = player.history.at(-1)) === null || _b === void 0 ? void 0 : _b.result) === Game_1.BattleResult.DEFEAT &&
-                    (player.effects.has(Effect_1.Effect.BREEDER) ||
-                        player.effects.has(Effect_1.Effect.GOLDEN_EGGS))) {
-                    eggChance = 1;
-                    nbMaxEggs = 8;
-                    shinyChance = player.effects.has(Effect_1.Effect.GOLDEN_EGGS)
-                        ? 0.25 * (player.streak + 1)
-                        : 0;
+                let eggChance = 0;
+                let shinyChance = 0;
+                const hasBabyActive = player.effects.has(Effect_1.Effect.HATCHER) ||
+                    player.effects.has(Effect_1.Effect.BREEDER) ||
+                    player.effects.has(Effect_1.Effect.GOLDEN_EGGS);
+                const hasLostLastBattle = ((_b = player.history.at(-1)) === null || _b === void 0 ? void 0 : _b.result) === Game_1.BattleResult.DEFEAT;
+                if (hasLostLastBattle && hasBabyActive) {
+                    if (player.effects.has(Effect_1.Effect.HATCHER)) {
+                        eggChance = player.eggChance;
+                        shinyChance = 0;
+                    }
+                    if (player.effects.has(Effect_1.Effect.BREEDER)) {
+                        eggChance = 1;
+                        shinyChance = 0;
+                    }
+                    if (player.effects.has(Effect_1.Effect.GOLDEN_EGGS)) {
+                        eggChance = 1;
+                        shinyChance = player.eggChance;
+                    }
+                    player.eggChance = (0, number_1.max)(1)(player.eggChance + 0.25);
                 }
-                if (((_c = player.history.at(-1)) === null || _c === void 0 ? void 0 : _c.result) === Game_1.BattleResult.DEFEAT &&
-                    player.effects.has(Effect_1.Effect.HATCHER)) {
-                    eggChance = 0.25 * (player.streak + 1);
-                    nbMaxEggs = 1;
+                else if (!isPVE) {
+                    player.eggChance = 0;
                 }
                 if (this.state.specialGameRule === SpecialGameRule_1.SpecialGameRule.OMELETTE_COOK &&
                     [1, 2, 3].includes(this.state.stageLevel)) {
                     eggChance = 1;
-                    nbMaxEggs = 8;
                 }
                 const eggsOnBench = (0, schemas_1.values)(player.board).filter((p) => p.name === Pokemon_1.Pkm.EGG);
-                const nbOfEggs = eggsOnBench.length;
                 const nbOfShinyEggs = eggsOnBench.filter((p) => p.shiny).length;
-                if ((0, random_1.chance)(eggChance) &&
-                    (0, board_1.getFreeSpaceOnBench)(player.board) > 0 &&
-                    nbOfEggs < nbMaxEggs) {
+                if ((0, random_1.chance)(eggChance) && (0, board_1.getFreeSpaceOnBench)(player.board) > 0) {
                     const shiny = (0, random_1.chance)(shinyChance) && nbOfShinyEggs === 0;
                     const egg = (0, egg_factory_1.createRandomEgg)(shiny, player);
                     const x = (0, board_1.getFirstAvailablePositionInBench)(player.board);
                     egg.positionX = x !== undefined ? x : -1;
                     egg.positionY = 0;
                     player.board.set(egg.id, egg);
-                }
-                if (!player.isBot) {
-                    if (!player.shopLocked) {
-                        this.state.shop.assignShop(player, false, this.state);
-                    }
-                    else {
-                        this.state.shop.refillShop(player, this.state);
-                        player.shopLocked = false;
+                    if (player.effects.has(Effect_1.Effect.HATCHER) ||
+                        (player.effects.has(Effect_1.Effect.GOLDEN_EGGS) && shiny)) {
+                        player.eggChance = 0;
                     }
                 }
                 player.board.forEach((pokemon, key) => {
@@ -979,13 +1034,21 @@ class OnUpdatePhaseCommand extends command_1.Command {
                     if (pokemon.passive === Passive_1.Passive.UNOWN && !(0, pokemon_1.isOnBench)(pokemon)) {
                         player.board.delete(key);
                         player.board.delete(pokemon.id);
-                        player.updateSynergies();
-                        if (!player.shopLocked) {
-                            this.state.shop.assignShop(player, false, this.state);
-                        }
                     }
                 });
                 player.updateSynergies();
+                if (!player.isBot) {
+                    if (!player.shopLocked) {
+                        if (player.shop.every((p) => Pokemon_1.Unowns.includes(p))) {
+                            player.shopFreeRolls -= 1;
+                        }
+                        this.state.shop.assignShop(player, false, this.state);
+                    }
+                    else {
+                        this.state.shop.refillShop(player, this.state);
+                        player.shopLocked = false;
+                    }
+                }
             }
         });
         this.state.stageLevel += 1;
@@ -1024,17 +1087,17 @@ class OnUpdatePhaseCommand extends command_1.Command {
                     player.opponentName = pveStage.name;
                     player.opponentAvatar = (0, utils_1.getAvatarString)(Pokemon_1.PkmIndex[pveStage.avatar], this.state.shinyEncounter, pveStage.emotion);
                     player.opponentTitle = "WILD";
+                    player.team = Game_1.Team.BLUE_TEAM;
                     const rewards = (_b = (_a = pveStage.getRewards) === null || _a === void 0 ? void 0 : _a.call(pveStage, player)) !== null && _b !== void 0 ? _b : [];
                     (0, schemas_1.resetArraySchema)(player.pveRewards, rewards);
                     const rewardsPropositions = this.state.shinyEncounter
                         ? (0, random_1.pickNRandomIn)(Item_1.ShinyItems, 3)
-                        : (_d = (_c = pveStage.getRewardsPropositions) === null || _c === void 0 ? void 0 : _c.call(pveStage, player)) !== null && _d !== void 0 ? _d : [];
+                        : ((_d = (_c = pveStage.getRewardsPropositions) === null || _c === void 0 ? void 0 : _c.call(pveStage, player)) !== null && _d !== void 0 ? _d : []);
                     (0, schemas_1.resetArraySchema)(player.pveRewardsPropositions, rewardsPropositions);
                     const pveBoard = pokemon_factory_1.default.makePveBoard(pveStage, this.state.shinyEncounter);
                     const weather = (0, weather_1.getWeather)(player.board, pveBoard);
                     const simulation = new simulation_1.default((0, nanoid_1.nanoid)(), this.room, player.board, pveBoard, player, undefined, this.state.stageLevel, weather);
                     player.simulationId = simulation.id;
-                    player.simulationTeamIndex = 0;
                     this.state.simulations.set(simulation.id, simulation);
                 }
             });
@@ -1043,25 +1106,27 @@ class OnUpdatePhaseCommand extends command_1.Command {
             const matchups = (0, matchmaking_1.selectMatchups)(this.state);
             matchups.forEach((matchup) => {
                 var _a, _b, _c, _d;
-                const playerA = matchup.a, playerB = matchup.b;
-                const weather = (0, weather_1.getWeather)(playerA.board, playerB.board);
+                const { bluePlayer, redPlayer } = matchup;
+                const weather = (0, weather_1.getWeather)(bluePlayer.board, redPlayer.board);
                 const simulationId = (0, nanoid_1.nanoid)();
-                const simulation = new simulation_1.default(simulationId, this.room, playerA.board, playerB.board, playerA, playerB, this.state.stageLevel, weather);
-                playerA.simulationId = simulationId;
-                playerA.simulationTeamIndex = 0;
-                playerA.opponents.set(playerB.id, ((_a = playerA.opponents.get(playerB.id)) !== null && _a !== void 0 ? _a : 0) + 1);
-                playerA.opponentId = playerB.id;
-                playerA.opponentName = playerB.name;
-                playerA.opponentAvatar = playerB.avatar;
-                playerA.opponentTitle = (_b = playerB.title) !== null && _b !== void 0 ? _b : "";
+                const simulation = new simulation_1.default(simulationId, this.room, bluePlayer.board, redPlayer.board, bluePlayer, redPlayer, this.state.stageLevel, weather, matchup.ghost);
+                bluePlayer.simulationId = simulationId;
+                bluePlayer.team = Game_1.Team.BLUE_TEAM;
+                bluePlayer.opponents.set(redPlayer.id, ((_a = bluePlayer.opponents.get(redPlayer.id)) !== null && _a !== void 0 ? _a : 0) + 1);
+                bluePlayer.opponentId = redPlayer.id;
+                bluePlayer.opponentName = matchup.ghost
+                    ? `Ghost of ${redPlayer.name}`
+                    : redPlayer.name;
+                bluePlayer.opponentAvatar = redPlayer.avatar;
+                bluePlayer.opponentTitle = (_b = redPlayer.title) !== null && _b !== void 0 ? _b : "";
                 if (!matchup.ghost) {
-                    playerB.simulationId = simulationId;
-                    playerB.simulationTeamIndex = 1;
-                    playerB.opponents.set(playerA.id, ((_c = playerB.opponents.get(playerA.id)) !== null && _c !== void 0 ? _c : 0) + 1);
-                    playerB.opponentId = playerA.id;
-                    playerB.opponentName = playerA.name;
-                    playerB.opponentAvatar = playerA.avatar;
-                    playerB.opponentTitle = (_d = playerA.title) !== null && _d !== void 0 ? _d : "";
+                    redPlayer.simulationId = simulationId;
+                    redPlayer.team = Game_1.Team.RED_TEAM;
+                    redPlayer.opponents.set(bluePlayer.id, ((_c = redPlayer.opponents.get(bluePlayer.id)) !== null && _c !== void 0 ? _c : 0) + 1);
+                    redPlayer.opponentId = bluePlayer.id;
+                    redPlayer.opponentName = bluePlayer.name;
+                    redPlayer.opponentAvatar = bluePlayer.avatar;
+                    redPlayer.opponentTitle = (_d = bluePlayer.title) !== null && _d !== void 0 ? _d : "";
                 }
                 this.state.simulations.set(simulation.id, simulation);
             });

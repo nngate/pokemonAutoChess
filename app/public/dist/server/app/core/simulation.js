@@ -32,7 +32,7 @@ const dps_1 = __importDefault(require("./dps"));
 const pokemon_entity_1 = require("./pokemon-entity");
 const simulation_command_1 = require("./simulation-command");
 class Simulation extends schema_1.Schema {
-    constructor(id, room, blueTeam, redTeam, bluePlayer, redPlayer, stageLevel, weather) {
+    constructor(id, room, blueTeam, redTeam, bluePlayer, redPlayer, stageLevel, weather, isGhostBattle = false) {
         var _a;
         super();
         this.weather = Weather_1.Weather.NEUTRAL;
@@ -57,6 +57,7 @@ class Simulation extends schema_1.Schema {
         this.redPlayerId = (_a = redPlayer === null || redPlayer === void 0 ? void 0 : redPlayer.id) !== null && _a !== void 0 ? _a : "pve";
         this.stageLevel = stageLevel;
         this.weather = weather;
+        this.isGhostBattle = isGhostBattle;
         this.board = new board_1.default(Config_1.BOARD_HEIGHT, Config_1.BOARD_WIDTH);
         [this.bluePlayer, this.redPlayer].forEach((player) => {
             if (!player)
@@ -107,7 +108,6 @@ class Simulation extends schema_1.Schema {
                     Effect_1.Effect.HORDE,
                     Effect_1.Effect.HEART_OF_THE_SWARM
                 ].some((e) => effects.has(e))) {
-                    const teamIndex = team === blueTeam ? 0 : 1;
                     const bugTeam = new Array();
                     team.forEach((pkm) => {
                         if (pkm.types.has(Synergy_1.Synergy.BUG) && pkm.positionY != 0) {
@@ -130,6 +130,7 @@ class Simulation extends schema_1.Schema {
                     }
                     for (let i = 0; i < numberToSpawn; i++) {
                         const bug = pokemon_factory_1.default.createPokemonFromName(bugTeam[i].name, player);
+                        const teamIndex = team === blueTeam ? 0 : 1;
                         const coord = this.getClosestAvailablePlaceOnBoardToPokemon(bugTeam[i], teamIndex);
                         this.addPokemon(bug, coord.x, coord.y, teamIndex, true);
                     }
@@ -220,9 +221,9 @@ class Simulation extends schema_1.Schema {
         }
         return pokemonEntity;
     }
-    getFirstAvailablePlaceOnBoard(teamIndex) {
+    getFirstAvailablePlaceOnBoard(team) {
         let candidateX = 0, candidateY = 0;
-        if (teamIndex === 0) {
+        if (team === Game_1.Team.BLUE_TEAM) {
             outerloop: for (let y = 0; y < this.board.rows; y++) {
                 for (let x = 0; x < this.board.columns; x++) {
                     if (this.board.getValue(x, y) === undefined) {
@@ -246,7 +247,7 @@ class Simulation extends schema_1.Schema {
         }
         return { x: candidateX, y: candidateY };
     }
-    getClosestAvailablePlaceOnBoardTo(positionX, positionY, teamIndex) {
+    getClosestAvailablePlaceOnBoardTo(positionX, positionY, team) {
         const placesToConsiderByOrderOfPriority = [
             [0, 0],
             [-1, 0],
@@ -286,7 +287,7 @@ class Simulation extends schema_1.Schema {
         ];
         for (const [dx, dy] of placesToConsiderByOrderOfPriority) {
             const x = positionX + dx;
-            const y = teamIndex === 0 ? positionY - 1 + dy : 5 - (positionY - 1) - dy;
+            const y = team === Game_1.Team.BLUE_TEAM ? positionY - 1 + dy : 5 - (positionY - 1) - dy;
             if (x >= 0 &&
                 x < this.board.columns &&
                 y >= 0 &&
@@ -295,10 +296,10 @@ class Simulation extends schema_1.Schema {
                 return { x, y };
             }
         }
-        return this.getFirstAvailablePlaceOnBoard(teamIndex);
+        return this.getFirstAvailablePlaceOnBoard(team);
     }
-    getClosestAvailablePlaceOnBoardToPokemon(pokemon, teamIndex) {
-        return this.getClosestAvailablePlaceOnBoardTo(pokemon.positionX, pokemon.positionY, teamIndex);
+    getClosestAvailablePlaceOnBoardToPokemon(pokemon, team) {
+        return this.getClosestAvailablePlaceOnBoardTo(pokemon.positionX, pokemon.positionY, team);
     }
     applyItemsEffects(pokemon) {
         if (pokemon.passive === Passive_1.Passive.PICKUP && pokemon.items.size === 0) {
@@ -360,6 +361,9 @@ class Simulation extends schema_1.Schema {
             pokemon.addCritChance(pokemon.player.money, pokemon, 0, false);
             pokemon.addCritPower(pokemon.player.money / 100, pokemon, 0, false);
         }
+        if (item === Item_1.Item.REPEAT_BALL && pokemon.player) {
+            pokemon.addAbilityPower(Math.floor(pokemon.player.rerollCount / 2), pokemon, 0, false);
+        }
         if (item === Item_1.Item.SACRED_ASH) {
             pokemon.status.resurection = true;
         }
@@ -372,8 +376,8 @@ class Simulation extends schema_1.Schema {
         else if (pokemon.team === Game_1.Team.RED_TEAM) {
             this.applyEffects(pokemon, pokemon.types, this.redEffects, ((_b = this.redPlayer) === null || _b === void 0 ? void 0 : _b.synergies.countActiveSynergies()) || 0);
         }
-        if (pokemon.types.has(Synergy_1.Synergy.GHOST)) {
-            pokemon.addDodgeChance(0.25, pokemon, 0, false);
+        if (pokemon.types.has(Synergy_1.Synergy.WATER)) {
+            pokemon.addDodgeChance(0.2, pokemon, 0, false);
         }
     }
     applyWeatherEffects(pokemon) {
@@ -1155,12 +1159,12 @@ class Simulation extends schema_1.Schema {
                     : Game_1.BattleResult.DRAW, this.redPlayer.opponentAvatar, this.weather);
             const client = this.room.clients.find((cli) => cli.auth.uid === this.redPlayerId);
             if (this.winnerId === this.redPlayerId) {
-                if (this.bluePlayerId !== "pve") {
-                    this.redPlayer.addMoney(1);
+                if (this.bluePlayerId !== "pve" && !this.isGhostBattle) {
+                    this.redPlayer.addMoney(1, true, null);
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
                 }
             }
-            else {
+            else if (!this.isGhostBattle) {
                 const playerDamage = this.room.computeRoundDamage(this.blueTeam, this.stageLevel);
                 this.redPlayer.life -= playerDamage;
                 if (playerDamage > 0) {
@@ -1180,7 +1184,7 @@ class Simulation extends schema_1.Schema {
             const client = this.room.clients.find((cli) => cli.auth.uid === this.bluePlayerId);
             if (this.winnerId === this.bluePlayerId) {
                 if (this.redPlayerId !== "pve") {
-                    this.bluePlayer.addMoney(1);
+                    this.bluePlayer.addMoney(1, true, null);
                     client === null || client === void 0 ? void 0 : client.send(types_1.Transfer.PLAYER_INCOME, 1);
                 }
             }
@@ -1286,7 +1290,7 @@ class Simulation extends schema_1.Schema {
                         if (cell.team === Game_1.Team.RED_TEAM) {
                             cell.status.clearNegativeStatus();
                             if (cell.types.has(Synergy_1.Synergy.AQUATIC)) {
-                                cell.handleHeal(waveLevel * 0.05 * cell.hp, cell, 0, false);
+                                cell.handleHeal(waveLevel * 0.1 * cell.hp, cell, 0, false);
                             }
                         }
                         else {

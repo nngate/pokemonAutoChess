@@ -10,5 +10,7 @@ export interface IMonitoringData {
 }
 declare const _default: import("mongoose").Model<IBotMonitoring, {}, {}, {}, import("mongoose").Document<unknown, {}, IBotMonitoring> & IBotMonitoring & {
     _id: import("mongoose").Types.ObjectId;
+} & {
+    __v?: number;
 }, any>;
 export default _default;

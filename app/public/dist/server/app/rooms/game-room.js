@@ -19,6 +19,7 @@ const elo_1 = require("../core/elo");
 const evolution_rules_1 = require("../core/evolution-rules");
 const mini_game_1 = require("../core/matter/mini-game");
 const player_1 = __importDefault(require("../models/colyseus-models/player"));
+const pokemon_1 = require("../models/colyseus-models/pokemon");
 const banned_user_1 = __importDefault(require("../models/mongo-models/banned-user"));
 const bot_v2_1 = require("../models/mongo-models/bot-v2");
 const detailled_statistic_v2_1 = __importDefault(require("../models/mongo-models/detailled-statistic-v2"));
@@ -32,7 +33,6 @@ const utils_1 = require("../public/src/utils");
 const types_1 = require("../types");
 const Config_1 = require("../types/Config");
 const Game_1 = require("../types/enum/Game");
-const Item_1 = require("../types/enum/Item");
 const Pokemon_1 = require("../types/enum/Pokemon");
 const SpecialGameRule_1 = require("../types/enum/SpecialGameRule");
 const array_1 = require("../utils/array");
@@ -65,7 +65,7 @@ class GameRoom extends colyseus_1.Room {
                 tournamentId: options.tournamentId,
                 bracketId: options.bracketId
             });
-            this.setState(new game_state_1.default(options.preparationId, options.name, options.noElo, options.gameMode, options.minRank));
+            this.setState(new game_state_1.default(options.preparationId, options.name, options.noElo, options.gameMode, options.minRank, options.maxRank));
             this.miniGame.create(this.state.avatars, this.state.floatingItems, this.state.portals, this.state.symbols);
             this.additionalUncommonPool = (0, shop_1.getAdditionalsTier1)(precomputed_rarity_1.PRECOMPUTED_POKEMONS_PER_RARITY.UNCOMMON);
             this.additionalRarePool = (0, shop_1.getAdditionalsTier1)(precomputed_rarity_1.PRECOMPUTED_POKEMONS_PER_RARITY.RARE);
@@ -245,6 +245,19 @@ class GameRoom extends colyseus_1.Room {
                     }
                     catch (error) {
                         logger_1.logger.error("lock error", message);
+                    }
+                }
+            });
+            this.onMessage(types_1.Transfer.SWITCH_BENCH_AND_BOARD, (client, pokemonId) => {
+                if (!this.state.gameFinished && client.auth) {
+                    try {
+                        this.dispatcher.dispatch(new game_commands_1.OnSwitchBenchAndBoardCommand(), {
+                            client,
+                            pokemonId
+                        });
+                    }
+                    catch (error) {
+                        logger_1.logger.error("sell drop error", pokemonId);
                     }
                 }
             });
@@ -512,13 +525,11 @@ class GameRoom extends colyseus_1.Room {
                             if (rank === 1) {
                                 usr.wins += 1;
                                 if (this.state.gameMode === Game_1.GameMode.RANKED) {
-                                    usr.booster += 1;
                                     player.titles.add(types_1.Title.VANQUISHER);
                                     const minElo = Math.min(...(0, schemas_1.values)(this.state.players).map((p) => p.elo));
                                     if (usr.elo === minElo && humans.length >= 8) {
                                         player.titles.add(types_1.Title.OUTSIDER);
                                     }
-                                    this.presence.publish("ranked-lobby-winner", player);
                                 }
                             }
                             if (usr.level >= 10) {
@@ -684,11 +695,6 @@ class GameRoom extends colyseus_1.Room {
                 if (pokemonEvolved) {
                     hasEvolved = true;
                     this.checkEvolutionsAfterItemAcquired(playerId, pokemonEvolved);
-                    if (pokemonEvolved.items.has(Item_1.Item.RARE_CANDY) &&
-                        pokemonEvolved.evolution === Pokemon_1.Pkm.DEFAULT) {
-                        player.items.push(Item_1.Item.RARE_CANDY);
-                        pokemonEvolved.items.delete(Item_1.Item.RARE_CANDY);
-                    }
                 }
             }
         });
@@ -726,7 +732,6 @@ class GameRoom extends colyseus_1.Room {
         return size;
     }
     pickPokemonProposition(playerId, pkm, bypassLackOfSpace = false) {
-        var _a, _b;
         const player = this.state.players.get(playerId);
         if (!player || player.pokemonsProposition.length === 0)
             return;
@@ -745,16 +750,17 @@ class GameRoom extends colyseus_1.Room {
         const selectedIndex = player.pokemonsProposition.indexOf(pkm);
         player.pokemonsProposition.clear();
         if (Config_1.AdditionalPicksStages.includes(this.state.stageLevel)) {
-            if ((_a = pokemonsObtained[0]) === null || _a === void 0 ? void 0 : _a.regional) {
-                const basePkm = ((_b = Object.keys(Pokemon_1.PkmRegionalVariants).find((p) => Pokemon_1.PkmRegionalVariants[p].includes(pokemonsObtained[0].name))) !== null && _b !== void 0 ? _b : pokemonsObtained[0].name);
-                this.state.additionalPokemons.push(basePkm);
-                this.state.shop.addAdditionalPokemon(basePkm);
-                player.regionalPokemons.push(pkm);
+            this.state.additionalPokemons.push(pkm);
+            this.state.shop.addAdditionalPokemon(pkm);
+            if (pkm in Pokemon_1.PkmRegionalVariants) {
+                const variants = Pokemon_1.PkmRegionalVariants[pkm];
+                for (const variant of variants) {
+                    if (pokemon_1.PokemonClasses[variant].prototype.isInRegion(variant, player.map, this.state)) {
+                        player.regionalPokemons.push(variant);
+                    }
+                }
             }
-            else {
-                this.state.additionalPokemons.push(pkm);
-                this.state.shop.addAdditionalPokemon(pkm);
-            }
+            this.state.players.forEach((p) => p.updateRegionalPool(this.state, false));
             if (player.itemsProposition.length > 0 &&
                 player.itemsProposition[selectedIndex] != null) {
                 player.items.push(player.itemsProposition[selectedIndex]);

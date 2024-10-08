@@ -5,7 +5,7 @@ import Status from "../models/colyseus-models/status";
 import { AttackSprite, Emotion, IPokemon, IPokemonEntity } from "../types";
 import { Ability } from "../types/enum/Ability";
 import { Effect } from "../types/enum/Effect";
-import { AttackType, Orientation, PokemonActionState, Rarity, Stat } from "../types/enum/Game";
+import { AttackType, Orientation, PokemonActionState, Rarity, Stat, Team } from "../types/enum/Game";
 import { Item } from "../types/enum/Item";
 import { Passive } from "../types/enum/Passive";
 import { Pkm } from "../types/enum/Pokemon";
@@ -33,7 +33,7 @@ export declare class PokemonEntity extends Schema implements IPokemonEntity {
     attackType: AttackType;
     life: number;
     shield: number;
-    team: number;
+    team: Team;
     range: number;
     atkSpeed: number;
     targetX: number;

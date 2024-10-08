@@ -14,8 +14,10 @@ export default class PreparationRoom extends Room<PreparationState> {
         ownerId?: string;
         roomName: string;
         minRank?: EloRank;
+        maxRank?: EloRank;
         gameMode: GameMode;
         noElo?: boolean;
+        password?: string;
         autoStartDelayInSeconds?: number;
         whitelist?: string[];
         blacklist?: string[];

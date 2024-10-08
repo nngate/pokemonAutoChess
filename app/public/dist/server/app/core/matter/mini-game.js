@@ -441,7 +441,7 @@ class MiniGame {
                 if (avatar.portalId && ((_b = this.portals) === null || _b === void 0 ? void 0 : _b.has(avatar.portalId))) {
                     const portal = this.portals.get(avatar.portalId);
                     player.map = portal.map;
-                    player.updateRegionalPool(state);
+                    player.updateRegionalPool(state, true);
                 }
                 const symbols = (_c = this.symbolsByPortal.get(avatar.portalId)) !== null && _c !== void 0 ? _c : [];
                 const portalSynergies = symbols.map((s) => s.synergy);

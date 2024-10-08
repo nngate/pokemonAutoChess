@@ -12,13 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EndTournamentCommand = exports.EndTournamentMatchCommand = exports.CreateTournamentLobbiesCommand = exports.NextTournamentStageCommand = exports.ParticipateInTournamentCommand = exports.RemoveTournamentCommand = exports.OnCreateTournamentCommand = exports.OpenSpecialGameCommand = exports.DeleteBotCommand = exports.AddBotCommand = exports.SelectLanguageCommand = exports.UnbanUserCommand = exports.BanUserCommand = exports.OnSearchCommand = exports.OnSearchByIdCommand = exports.BuyBoosterCommand = exports.BuyEmotionCommand = exports.ChangeAvatarCommand = exports.ChangeSelectedEmotionCommand = exports.ChangeTitleCommand = exports.ChangeNameCommand = exports.OpenBoosterCommand = exports.RemoveMessageCommand = exports.OnNewMessageCommand = exports.GiveRoleCommand = exports.GiveBoostersCommand = exports.HeapSnapshotCommand = exports.GiveTitleCommand = exports.OnLeaveCommand = exports.OnJoinCommand = void 0;
+exports.EndTournamentCommand = exports.EndTournamentMatchCommand = exports.CreateTournamentLobbiesCommand = exports.NextTournamentStageCommand = exports.ParticipateInTournamentCommand = exports.RemoveTournamentCommand = exports.OnCreateTournamentCommand = exports.OpenGameCommand = exports.JoinOrOpenRoomCommand = exports.DeleteBotCommand = exports.AddBotCommand = exports.SelectLanguageCommand = exports.UnbanUserCommand = exports.BanUserCommand = exports.OnSearchCommand = exports.OnSearchByIdCommand = exports.BuyBoosterCommand = exports.BuyEmotionCommand = exports.ChangeAvatarCommand = exports.ChangeSelectedEmotionCommand = exports.ChangeTitleCommand = exports.ChangeNameCommand = exports.OpenBoosterCommand = exports.RemoveMessageCommand = exports.OnNewMessageCommand = exports.GiveRoleCommand = exports.GiveBoostersCommand = exports.HeapSnapshotCommand = exports.GiveTitleCommand = exports.OnLeaveCommand = exports.OnJoinCommand = void 0;
 const command_1 = require("@colyseus/command");
 const colyseus_1 = require("colyseus");
 const nanoid_1 = require("nanoid");
 const v8_1 = require("v8");
 const tournament_logic_1 = require("../../core/tournament-logic");
-const pokemon_config_1 = __importDefault(require("../../models/colyseus-models/pokemon-config"));
 const tournament_1 = require("../../models/colyseus-models/tournament");
 const banned_user_1 = __importDefault(require("../../models/mongo-models/banned-user"));
 const bot_v2_1 = require("../../models/mongo-models/bot-v2");
@@ -33,11 +32,11 @@ const pastebin_1 = require("../../services/pastebin");
 const types_1 = require("../../types");
 const Config_1 = require("../../types/Config");
 const CloseCodes_1 = require("../../types/enum/CloseCodes");
-const EloRank_1 = require("../../types/enum/EloRank");
 const Game_1 = require("../../types/enum/Game");
 const Pokemon_1 = require("../../types/enum/Pokemon");
 const Starters_1 = require("../../types/enum/Starters");
 const array_1 = require("../../utils/array");
+const elo_1 = require("../../utils/elo");
 const logger_1 = require("../../utils/logger");
 const profanity_filter_1 = require("../../utils/profanity-filter");
 const random_1 = require("../../utils/random");
@@ -221,7 +220,7 @@ class OpenBoosterCommand extends command_1.Command {
                 const user = this.room.users.get(client.auth.uid);
                 if (!user)
                     return;
-                const mongoUser = yield user_metadata_1.default.findOneAndUpdate({ uid: client.auth.uid, booster: { $gt: 0 } }, { $inc: { booster: -1 } });
+                const mongoUser = yield user_metadata_1.default.findOneAndUpdate({ uid: client.auth.uid, booster: { $gt: 0 } }, { $inc: { booster: -1 } }, { new: true });
                 if (!mongoUser)
                     return;
                 const NB_PER_BOOSTER = 10;
@@ -260,12 +259,19 @@ class OpenBoosterCommand extends command_1.Command {
                         pokemonConfig.dust = mongoPokemonConfig.dust;
                     }
                     else {
-                        const newConfig = new pokemon_config_1.default(index);
-                        newConfig.dust = mongoPokemonConfig.dust;
+                        const newConfig = {
+                            dust: mongoPokemonConfig.dust,
+                            id: mongoPokemonConfig.id,
+                            emotions: mongoPokemonConfig.emotions.map((e) => e),
+                            shinyEmotions: mongoPokemonConfig.shinyEmotions.map((e) => e),
+                            selectedEmotion: mongoPokemonConfig.selectedEmotion,
+                            selectedShiny: mongoPokemonConfig.selectedShiny
+                        };
                         user.pokemonCollection.set(index, newConfig);
                     }
                 });
                 client.send(types_1.Transfer.BOOSTER_CONTENT, boosterContent);
+                client.send(types_1.Transfer.USER_PROFILE, mongoUser);
             }
             catch (error) {
                 logger_1.logger.error(error);
@@ -391,9 +397,12 @@ class ChangeAvatarCommand extends command_1.Command {
         return __awaiter(this, arguments, void 0, function* ({ client, index, emotion, shiny }) {
             try {
                 const user = this.room.users.get(client.auth.uid);
+                const mongoUser = yield user_metadata_1.default.findOne({ uid: client.auth.uid });
                 if (!user)
                     return;
-                const config = user.pokemonCollection.get(index);
+                if (!mongoUser)
+                    return;
+                const config = mongoUser.pokemonCollection.get(index);
                 if (config) {
                     const emotionsToCheck = shiny ? config.shinyEmotions : config.emotions;
                     if (emotionsToCheck.includes(emotion)) {
@@ -401,11 +410,8 @@ class ChangeAvatarCommand extends command_1.Command {
                             .replace(types_1.CDN_PORTRAIT_URL, "")
                             .replace(".png", "");
                         user.avatar = portrait;
-                        const u = yield user_metadata_1.default.findOne({ uid: client.auth.uid });
-                        if (u) {
-                            u.avatar = portrait;
-                            u.save();
-                        }
+                        mongoUser.avatar = portrait;
+                        mongoUser.save();
                     }
                 }
             }
@@ -466,9 +472,14 @@ class BuyEmotionCommand extends command_1.Command {
                         mongoUser.titles.push(types_1.Title.SHINY_SEEKER);
                     }
                 }
-                if (!mongoUser.titles.includes(types_1.Title.DUKE) &&
-                    mongoUser.pokemonCollection.size >= 30) {
-                    mongoUser.titles.push(types_1.Title.DUKE);
+                if (!mongoUser.titles.includes(types_1.Title.DUKE)) {
+                    let countProfile = 0;
+                    mongoUser.pokemonCollection.forEach((c) => {
+                        countProfile += c.emotions.length + c.shinyEmotions.length;
+                    });
+                    if (countProfile >= 30) {
+                        mongoUser.titles.push(types_1.Title.DUKE);
+                    }
                 }
                 if (emotion === types_1.Emotion.ANGRY &&
                     index === Pokemon_1.PkmIndex[Pokemon_1.Pkm.ARBOK] &&
@@ -745,36 +756,108 @@ class DeleteBotCommand extends command_1.Command {
     }
 }
 exports.DeleteBotCommand = DeleteBotCommand;
-class OpenSpecialGameCommand extends command_1.Command {
-    execute({ gameMode, minRank, noElo }) {
-        logger_1.logger.info(`Creating special game ${gameMode} ${minRank !== null && minRank !== void 0 ? minRank : ""}`);
-        let roomName = "Special game";
-        if (gameMode === Game_1.GameMode.RANKED) {
-            if (minRank === EloRank_1.EloRank.GREATBALL) {
-                roomName = `Great Ball Ranked Match`;
+class JoinOrOpenRoomCommand extends command_1.Command {
+    execute(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ client, gameMode }) {
+            var _b, _c, _d;
+            const user = this.room.users.get(client.auth.uid);
+            if (!user)
+                return;
+            switch (gameMode) {
+                case Game_1.GameMode.CUSTOM_LOBBY:
+                    return [new OpenGameCommand().setPayload({ gameMode, client })];
+                case Game_1.GameMode.QUICKPLAY: {
+                    const existingQuickplay = (_b = this.room.rooms) === null || _b === void 0 ? void 0 : _b.find((room) => {
+                        var _a;
+                        return ((_a = room.metadata) === null || _a === void 0 ? void 0 : _a.gameMode) === Game_1.GameMode.QUICKPLAY &&
+                            room.clients < Config_1.MAX_PLAYERS_PER_GAME;
+                    });
+                    if (existingQuickplay) {
+                        client.send(types_1.Transfer.REQUEST_ROOM, existingQuickplay.roomId);
+                    }
+                    else {
+                        return [new OpenGameCommand().setPayload({ gameMode, client })];
+                    }
+                    break;
+                }
+                case Game_1.GameMode.RANKED: {
+                    const userRank = (0, elo_1.getRank)(user.elo);
+                    const existingRanked = (_c = this.room.rooms) === null || _c === void 0 ? void 0 : _c.find((room) => {
+                        var _a, _b;
+                        return ((_a = room.metadata) === null || _a === void 0 ? void 0 : _a.gameMode) === Game_1.GameMode.RANKED &&
+                            ((_b = room.metadata) === null || _b === void 0 ? void 0 : _b.minRank) === userRank &&
+                            room.clients < Config_1.MAX_PLAYERS_PER_GAME;
+                    });
+                    if (existingRanked) {
+                        client.send(types_1.Transfer.REQUEST_ROOM, existingRanked.roomId);
+                    }
+                    else {
+                        return [new OpenGameCommand().setPayload({ gameMode, client })];
+                    }
+                    break;
+                }
+                case Game_1.GameMode.SCRIBBLE: {
+                    const existingScribble = (_d = this.room.rooms) === null || _d === void 0 ? void 0 : _d.find((room) => {
+                        var _a;
+                        return ((_a = room.metadata) === null || _a === void 0 ? void 0 : _a.gameMode) === Game_1.GameMode.SCRIBBLE &&
+                            room.clients < Config_1.MAX_PLAYERS_PER_GAME;
+                    });
+                    if (existingScribble) {
+                        client.send(types_1.Transfer.REQUEST_ROOM, existingScribble.roomId);
+                    }
+                    else {
+                        return [new OpenGameCommand().setPayload({ gameMode, client })];
+                    }
+                    break;
+                }
             }
-            else if (minRank === EloRank_1.EloRank.ULTRABALL) {
-                roomName = `Ultra Ball Ranked Match`;
-            }
-            else {
-                roomName = `Ranked Match`;
-            }
-        }
-        else if (gameMode === Game_1.GameMode.SCRIBBLE) {
-            roomName = "Smeargle's Scribble";
-        }
-        colyseus_1.matchMaker.createRoom("preparation", {
-            gameMode,
-            minRank,
-            noElo,
-            ownerId: null,
-            roomName,
-            autoStartDelayInSeconds: 15 * 60
         });
-        this.state.getNextSpecialGame();
     }
 }
-exports.OpenSpecialGameCommand = OpenSpecialGameCommand;
+exports.JoinOrOpenRoomCommand = JoinOrOpenRoomCommand;
+class OpenGameCommand extends command_1.Command {
+    execute(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ gameMode, client }) {
+            const user = this.room.users.get(client.auth.uid);
+            if (!user)
+                return;
+            let roomName = `${user.displayName}'${user.displayName.endsWith("s") ? "" : "s"} room`;
+            let minRank = null;
+            let maxRank = null;
+            let noElo = false;
+            let password = null;
+            let ownerId = null;
+            if (gameMode === Game_1.GameMode.RANKED) {
+                const rank = (0, elo_1.getRank)(user.elo);
+                minRank = rank;
+                maxRank = rank;
+                roomName = `${rank} Ranked Match`;
+            }
+            else if (gameMode === Game_1.GameMode.SCRIBBLE) {
+                roomName = "Smeargle's Scribble";
+                noElo = true;
+            }
+            else if (gameMode === Game_1.GameMode.CUSTOM_LOBBY) {
+                ownerId = user.uid;
+                password = Math.random().toString(36).substring(2, 6).toUpperCase();
+            }
+            else if (gameMode === Game_1.GameMode.QUICKPLAY) {
+                roomName = "Quick play";
+            }
+            const newRoom = yield colyseus_1.matchMaker.createRoom("preparation", {
+                gameMode,
+                minRank,
+                maxRank,
+                noElo,
+                password,
+                ownerId,
+                roomName
+            });
+            client.send(types_1.Transfer.REQUEST_ROOM, newRoom.roomId);
+        });
+    }
+}
+exports.OpenGameCommand = OpenGameCommand;
 class OnCreateTournamentCommand extends command_1.Command {
     execute(_a) {
         return __awaiter(this, arguments, void 0, function* ({ client, name, startDate }) {

@@ -8,6 +8,10 @@ const Game_1 = require("../types/enum/Game");
 const Passive_1 = require("../types/enum/Passive");
 const pokemon_state_1 = __importDefault(require("./pokemon-state"));
 class IdleState extends pokemon_state_1.default {
+    constructor() {
+        super(...arguments);
+        this.name = "idle";
+    }
     update(pokemon, dt, board, weather, player) {
         super.update(pokemon, dt, board, weather, player);
         if (pokemon.status.tree) {
@@ -37,8 +41,11 @@ class IdleState extends pokemon_state_1.default {
         else if (pokemon.status.resurecting) {
             pokemon.action = Game_1.PokemonActionState.HURT;
         }
-        else {
+        else if (pokemon.status.sleep || pokemon.status.freeze) {
             pokemon.action = Game_1.PokemonActionState.SLEEP;
+        }
+        else {
+            pokemon.action = Game_1.PokemonActionState.IDLE;
         }
         pokemon.cooldown = 0;
     }

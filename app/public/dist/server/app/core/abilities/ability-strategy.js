@@ -74,7 +74,7 @@ function soundBoost(pokemon, board) {
     pokemon.count.soundCount++;
     const chimecho = board.find((x, y, e) => e.passive === Passive_1.Passive.CHIMECHO && e.team === pokemon.team);
     const chimechoBoost = chimecho &&
-        (0, distance_1.distanceC)(pokemon.positionX, pokemon.positionY, chimecho.positionX, chimecho.positionY) <= 2;
+        (0, distance_1.distanceC)(pokemon.positionX, pokemon.positionY, chimecho.positionX, chimecho.positionY) <= 1;
     board.forEach((x, y, ally) => {
         if (ally && pokemon.team === ally.team) {
             ally.status.sleep = false;

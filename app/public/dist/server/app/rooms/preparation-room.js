@@ -63,7 +63,7 @@ class PreparationRoom extends colyseus_1.Room {
         });
     }
     onCreate(options) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         logger_1.logger.info("create Preparation ", this.roomId);
         this.clock.start();
         this.setState(new preparation_state_1.default(options));
@@ -71,20 +71,20 @@ class PreparationRoom extends colyseus_1.Room {
             name: options.roomName.slice(0, 30),
             ownerName: options.gameMode === Game_1.GameMode.QUICKPLAY ? null : options.ownerId,
             minRank: (_a = options.minRank) !== null && _a !== void 0 ? _a : null,
-            noElo: (_b = options.noElo) !== null && _b !== void 0 ? _b : false,
+            maxRank: (_b = options.maxRank) !== null && _b !== void 0 ? _b : null,
+            noElo: (_c = options.noElo) !== null && _c !== void 0 ? _c : false,
             gameMode: options.gameMode,
-            whitelist: (_c = options.whitelist) !== null && _c !== void 0 ? _c : [],
-            blacklist: (_d = options.blacklist) !== null && _d !== void 0 ? _d : [],
+            whitelist: (_d = options.whitelist) !== null && _d !== void 0 ? _d : [],
+            blacklist: (_e = options.blacklist) !== null && _e !== void 0 ? _e : [],
             playersInfo: [],
-            tournamentId: (_e = options.tournamentId) !== null && _e !== void 0 ? _e : null,
-            bracketId: (_f = options.bracketId) !== null && _f !== void 0 ? _f : null,
+            tournamentId: (_f = options.tournamentId) !== null && _f !== void 0 ? _f : null,
+            bracketId: (_g = options.bracketId) !== null && _g !== void 0 ? _g : null,
             gameStartedAt: null,
-            password: null,
+            password: (_h = options.password) !== null && _h !== void 0 ? _h : null,
             type: "preparation"
         });
         this.maxClients = 8;
-        if (options.gameMode !== Game_1.GameMode.NORMAL &&
-            options.gameMode !== Game_1.GameMode.QUICKPLAY) {
+        if (options.gameMode === Game_1.GameMode.TOURNAMENT) {
             this.autoDispose = false;
         }
         if (options.autoStartDelayInSeconds) {

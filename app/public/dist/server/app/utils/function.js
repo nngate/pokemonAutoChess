@@ -27,7 +27,7 @@ function throttle(fn, delayInMs) {
             const context = this;
             if (!inThrottle) {
                 inThrottle = true;
-                let mightBePromise = fn.apply(context, args);
+                const mightBePromise = fn.apply(context, args);
                 setTimeout(function () {
                     return __awaiter(this, void 0, void 0, function* () {
                         yield mightBePromise;

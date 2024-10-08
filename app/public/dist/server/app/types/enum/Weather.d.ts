@@ -13,8 +13,7 @@ export declare enum Weather {
     BLOODMOON = "BLOODMOON",
     NEUTRAL = "NEUTRAL"
 }
-export declare const WeatherPassives: Map<Passive, Weather>;
-export declare const PassiveAssociatedToWeather: Map<Weather, Passive>;
+export declare const PassivesAssociatedToWeather: Map<Weather, Passive[]>;
 export declare const WeatherAssociatedToSynergy: Map<Synergy, Weather>;
 export declare const SynergyAssociatedToWeather: Map<Weather, Synergy>;
 export declare const WeatherEffects: Map<Weather, Effect>;

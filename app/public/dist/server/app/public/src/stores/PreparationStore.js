@@ -1,7 +1,7 @@
 "use strict";
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.leavePreparation = exports.setGameMode = exports.setBlackList = exports.setWhiteList = exports.setNoELO = exports.setPassword = exports.setOwnerName = exports.setOwnerId = exports.setGameStarted = exports.removeUser = exports.changeUser = exports.addUser = exports.removeMessage = exports.pushMessage = exports.setName = exports.setUser = exports.preparationSlice = void 0;
+exports.resetPreparation = exports.setGameMode = exports.setBlackList = exports.setWhiteList = exports.setNoELO = exports.setPassword = exports.setOwnerName = exports.setOwnerId = exports.setGameStarted = exports.removeUser = exports.changeUser = exports.addUser = exports.removeMessage = exports.pushMessage = exports.setName = exports.setUser = exports.preparationSlice = void 0;
 const toolkit_1 = require("@reduxjs/toolkit");
 const Game_1 = require("../../../types/enum/Game");
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
     user: undefined,
     password: null,
     noElo: false,
-    gameMode: Game_1.GameMode.NORMAL,
+    gameMode: Game_1.GameMode.CUSTOM_LOBBY,
     whitelist: [],
     blacklist: []
 };
@@ -63,7 +63,7 @@ exports.preparationSlice = (0, toolkit_1.createSlice)({
         setGameMode: (state, action) => {
             state.gameMode = action.payload;
         },
-        leavePreparation: () => initialState,
+        resetPreparation: () => initialState,
         setWhiteList: (state, action) => {
             state.whitelist = action.payload;
         },
@@ -72,6 +72,6 @@ exports.preparationSlice = (0, toolkit_1.createSlice)({
         }
     }
 });
-_a = exports.preparationSlice.actions, exports.setUser = _a.setUser, exports.setName = _a.setName, exports.pushMessage = _a.pushMessage, exports.removeMessage = _a.removeMessage, exports.addUser = _a.addUser, exports.changeUser = _a.changeUser, exports.removeUser = _a.removeUser, exports.setGameStarted = _a.setGameStarted, exports.setOwnerId = _a.setOwnerId, exports.setOwnerName = _a.setOwnerName, exports.setPassword = _a.setPassword, exports.setNoELO = _a.setNoELO, exports.setWhiteList = _a.setWhiteList, exports.setBlackList = _a.setBlackList, exports.setGameMode = _a.setGameMode, exports.leavePreparation = _a.leavePreparation;
+_a = exports.preparationSlice.actions, exports.setUser = _a.setUser, exports.setName = _a.setName, exports.pushMessage = _a.pushMessage, exports.removeMessage = _a.removeMessage, exports.addUser = _a.addUser, exports.changeUser = _a.changeUser, exports.removeUser = _a.removeUser, exports.setGameStarted = _a.setGameStarted, exports.setOwnerId = _a.setOwnerId, exports.setOwnerName = _a.setOwnerName, exports.setPassword = _a.setPassword, exports.setNoELO = _a.setNoELO, exports.setWhiteList = _a.setWhiteList, exports.setBlackList = _a.setBlackList, exports.setGameMode = _a.setGameMode, exports.resetPreparation = _a.resetPreparation;
 exports.default = exports.preparationSlice.reducer;
 //# sourceMappingURL=PreparationStore.js.map

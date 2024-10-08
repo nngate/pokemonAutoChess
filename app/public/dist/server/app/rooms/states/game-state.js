@@ -23,7 +23,7 @@ const SpecialGameRule_1 = require("../../types/enum/SpecialGameRule");
 const Weather_1 = require("../../types/enum/Weather");
 const random_1 = require("../../utils/random");
 class GameState extends schema_1.Schema {
-    constructor(preparationId, name, noElo, gameMode, minRank) {
+    constructor(preparationId, name, noElo, gameMode, minRank, maxRank) {
         super();
         this.afterGameId = "";
         this.roundTime = Config_1.StageDuration[1];
@@ -36,7 +36,7 @@ class GameState extends schema_1.Schema {
         this.additionalPokemons = new schema_1.ArraySchema();
         this.stageLevel = 1;
         this.noElo = false;
-        this.gameMode = Game_1.GameMode.NORMAL;
+        this.gameMode = Game_1.GameMode.CUSTOM_LOBBY;
         this.spectators = new schema_1.SetSchema();
         this.simulations = new schema_1.MapSchema();
         this.lightX = (0, random_1.randomBetween)(0, Config_1.BOARD_WIDTH - 1);
@@ -53,12 +53,14 @@ class GameState extends schema_1.Schema {
         this.pveRewards = [];
         this.pveRewardsPropositions = [];
         this.minRank = null;
+        this.maxRank = null;
         this.preparationId = preparationId;
         this.startTime = Date.now();
         this.name = name;
         this.noElo = noElo;
         this.gameMode = gameMode;
         this.minRank = minRank;
+        this.maxRank = maxRank;
         this.weather = Weather_1.Weather.NEUTRAL;
         if (gameMode === Game_1.GameMode.SCRIBBLE) {
             this.specialGameRule = (0, random_1.pickRandomIn)(Object.values(SpecialGameRule_1.SpecialGameRule));

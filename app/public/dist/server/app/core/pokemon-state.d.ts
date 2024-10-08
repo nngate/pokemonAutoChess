@@ -4,7 +4,8 @@ import { AttackType } from "../types/enum/Game";
 import { Weather } from "../types/enum/Weather";
 import Board, { Cell } from "./board";
 import { PokemonEntity } from "./pokemon-entity";
-export default class PokemonState {
+export default abstract class PokemonState {
+    name: string;
     attack(pokemon: PokemonEntity, board: Board, target: PokemonEntity): void;
     handleHeal(pokemon: IPokemonEntity, heal: number, caster: IPokemonEntity, apBoost: number, crit: boolean): void;
     addShield(pokemon: IPokemonEntity, shield: number, caster: IPokemonEntity, apBoost: number, crit: boolean): void;

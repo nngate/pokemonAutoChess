@@ -20,7 +20,6 @@ class PokemonConfig extends schema_1.Schema {
             p.shinyEmotions.forEach((e) => this.shinyEmotions.push(e));
             this.selectedEmotion = p.selectedEmotion;
             this.selectedShiny = p.selectedShiny;
-            this;
         }
         else {
             this.dust = 0;

@@ -6,15 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SynergyDetailComponent;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_i18next_1 = require("react-i18next");
-const pokemon_1 = require("../../../../../models/colyseus-models/pokemon");
 const precomputed_pokemon_data_1 = require("../../../../../models/precomputed/precomputed-pokemon-data");
 const precomputed_types_and_categories_1 = require("../../../../../models/precomputed/precomputed-types-and-categories");
 const pve_stages_1 = require("../../../../../models/pve-stages");
 const Config_1 = require("../../../../../types/Config");
-const Game_1 = require("../../../../../types/enum/Game");
 const Pokemon_1 = require("../../../../../types/enum/Pokemon");
 const Synergy_1 = require("../../../../../types/enum/Synergy");
-const number_1 = require("../../../../../utils/number");
 const schemas_1 = require("../../../../../utils/schemas");
 const hooks_1 = require("../../../hooks");
 const utils_1 = require("../../../utils");
@@ -23,7 +20,6 @@ const jsx_1 = require("../../utils/jsx");
 const synergy_icon_1 = __importDefault(require("../icons/synergy-icon"));
 const effect_description_1 = require("./effect-description");
 function SynergyDetailComponent(props) {
-    var _a, _b;
     const { t } = (0, react_i18next_1.useTranslation)();
     const additionalPokemons = (0, hooks_1.useAppSelector)((state) => state.game.additionalPokemons);
     const stageLevel = (0, hooks_1.useAppSelector)((state) => state.game.stageLevel);
@@ -52,22 +48,19 @@ function SynergyDetailComponent(props) {
     if (props.type === Synergy_1.Synergy.WILD && currentPlayer) {
         const isPVE = stageLevel in pve_stages_1.PVEStages;
         const wildChance = (0, schemas_1.values)(currentPlayer.board)
-            .filter((p) => p.types.has(Synergy_1.Synergy.WILD) && !(0, pokemon_1.isOnBench)(p))
+            .filter((p) => p.types.has(Synergy_1.Synergy.WILD))
             .reduce((total, p) => total + p.stars, 0) + (isPVE ? 5 : 0);
         additionalInfo = t('synergy_description.WILD_ADDITIONAL', { wildChance });
     }
     if (props.type === Synergy_1.Synergy.BABY && currentPlayer) {
-        const lastResult = (_b = (_a = currentPlayer.history.at(-1)) === null || _a === void 0 ? void 0 : _a.result) !== null && _b !== void 0 ? _b : null;
         if (levelReached === Config_1.SynergyTriggers[Synergy_1.Synergy.BABY][0]) {
-            const eggChance = lastResult === Game_1.BattleResult.DEFEAT ? (0, number_1.max)(100)(25 * (currentPlayer.streak + 1)) : 0;
-            additionalInfo = t('synergy_description.BABY_EGG_CHANCE', { eggChance });
+            additionalInfo = t('synergy_description.BABY_EGG_CHANCE', { eggChance: currentPlayer.eggChance * 100 });
         }
         else if (levelReached === Config_1.SynergyTriggers[Synergy_1.Synergy.BABY][1]) {
             additionalInfo = t('synergy_description.BABY_EGG_CHANCE', { eggChance: 100 });
         }
         else if (Config_1.SynergyTriggers[Synergy_1.Synergy.BABY][2]) {
-            const eggChance = lastResult === Game_1.BattleResult.DEFEAT ? (0, number_1.max)(100)(25 * (currentPlayer.streak + 1)) : 0;
-            additionalInfo = t('synergy_description.BABY_GOLDEN_EGG_CHANCE', { eggChance });
+            additionalInfo = t('synergy_description.BABY_GOLDEN_EGG_CHANCE', { eggChance: currentPlayer.eggChance * 100 });
         }
     }
     return ((0, jsx_runtime_1.jsxs)("div", { style: { maxWidth: "560px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(synergy_icon_1.default, { type: props.type, size: "40px" }), (0, jsx_runtime_1.jsx)("h3", { style: { margin: 0 }, children: t(`synergy.${props.type}`) })] }), (0, jsx_runtime_1.jsx)("p", { style: { whiteSpace: "pre-wrap" }, children: (0, descriptions_1.addIconsToDescription)(t(`synergy_description.${props.type}`, { additionalInfo })) }), Synergy_1.SynergyEffects[props.type].map((d, i) => {

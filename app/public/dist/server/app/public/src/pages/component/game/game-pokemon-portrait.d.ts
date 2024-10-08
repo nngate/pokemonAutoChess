@@ -9,4 +9,5 @@ export default function GamePokemonPortrait(props: {
     click?: React.MouseEventHandler<HTMLDivElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+    inPlanner?: boolean;
 }): import("react/jsx-runtime").JSX.Element;

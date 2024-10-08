@@ -446,6 +446,23 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
             });
             break;
         }
+        case Ability_1.Ability.ROAR: {
+            const [dx, dy] = orientation_1.OrientationVector[orientation];
+            const finalCoordinates = (0, utils_1.transformAttackCoordinate)(positionX + dx * 8, positionY + dy * 8, flip);
+            const specialProjectile = addAbilitySprite(Ability_1.Ability.WHIRLWIND, coordinates).setScale(2);
+            scene.tweens.add({
+                targets: specialProjectile,
+                x: finalCoordinates[0],
+                y: finalCoordinates[1],
+                ease: "linear",
+                yoyo: false,
+                duration: 1000,
+                onComplete: () => {
+                    specialProjectile.destroy();
+                }
+            });
+            break;
+        }
         case Ability_1.Ability.FLEUR_CANNON: {
             const [dx, dy] = orientation_1.OrientationVector[orientation];
             const finalCoordinates = (0, utils_1.transformAttackCoordinate)(positionX + dx * 8, positionY + dy * 8, flip);
@@ -571,6 +588,21 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
             break;
         }
         case Ability_1.Ability.SKY_ATTACK: {
+            const startCoords = (0, utils_1.transformAttackCoordinate)(targetX, 9, false);
+            const specialProjectile = addAbilitySprite(skill, startCoords).setScale(1.5);
+            scene.tweens.add({
+                targets: specialProjectile,
+                x: coordinatesTarget[0],
+                y: coordinatesTarget[1],
+                ease: "linear",
+                duration: 500,
+                onComplete: () => {
+                    specialProjectile.destroy();
+                }
+            });
+            break;
+        }
+        case Ability_1.Ability.SKY_ATTACK_SHADOW: {
             const startCoords = (0, utils_1.transformAttackCoordinate)(targetX, 9, false);
             const specialProjectile = addAbilitySprite(skill, startCoords).setScale(1.5);
             scene.tweens.add({
@@ -844,6 +876,9 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.APPLE_ACID:
             addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
             break;
+        case Ability_1.Ability.IVY_CUDGEL:
+            addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
+            break;
         case Ability_1.Ability.PSYCHO_BOOST:
             addAbilitySprite(skill, coordinates, true).setScale(2);
             break;
@@ -989,6 +1024,9 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.ANCHOR_SHOT:
             addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
             break;
+        case Ability_1.Ability.FORCE_PALM:
+            addAbilitySprite(Ability_1.Ability.ANCHOR_SHOT, coordinatesTarget, true).setScale(2);
+            break;
         case Ability_1.Ability.HYPERSPACE_FURY: {
             const nbHits = Number(orientation);
             for (let i = 0; i < nbHits; i++) {
@@ -1067,6 +1105,9 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
                 .setScale(2)
                 .setOrigin(0.5, 0.2)
                 .setRotation(Math.PI);
+            break;
+        case Ability_1.Ability.METAL_BURST:
+            addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
             break;
         case Ability_1.Ability.JUDGEMENT:
             addAbilitySprite(skill, coordinatesTarget, true)
@@ -1850,6 +1891,28 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.OKTZOOKA:
             addAbilitySprite(Ability_1.Ability.SMOKE_SCREEN, coordinatesTarget, true).setScale(3);
             break;
+        case Ability_1.Ability.INFESTATION:
+            {
+                if (positionX !== undefined && positionY !== undefined) {
+                    const duration = (0, distance_1.distanceM)(positionX, positionY, targetX, targetY) * 150;
+                    const projectile = addAbilitySprite("HEAL_ORDER", coordinates, true).setScale(3);
+                    scene.tweens.add({
+                        targets: projectile,
+                        x: coordinatesTarget[0],
+                        y: coordinatesTarget[1],
+                        ease: "linear",
+                        yoyo: false,
+                        duration: duration,
+                        onComplete: () => {
+                            projectile.destroy();
+                        }
+                    });
+                }
+                else {
+                    addAbilitySprite("ATTACK_ORDER", coordinatesTarget, true).setScale(2);
+                }
+            }
+            break;
         case "FIELD_DEATH":
             addAbilitySprite("FIELD_DEATH", coordinates, true).setScale(2);
             break;
@@ -1858,6 +1921,9 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
             break;
         case "FIGHTING_KNOCKBACK":
             addAbilitySprite(skill, coordinatesTarget, true).setScale(2);
+            break;
+        case Ability_1.Ability.HEADBUTT:
+            addAbilitySprite("FIGHTING_KNOCKBACK", coordinatesTarget, true).setScale(2);
             break;
         case "FAIRY_CRIT":
             addAbilitySprite(skill, coordinates, true).setScale(2);
@@ -1952,6 +2018,53 @@ function displayAbility(scene, pokemonsOnBoard, skill, orientation, positionX, p
         case Ability_1.Ability.PURIFY:
             addAbilitySprite(Ability_1.Ability.SMOG, coordinatesTarget, true).setScale(1);
             addAbilitySprite(Ability_1.Ability.MUD_BUBBLE, coordinates, true).setScale(1);
+            break;
+        case Ability_1.Ability.PSYCHO_SHIFT:
+            {
+                const pkmSprite = addAbilitySprite(Ability_1.Ability.PRESENT, coordinates).setScale(2);
+                if (targetX !== undefined && targetY !== undefined) {
+                    const targetSprite = addAbilitySprite(Ability_1.Ability.PRESENT, coordinatesTarget).setScale(2);
+                    scene.tweens.add({
+                        targets: pkmSprite,
+                        x: coordinatesTarget[0],
+                        y: coordinatesTarget[1],
+                        ease: "linear",
+                        duration: 300,
+                        repeat: 1,
+                        yoyo: true,
+                        onComplete: () => {
+                            pkmSprite.destroy();
+                        }
+                    });
+                    scene.tweens.add({
+                        targets: targetSprite,
+                        x: coordinates[0],
+                        y: coordinates[1],
+                        ease: "linear",
+                        duration: 300,
+                        repeat: 1,
+                        yoyo: true,
+                        onComplete: () => {
+                            targetSprite.destroy();
+                        }
+                    });
+                }
+            }
+            break;
+        case Ability_1.Ability.GLAIVE_RUSH:
+            addAbilitySprite(Ability_1.Ability.ICE_HAMMER, coordinatesTarget, true).setScale(2);
+            break;
+        case Ability_1.Ability.FOUL_PLAY:
+            addAbilitySprite(Ability_1.Ability.NIGHT_SLASH, coordinatesTarget, true).setScale(2);
+            break;
+        case Ability_1.Ability.DOUBLE_IRON_BASH:
+            addAbilitySprite(Ability_1.Ability.DRAIN_PUNCH, coordinatesTarget, true).setScale(2);
+            break;
+        case Ability_1.Ability.STONE_EDGE:
+            addAbilitySprite(Ability_1.Ability.TORMENT, coordinates, true).setScale(2);
+            break;
+        case Ability_1.Ability.THUNDER_CAGE:
+            addAbilitySprite(Ability_1.Ability.THUNDER_CAGE, coordinatesTarget, true).setScale(2);
             break;
         default:
             break;

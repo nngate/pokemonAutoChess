@@ -37,7 +37,7 @@ function addIconsToDescription(description, tier = 0, ap = 0) {
         return description;
     const descriptionParts = description.split(exports.iconRegExp);
     return descriptionParts.map((f, i) => {
-        var _a, _b;
+        var _a, _b, _c, _d;
         const token = matchIcon[i - 1];
         let d = null;
         if (token) {
@@ -72,12 +72,16 @@ function addIconsToDescription(description, tier = 0, ap = 0) {
             else if (/\[[^\]]+\]/.test(token)) {
                 const array = token.slice(1, -1).split(",");
                 let scale = 0;
-                if ((_a = array.at(-1)) === null || _a === void 0 ? void 0 : _a.includes("SP")) {
-                    scale = Number((_b = array.pop()) === null || _b === void 0 ? void 0 : _b.replace("SP=", "")) || 1;
+                let nbdecimals = 0;
+                if ((_a = array.at(-1)) === null || _a === void 0 ? void 0 : _a.includes("ND")) {
+                    nbdecimals = Number((_b = array.pop()) === null || _b === void 0 ? void 0 : _b.replace("ND=", "")) || 0;
+                }
+                if ((_c = array.at(-1)) === null || _c === void 0 ? void 0 : _c.includes("SP")) {
+                    scale = Number((_d = array.pop()) === null || _d === void 0 ? void 0 : _d.replace("SP=", "")) || 1;
                 }
                 d = ((0, jsx_runtime_1.jsxs)("span", { className: (0, jsx_1.cc)("description-icon", { "scales-ap": scale !== 0 }), children: [scale > 0 && ((0, jsx_runtime_1.jsx)("img", { src: "assets/icons/AP.png", alt: "Ability Power", title: "Scales with Ability Power" })), array.map((v, j) => {
                             const separator = j < array.length - 1 ? "/" : "";
-                            const value = Math.round(Number(v) * (1 + (scale * ap) / 100));
+                            const value = Math.round(Number(v) * (1 + (scale * ap) / 100) * Math.pow(10, nbdecimals)) / Math.pow(10, nbdecimals);
                             const active = tier === undefined ||
                                 array.length === 1 ||
                                 j === tier - 1 ||
@@ -86,7 +90,7 @@ function addIconsToDescription(description, tier = 0, ap = 0) {
                         })] }));
             }
         }
-        return ((0, jsx_runtime_1.jsxs)(react_1.default.Fragment, { children: [d, " ", f] }, i));
+        return ((0, jsx_runtime_1.jsxs)(react_1.default.Fragment, { children: [d, f] }, i));
     });
 }
 //# sourceMappingURL=descriptions.js.map

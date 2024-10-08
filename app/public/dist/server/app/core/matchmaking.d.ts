@@ -1,8 +1,9 @@
+import Player from "../models/colyseus-models/player";
 import GameState from "../rooms/states/game-state";
 import { IPlayer } from "../types";
 export type Matchup = {
-    a: IPlayer;
-    b: IPlayer;
+    bluePlayer: Player;
+    redPlayer: Player;
     count: number;
     distance: number;
     ghost?: boolean;

@@ -85,7 +85,7 @@ function PokemonPickerTab(props) {
                     Game_1.Rarity.SPECIAL
                 ].map((rarity) => {
                     var _a;
-                    return ((0, jsx_runtime_1.jsxs)(react_1.default.Fragment, { children: [(0, jsx_runtime_1.jsx)("dt", { style: { color: Config_1.RarityColor[rarity] }, children: t(`rarity.${rarity}`) }), (0, jsx_runtime_1.jsx)("dd", { style: { display: "flex", flexWrap: "wrap" }, children: ((_a = pokemonsPerRarity[rarity]) !== null && _a !== void 0 ? _a : []).map((p) => ((0, jsx_runtime_1.jsx)("div", { className: (0, jsx_1.cc)("pokemon-portrait", {
+                    return ((0, jsx_runtime_1.jsxs)(react_1.default.Fragment, { children: [(0, jsx_runtime_1.jsx)("dt", { style: { color: Config_1.RarityColor[rarity], textTransform: "uppercase", fontWeight: "500", fontSize: "80%" }, children: t(`rarity.${rarity}`) }), (0, jsx_runtime_1.jsx)("dd", { style: { display: "flex", flexWrap: "wrap", gap: "1px" }, children: ((_a = pokemonsPerRarity[rarity]) !== null && _a !== void 0 ? _a : []).map((p) => ((0, jsx_runtime_1.jsx)("div", { className: (0, jsx_1.cc)("pokemon-portrait", {
                                         additional: p.additional,
                                         regional: p.regional,
                                         selected: p.name === props.selected["name"]

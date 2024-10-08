@@ -21,7 +21,7 @@ function SelectedEntity(props) {
         const availableEmotions = Object.values(types_1.Emotion).filter((e, i) => { var _a; return ((_a = precomputed_emotions_1.PRECOMPUTED_EMOTIONS_PER_POKEMON_INDEX[index]) === null || _a === void 0 ? void 0 : _a[i]) === 1; });
         return ((0, jsx_runtime_1.jsxs)("div", { id: "selected-entity", className: "my-box", children: [(0, jsx_runtime_1.jsxs)("fieldset", { children: [(0, jsx_runtime_1.jsx)(checkbox_1.Checkbox, { checked: Boolean(detailledPkm.shiny), onToggle: () => {
                                 props.onChange(Object.assign(Object.assign({}, detailledPkm), { shiny: !detailledPkm.shiny }));
-                            }, label: t("shiny"), isDark: true }), (0, jsx_runtime_1.jsxs)("label", { children: [t("emotion_label"), ":", (0, jsx_runtime_1.jsx)("select", { value: detailledPkm.emotion, onChange: (e) => {
+                            }, label: t("shiny"), isDark: true }), (0, jsx_runtime_1.jsxs)("label", { children: [t("emotion_label"), ":\u00A0", (0, jsx_runtime_1.jsx)("select", { value: detailledPkm.emotion, onChange: (e) => {
                                         props.onChange(Object.assign(Object.assign({}, detailledPkm), { emotion: e.target.value }));
                                     }, children: availableEmotions.map((e) => ((0, jsx_runtime_1.jsx)("option", { value: e, children: e }, e))) })] })] }), (0, jsx_runtime_1.jsx)(game_pokemon_detail_1.GamePokemonDetail, { pokemon: detailledPkm.name, emotion: detailledPkm.emotion, shiny: detailledPkm.shiny })] }));
     }

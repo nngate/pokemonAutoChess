@@ -20,8 +20,7 @@ class SellZone extends phaser_1.GameObjects.Container {
         this.add(this.rectangle);
         sellZone.setData({ rectangle: this.rectangle });
         this.text = scene.add.text(0, 0, (0, i18next_1.t)("drop_here_to_sell"), {
-            fontSize: "35px",
-            fontFamily: "BrandonGrotesqueBlack",
+            font: "600 35px Jost",
             color: "black",
             align: "center"
         });
@@ -32,9 +31,12 @@ class SellZone extends phaser_1.GameObjects.Container {
         this.scene.add.existing(this);
     }
     showForPokemon(pkm) {
-        var _a;
+        var _a, _b;
         const specialGameRule = (_a = this.scene.room) === null || _a === void 0 ? void 0 : _a.state.specialGameRule;
-        const price = (0, shop_1.getSellPrice)(pkm.name, pkm.shiny, specialGameRule);
+        const pokemon = (_b = this.scene.board) === null || _b === void 0 ? void 0 : _b.player.board.get(pkm.id);
+        if (!pokemon)
+            return;
+        const price = (0, shop_1.getSellPrice)(pokemon, specialGameRule);
         this.text.setText(`${(0, i18next_1.t)("drop_here_to_sell")} ${(0, i18next_1.t)("for_price_gold", { price })}`);
         this.rectangle.setFillStyle(0x61738a);
         this.setVisible(true);

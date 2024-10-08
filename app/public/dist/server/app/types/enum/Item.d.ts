@@ -35,9 +35,9 @@ export declare enum Item {
     SMOKE_BALL = "SMOKE_BALL",
     XRAY_VISION = "XRAY_VISION",
     RAZOR_FANG = "RAZOR_FANG",
-    SOOTHE_BELL = "SOOTHE_BELL",
+    PROTECTIVE_PADS = "PROTECTIVE_PADS",
     CHOICE_SCARF = "CHOICE_SCARF",
-    FIRE_GEM = "FIRE_GEM",
+    PUNCHING_GLOVE = "PUNCHING_GLOVE",
     DEFENSIVE_RIBBON = "DEFENSIVE_RIBBON",
     WONDER_BOX = "WONDER_BOX",
     CLEANSE_TAG = "CLEANSE_TAG",
@@ -97,7 +97,6 @@ export declare enum Item {
     OLD_ROD = "OLD_ROD",
     GOOD_ROD = "GOOD_ROD",
     SUPER_ROD = "SUPER_ROD",
-    GOLDEN_ROD = "GOLDEN_ROD",
     RARE_CANDY = "RARE_CANDY",
     EVIOLITE = "EVIOLITE",
     WHITE_FLUTE = "WHITE_FLUTE",
@@ -105,16 +104,21 @@ export declare enum Item {
     ABSORB_BULB = "ABSORB_BULB",
     SACRED_ASH = "SACRED_ASH",
     COMET_SHARD = "COMET_SHARD",
+    REPEAT_BALL = "REPEAT_BALL",
     DAMP_ROCK = "DAMP_ROCK",
     ICY_ROCK = "ICY_ROCK",
     HEAT_ROCK = "HEAT_ROCK",
     SMOOTH_ROCK = "SMOOTH_ROCK",
     BLACK_AUGURITE = "BLACK_AUGURITE",
-    FIRE_SHARD = "FIRE_SHARD"
+    FIRE_SHARD = "FIRE_SHARD",
+    TEAL_MASK = "TEAL_MASK",
+    WELLSPRING_MASK = "WELLSPRING_MASK",
+    CORNERSTONE_MASK = "CORNERSTONE_MASK",
+    HEARTHFLAME_MASK = "HEARTHFLAME_MASK"
 }
 export declare const AllItems: Item[];
 export declare const SpecialItems: Item[];
-export declare const FishingRods: readonly [Item.GOLDEN_ROD, Item.SUPER_ROD, Item.GOOD_ROD, Item.OLD_ROD];
+export declare const FishingRods: readonly [Item.SUPER_ROD, Item.GOOD_ROD, Item.OLD_ROD];
 export type FishingRod = (typeof FishingRods)[number];
 export declare const ItemComponents: Item[];
 export declare const ItemRecipe: {

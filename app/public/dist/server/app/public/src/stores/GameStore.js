@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setItemsProposition = exports.setShop = exports.changePlayer = exports.setShopLocked = exports.setMoney = exports.setInterest = exports.setStreak = exports.updateExperienceManager = exports.removePlayer = exports.addPlayer = exports.setNoELO = exports.setWeather = exports.setStageLevel = exports.setPhase = exports.setAfterGameId = exports.setRoundTime = exports.setSynergies = exports.setLife = exports.setPlayer = exports.setLoadingProgress = exports.addDpsMeter = exports.changeDpsMeter = exports.removeDpsMeter = exports.leaveGame = exports.setPokemonCollection = exports.setPokemonProposition = exports.setAdditionalPokemons = exports.setSimulation = exports.gameSlice = void 0;
+exports.setItemsProposition = exports.setShop = exports.changePlayer = exports.setShopLocked = exports.setShopFreeRolls = exports.setMoney = exports.setInterest = exports.setStreak = exports.updateExperienceManager = exports.removePlayer = exports.addPlayer = exports.setNoELO = exports.setWeather = exports.setStageLevel = exports.setPhase = exports.setAfterGameId = exports.setRoundTime = exports.setSynergies = exports.setLife = exports.setPlayer = exports.setLoadingProgress = exports.addDpsMeter = exports.changeDpsMeter = exports.removeDpsMeter = exports.leaveGame = exports.setPokemonCollection = exports.setPokemonProposition = exports.setAdditionalPokemons = exports.setSimulation = exports.gameSlice = void 0;
 const schema_1 = require("@colyseus/schema");
 const toolkit_1 = require("@reduxjs/toolkit");
 const experience_manager_1 = __importDefault(require("../../../models/colyseus-models/experience-manager"));
@@ -24,10 +24,11 @@ const initialState = {
     noElo: false,
     currentPlayerId: "",
     currentSimulationId: "",
-    currentSimulationTeamIndex: 0,
+    currentTeam: Game_1.Team.BLUE_TEAM,
     money: 5,
     interest: 0,
     streak: 0,
+    shopFreeRolls: 0,
     shopLocked: false,
     experienceManager: new experience_manager_1.default(),
     shop: new Array(),
@@ -78,6 +79,9 @@ exports.gameSlice = (0, toolkit_1.createSlice)({
         setShopLocked: (state, action) => {
             state.shopLocked = action.payload;
         },
+        setShopFreeRolls: (state, action) => {
+            state.shopFreeRolls = action.payload;
+        },
         updateExperienceManager: (state, action) => {
             state.experienceManager = Object.assign(Object.assign({}, state.experienceManager), { experience: action.payload.experience, expNeeded: action.payload.expNeeded, level: action.payload.level });
         },
@@ -126,8 +130,10 @@ exports.gameSlice = (0, toolkit_1.createSlice)({
             if (state.currentPlayerId === action.payload.bluePlayerId ||
                 state.currentPlayerId === action.payload.redPlayerId) {
                 state.currentSimulationId = action.payload.id;
-                state.currentSimulationTeamIndex =
-                    state.currentPlayerId === action.payload.bluePlayerId ? 0 : 1;
+                state.currentTeam =
+                    state.currentPlayerId === action.payload.bluePlayerId
+                        ? Game_1.Team.BLUE_TEAM
+                        : Game_1.Team.RED_TEAM;
                 state.weather = action.payload.weather;
                 state.blueDpsMeter = new Array();
                 state.redDpsMeter = new Array();
@@ -142,7 +148,7 @@ exports.gameSlice = (0, toolkit_1.createSlice)({
         setPlayer: (state, action) => {
             state.currentPlayerId = action.payload.id;
             state.currentSimulationId = action.payload.simulationId;
-            state.currentSimulationTeamIndex = action.payload.simulationTeamIndex;
+            state.currentTeam = action.payload.team;
             state.currentPlayerSynergies = Array.from(action.payload.synergies);
         },
         addDpsMeter: (state, action) => {
@@ -178,6 +184,6 @@ exports.gameSlice = (0, toolkit_1.createSlice)({
         leaveGame: () => initialState
     }
 });
-_a = exports.gameSlice.actions, exports.setSimulation = _a.setSimulation, exports.setAdditionalPokemons = _a.setAdditionalPokemons, exports.setPokemonProposition = _a.setPokemonProposition, exports.setPokemonCollection = _a.setPokemonCollection, exports.leaveGame = _a.leaveGame, exports.removeDpsMeter = _a.removeDpsMeter, exports.changeDpsMeter = _a.changeDpsMeter, exports.addDpsMeter = _a.addDpsMeter, exports.setLoadingProgress = _a.setLoadingProgress, exports.setPlayer = _a.setPlayer, exports.setLife = _a.setLife, exports.setSynergies = _a.setSynergies, exports.setRoundTime = _a.setRoundTime, exports.setAfterGameId = _a.setAfterGameId, exports.setPhase = _a.setPhase, exports.setStageLevel = _a.setStageLevel, exports.setWeather = _a.setWeather, exports.setNoELO = _a.setNoELO, exports.addPlayer = _a.addPlayer, exports.removePlayer = _a.removePlayer, exports.updateExperienceManager = _a.updateExperienceManager, exports.setStreak = _a.setStreak, exports.setInterest = _a.setInterest, exports.setMoney = _a.setMoney, exports.setShopLocked = _a.setShopLocked, exports.changePlayer = _a.changePlayer, exports.setShop = _a.setShop, exports.setItemsProposition = _a.setItemsProposition;
+_a = exports.gameSlice.actions, exports.setSimulation = _a.setSimulation, exports.setAdditionalPokemons = _a.setAdditionalPokemons, exports.setPokemonProposition = _a.setPokemonProposition, exports.setPokemonCollection = _a.setPokemonCollection, exports.leaveGame = _a.leaveGame, exports.removeDpsMeter = _a.removeDpsMeter, exports.changeDpsMeter = _a.changeDpsMeter, exports.addDpsMeter = _a.addDpsMeter, exports.setLoadingProgress = _a.setLoadingProgress, exports.setPlayer = _a.setPlayer, exports.setLife = _a.setLife, exports.setSynergies = _a.setSynergies, exports.setRoundTime = _a.setRoundTime, exports.setAfterGameId = _a.setAfterGameId, exports.setPhase = _a.setPhase, exports.setStageLevel = _a.setStageLevel, exports.setWeather = _a.setWeather, exports.setNoELO = _a.setNoELO, exports.addPlayer = _a.addPlayer, exports.removePlayer = _a.removePlayer, exports.updateExperienceManager = _a.updateExperienceManager, exports.setStreak = _a.setStreak, exports.setInterest = _a.setInterest, exports.setMoney = _a.setMoney, exports.setShopFreeRolls = _a.setShopFreeRolls, exports.setShopLocked = _a.setShopLocked, exports.changePlayer = _a.changePlayer, exports.setShop = _a.setShop, exports.setItemsProposition = _a.setItemsProposition;
 exports.default = exports.gameSlice.reducer;
 //# sourceMappingURL=GameStore.js.map

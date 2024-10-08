@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WeatherEffects = exports.SynergyAssociatedToWeather = exports.WeatherAssociatedToSynergy = exports.PassiveAssociatedToWeather = exports.WeatherPassives = exports.Weather = void 0;
+exports.WeatherEffects = exports.SynergyAssociatedToWeather = exports.WeatherAssociatedToSynergy = exports.PassivesAssociatedToWeather = exports.Weather = void 0;
 const map_1 = require("../../utils/map");
 const Effect_1 = require("./Effect");
 const Passive_1 = require("./Passive");
@@ -18,18 +18,17 @@ var Weather;
     Weather["BLOODMOON"] = "BLOODMOON";
     Weather["NEUTRAL"] = "NEUTRAL";
 })(Weather || (exports.Weather = Weather = {}));
-exports.WeatherPassives = new Map([
-    [Passive_1.Passive.SUN, Weather.SUN],
-    [Passive_1.Passive.RAIN, Weather.RAIN],
-    [Passive_1.Passive.SANDSTORM, Weather.SANDSTORM],
-    [Passive_1.Passive.MISTY, Weather.MISTY],
-    [Passive_1.Passive.SNOW, Weather.SNOW],
-    [Passive_1.Passive.STORM, Weather.STORM],
-    [Passive_1.Passive.NIGHT, Weather.NIGHT],
-    [Passive_1.Passive.WINDY, Weather.WINDY],
-    [Passive_1.Passive.AIRLOCK, Weather.NEUTRAL]
+exports.PassivesAssociatedToWeather = new Map([
+    [Weather.SUN, [Passive_1.Passive.SUN]],
+    [Weather.RAIN, [Passive_1.Passive.RAIN]],
+    [Weather.SANDSTORM, [Passive_1.Passive.SANDSTORM]],
+    [Weather.MISTY, [Passive_1.Passive.MISTY]],
+    [Weather.SNOW, [Passive_1.Passive.SNOW]],
+    [Weather.STORM, [Passive_1.Passive.STORM]],
+    [Weather.NIGHT, [Passive_1.Passive.NIGHT]],
+    [Weather.WINDY, [Passive_1.Passive.WINDY, Passive_1.Passive.LUGIA]],
+    [Weather.NEUTRAL, [Passive_1.Passive.AIRLOCK]]
 ]);
-exports.PassiveAssociatedToWeather = (0, map_1.reverseMap)(exports.WeatherPassives);
 exports.WeatherAssociatedToSynergy = new Map([
     [Synergy_1.Synergy.FIRE, Weather.SUN],
     [Synergy_1.Synergy.WATER, Weather.RAIN],

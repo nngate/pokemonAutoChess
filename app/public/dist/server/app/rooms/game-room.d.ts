@@ -26,6 +26,7 @@ export default class GameRoom extends Room<GameState> {
         noElo: boolean;
         gameMode: GameMode;
         minRank: EloRank | null;
+        maxRank: EloRank | null;
         tournamentId: string | null;
         bracketId: string | null;
     }): Promise<void>;

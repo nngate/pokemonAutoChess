@@ -182,6 +182,7 @@ var Pkm;
     Pkm["FEAROW"] = "FEAROW";
     Pkm["GYARADOS"] = "GYARADOS";
     Pkm["LUGIA"] = "LUGIA";
+    Pkm["SHADOW_LUGIA"] = "SHADOW_LUGIA";
     Pkm["GIRATINA"] = "GIRATINA";
     Pkm["ZAPDOS"] = "ZAPDOS";
     Pkm["MOLTRES"] = "MOLTRES";
@@ -705,6 +706,7 @@ var Pkm;
     Pkm["LINOONE"] = "LINOONE";
     Pkm["PHEROMOSA"] = "PHEROMOSA";
     Pkm["SABLEYE"] = "SABLEYE";
+    Pkm["MEGA_SABLEYE"] = "MEGA_SABLEYE";
     Pkm["DRACOVISH"] = "DRACOVISH";
     Pkm["CORSOLA"] = "CORSOLA";
     Pkm["GALAR_CORSOLA"] = "GALAR_CORSOLA";
@@ -840,6 +842,23 @@ var Pkm;
     Pkm["MANTINE"] = "MANTINE";
     Pkm["REMORAID"] = "REMORAID";
     Pkm["OCTILLERY"] = "OCTILLERY";
+    Pkm["SIGILYPH"] = "SIGILYPH";
+    Pkm["FRIGIBAX"] = "FRIGIBAX";
+    Pkm["ARCTIBAX"] = "ARCTIBAX";
+    Pkm["BAXCALIBUR"] = "BAXCALIBUR";
+    Pkm["BINACLE"] = "BINACLE";
+    Pkm["BARBARACLE"] = "BARBARACLE";
+    Pkm["SKARMORY"] = "SKARMORY";
+    Pkm["DURANT"] = "DURANT";
+    Pkm["OGERPON_TEAL"] = "OGERPON_TEAL";
+    Pkm["OGERPON_TEAL_MASK"] = "OGERPON_TEAL_MASK";
+    Pkm["OGERPON_WELLSPRING"] = "OGERPON_WELLSPRING";
+    Pkm["OGERPON_WELLSPRING_MASK"] = "OGERPON_WELLSPRING_MASK";
+    Pkm["OGERPON_HEARTHFLAME"] = "OGERPON_HEARTHFLAME";
+    Pkm["OGERPON_HEARTHFLAME_MASK"] = "OGERPON_HEARTHFLAME_MASK";
+    Pkm["OGERPON_CORNERSTONE"] = "OGERPON_CORNERSTONE";
+    Pkm["OGERPON_CORNERSTONE_MASK"] = "OGERPON_CORNERSTONE_MASK";
+    Pkm["IRON_HANDS"] = "IRON_HANDS";
 })(Pkm || (exports.Pkm = Pkm = {}));
 exports.PkmIndex = {
     [Pkm.EGG]: "0000-0004",
@@ -1022,6 +1041,7 @@ exports.PkmIndex = {
     [Pkm.FEAROW]: "0022",
     [Pkm.GYARADOS]: "0130",
     [Pkm.LUGIA]: "0249",
+    [Pkm.SHADOW_LUGIA]: "0249-0001",
     [Pkm.GIRATINA]: "0487",
     [Pkm.ZAPDOS]: "0145",
     [Pkm.MOLTRES]: "0146",
@@ -1521,6 +1541,7 @@ exports.PkmIndex = {
     [Pkm.LINOONE]: "0264",
     [Pkm.PHEROMOSA]: "0795",
     [Pkm.SABLEYE]: "0302",
+    [Pkm.MEGA_SABLEYE]: "0302-0001",
     [Pkm.DRACOVISH]: "0882",
     [Pkm.CORSOLA]: "0222",
     [Pkm.GALAR_CORSOLA]: "0222-0001",
@@ -1676,7 +1697,24 @@ exports.PkmIndex = {
     [Pkm.MANTYKE]: "0458",
     [Pkm.MANTINE]: "0226",
     [Pkm.REMORAID]: "0223",
-    [Pkm.OCTILLERY]: "0224"
+    [Pkm.OCTILLERY]: "0224",
+    [Pkm.SIGILYPH]: "0561",
+    [Pkm.FRIGIBAX]: "0996",
+    [Pkm.ARCTIBAX]: "0997",
+    [Pkm.BAXCALIBUR]: "0998",
+    [Pkm.BINACLE]: "0688",
+    [Pkm.BARBARACLE]: "0689",
+    [Pkm.SKARMORY]: "0227",
+    [Pkm.DURANT]: "0632",
+    [Pkm.OGERPON_TEAL]: "1017",
+    [Pkm.OGERPON_TEAL_MASK]: "1017-0001",
+    [Pkm.OGERPON_WELLSPRING]: "1017-0002",
+    [Pkm.OGERPON_WELLSPRING_MASK]: "1017-0003",
+    [Pkm.OGERPON_HEARTHFLAME]: "1017-0004",
+    [Pkm.OGERPON_HEARTHFLAME_MASK]: "1017-0005",
+    [Pkm.OGERPON_CORNERSTONE]: "1017-0006",
+    [Pkm.OGERPON_CORNERSTONE_MASK]: "1017-0007",
+    [Pkm.IRON_HANDS]: "0992"
 };
 exports.PkmFamily = {
     [Pkm.EGG]: Pkm.EGG,
@@ -1939,6 +1977,7 @@ exports.PkmFamily = {
     [Pkm.RATICATE]: Pkm.RATTATA,
     [Pkm.ALOLAN_RATICATE]: Pkm.ALOLAN_RATTATA,
     [Pkm.LUGIA]: Pkm.LUGIA,
+    [Pkm.SHADOW_LUGIA]: Pkm.LUGIA,
     [Pkm.CARVANHA]: Pkm.CARVANHA,
     [Pkm.SWABLU]: Pkm.SWABLU,
     [Pkm.PRIMAL_GROUDON]: Pkm.GROUDON,
@@ -2358,6 +2397,7 @@ exports.PkmFamily = {
     [Pkm.LINOONE]: Pkm.ZIGZAGOON,
     [Pkm.PHEROMOSA]: Pkm.PHEROMOSA,
     [Pkm.SABLEYE]: Pkm.SABLEYE,
+    [Pkm.MEGA_SABLEYE]: Pkm.SABLEYE,
     [Pkm.DRACOVISH]: Pkm.DRACOVISH,
     [Pkm.CORSOLA]: Pkm.CORSOLA,
     [Pkm.GALAR_CORSOLA]: Pkm.CORSOLA,
@@ -2513,7 +2553,24 @@ exports.PkmFamily = {
     [Pkm.MANTYKE]: Pkm.MANTYKE,
     [Pkm.MANTINE]: Pkm.MANTYKE,
     [Pkm.REMORAID]: Pkm.REMORAID,
-    [Pkm.OCTILLERY]: Pkm.REMORAID
+    [Pkm.OCTILLERY]: Pkm.REMORAID,
+    [Pkm.SIGILYPH]: Pkm.SIGILYPH,
+    [Pkm.FRIGIBAX]: Pkm.FRIGIBAX,
+    [Pkm.ARCTIBAX]: Pkm.FRIGIBAX,
+    [Pkm.BAXCALIBUR]: Pkm.FRIGIBAX,
+    [Pkm.BINACLE]: Pkm.BINACLE,
+    [Pkm.BARBARACLE]: Pkm.BINACLE,
+    [Pkm.SKARMORY]: Pkm.SKARMORY,
+    [Pkm.DURANT]: Pkm.DURANT,
+    [Pkm.OGERPON_TEAL]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_TEAL_MASK]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_WELLSPRING]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_WELLSPRING_MASK]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_HEARTHFLAME]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_HEARTHFLAME_MASK]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_CORNERSTONE]: Pkm.OGERPON_TEAL,
+    [Pkm.OGERPON_CORNERSTONE_MASK]: Pkm.OGERPON_TEAL,
+    [Pkm.IRON_HANDS]: Pkm.IRON_HANDS
 };
 exports.PkmRegionalVariants = {
     [Pkm.RATTATA]: [Pkm.ALOLAN_RATTATA],
@@ -3523,6 +3580,12 @@ exports.AnimationConfig = {
         ability: Animation_1.AnimationType.Hover,
         emote: Animation_1.AnimationType.Shoot
     },
+    [Pkm.SHADOW_LUGIA]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Dance,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
     [Pkm.GIRATINA]: {
         attack: Animation_1.AnimationType.Attack,
         ability: Animation_1.AnimationType.SpAttack,
@@ -3831,7 +3894,7 @@ exports.AnimationConfig = {
     },
     [Pkm.COBALION]: {
         attack: Animation_1.AnimationType.Attack,
-        ability: Animation_1.AnimationType.Swing,
+        ability: Animation_1.AnimationType.Shoot,
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.MANAPHY]: {
@@ -4003,18 +4066,17 @@ exports.AnimationConfig = {
     },
     [Pkm.SANDILE]: {
         attack: Animation_1.AnimationType.Attack,
-        ability: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.Charge,
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.KROKOROK]: {
         attack: Animation_1.AnimationType.Attack,
-        ability: Animation_1.AnimationType.Attack,
-        emote: Animation_1.AnimationType.Shoot,
-        shinyUnavailable: true
+        ability: Animation_1.AnimationType.Charge,
+        emote: Animation_1.AnimationType.RearUp
     },
     [Pkm.KROOKODILE]: {
         attack: Animation_1.AnimationType.Attack,
-        ability: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Charge,
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.SOLOSIS]: {
@@ -5382,10 +5444,9 @@ exports.AnimationConfig = {
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.MELMETAL]: {
-        attack: Animation_1.AnimationType.Attack,
-        ability: Animation_1.AnimationType.Attack,
-        emote: Animation_1.AnimationType.Shoot,
-        shinyUnavailable: true
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Punch,
+        emote: Animation_1.AnimationType.Charge
     },
     [Pkm.HOOPA]: {
         attack: Animation_1.AnimationType.Attack,
@@ -6048,6 +6109,11 @@ exports.AnimationConfig = {
         ability: Animation_1.AnimationType.SpAttack,
         emote: Animation_1.AnimationType.Charge
     },
+    [Pkm.MEGA_SABLEYE]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.SpAttack,
+        emote: Animation_1.AnimationType.Charge
+    },
     [Pkm.DRACOVISH]: {
         attack: Animation_1.AnimationType.Attack,
         ability: Animation_1.AnimationType.Attack,
@@ -6186,7 +6252,7 @@ exports.AnimationConfig = {
     },
     [Pkm.KANGASKHAN]: {
         attack: Animation_1.AnimationType.Strike,
-        ability: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Shoot,
         emote: Animation_1.AnimationType.Shoot
     },
     [Pkm.TEDDIURSA]: {
@@ -6841,6 +6907,96 @@ exports.AnimationConfig = {
         attack: Animation_1.AnimationType.Shoot,
         ability: Animation_1.AnimationType.Attack,
         emote: Animation_1.AnimationType.RearUp
+    },
+    [Pkm.SIGILYPH]: {
+        attack: Animation_1.AnimationType.Shoot,
+        ability: Animation_1.AnimationType.SpAttack,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.FRIGIBAX]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.ARCTIBAX]: {
+        attack: Animation_1.AnimationType.Scratch,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.BAXCALIBUR]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.BINACLE]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.RearUp,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.BARBARACLE]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.SKARMORY]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.DURANT]: {
+        attack: Animation_1.AnimationType.Bite,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
+    [Pkm.OGERPON_TEAL]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.OGERPON_TEAL_MASK]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
+    [Pkm.OGERPON_WELLSPRING]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.OGERPON_WELLSPRING_MASK]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
+    [Pkm.OGERPON_HEARTHFLAME]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.OGERPON_HEARTHFLAME_MASK]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
+    [Pkm.OGERPON_CORNERSTONE]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge
+    },
+    [Pkm.OGERPON_CORNERSTONE_MASK]: {
+        attack: Animation_1.AnimationType.Strike,
+        ability: Animation_1.AnimationType.Shoot,
+        emote: Animation_1.AnimationType.Charge,
+        shinyUnavailable: true
+    },
+    [Pkm.IRON_HANDS]: {
+        attack: Animation_1.AnimationType.Attack,
+        ability: Animation_1.AnimationType.Strike,
+        emote: Animation_1.AnimationType.Hop
     }
 };
 //# sourceMappingURL=Pokemon.js.map

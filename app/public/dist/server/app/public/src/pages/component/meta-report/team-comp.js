@@ -10,14 +10,6 @@ const react_i18next_1 = require("react-i18next");
 const Pokemon_1 = require("../../../../../types/enum/Pokemon");
 const utils_1 = require("../../../utils");
 const synergy_icon_1 = __importDefault(require("../icons/synergy-icon"));
-function capitalizeFirstLetter(string) {
-    if (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-    else {
-        return null;
-    }
-}
 function rankType(a, b, types) {
     const sa = types[a];
     const sb = types[b];

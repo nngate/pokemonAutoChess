@@ -79,6 +79,8 @@ export default class Status extends Schema implements IStatus {
     darkHarvest: boolean;
     darkHarvestCooldown: number;
     darkHarvestDamageCooldown: number;
+    stoneEdge: boolean;
+    stoneEdgeCooldown: number;
     clearNegativeStatus(): void;
     hasNegativeStatus(): boolean;
     updateAllStatus(dt: number, pokemon: PokemonEntity, board: Board): void;
@@ -89,6 +91,8 @@ export default class Status extends Schema implements IStatus {
     updateRage(dt: number, pokemon: PokemonEntity): void;
     triggerClearWing(timer: number): void;
     updateClearWing(dt: number, pkm: PokemonEntity): void;
+    triggerStoneEdge(timer: number, pkm: PokemonEntity): void;
+    updateStoneEdge(dt: number, pkm: PokemonEntity): void;
     triggerDrySkin(timer: number): void;
     updateDrySkin(dt: number, pkm: PokemonEntity): void;
     triggerSynchro(): void;

@@ -35,8 +35,8 @@ exports.RarityCost = Object.freeze({
     [Game_1.Rarity.RARE]: 3,
     [Game_1.Rarity.EPIC]: 4,
     [Game_1.Rarity.ULTRA]: 5,
-    [Game_1.Rarity.UNIQUE]: 6,
-    [Game_1.Rarity.LEGENDARY]: 7,
+    [Game_1.Rarity.UNIQUE]: 15,
+    [Game_1.Rarity.LEGENDARY]: 20,
     [Game_1.Rarity.HATCH]: 11
 });
 exports.EmotionCost = {
@@ -110,7 +110,7 @@ exports.SynergyTriggers = {
 exports.RequiredStageLevelForXpElligibility = 10;
 exports.ExpPlace = [700, 500, 400, 300, 200, 150, 100, 50];
 exports.RarityColor = {
-    [Game_1.Rarity.COMMON]: "#9f9f9f",
+    [Game_1.Rarity.COMMON]: "#a0a0a0",
     [Game_1.Rarity.UNCOMMON]: "#3bc95e",
     [Game_1.Rarity.RARE]: "#41bfcc",
     [Game_1.Rarity.EPIC]: "#ca6cee",
@@ -166,8 +166,8 @@ exports.PoolSize = {
     [Game_1.Rarity.SPECIAL]: [0, 0, 0],
     [Game_1.Rarity.HATCH]: [0, 0, 0]
 };
-exports.UniqueShop = new Array(Pokemon_1.Pkm.AERODACTYL, Pokemon_1.Pkm.BLACEPHALON, Pokemon_1.Pkm.REGIDRAGO, Pokemon_1.Pkm.REGIELEKI, Pokemon_1.Pkm.CASTFORM, Pokemon_1.Pkm.REGICE, Pokemon_1.Pkm.REGISTEEL, Pokemon_1.Pkm.REGIROCK, Pokemon_1.Pkm.UXIE, Pokemon_1.Pkm.MESPRIT, Pokemon_1.Pkm.AZELF, Pokemon_1.PkmDuo.LATIOS_LATIAS, Pokemon_1.Pkm.LAPRAS, Pokemon_1.Pkm.ABSOL, Pokemon_1.Pkm.SPIRITOMB, Pokemon_1.Pkm.ROTOM, Pokemon_1.Pkm.PHIONE, Pokemon_1.Pkm.COBALION, Pokemon_1.Pkm.KELDEO, Pokemon_1.Pkm.TAPU_KOKO, Pokemon_1.Pkm.TAPU_LELE, Pokemon_1.Pkm.SEVIPER, Pokemon_1.Pkm.KECLEON, Pokemon_1.Pkm.MAWILE, Pokemon_1.Pkm.TAUROS, Pokemon_1.Pkm.RELICANTH, Pokemon_1.Pkm.CHATOT, Pokemon_1.Pkm.FARFETCH_D, Pokemon_1.Pkm.TAPU_BULU, Pokemon_1.Pkm.TAPU_FINI, Pokemon_1.Pkm.MIMIKYU, Pokemon_1.Pkm.TYROGUE, Pokemon_1.Pkm.VIRIZION, Pokemon_1.Pkm.ZERAORA, Pokemon_1.Pkm.SHUCKLE, Pokemon_1.Pkm.LUNATONE, Pokemon_1.Pkm.SOLROCK, Pokemon_1.Pkm.MILTANK, Pokemon_1.Pkm.MARACTUS, Pokemon_1.PkmDuo.PLUSLE_MINUN, Pokemon_1.Pkm.PINSIR, Pokemon_1.Pkm.GLIGAR, Pokemon_1.Pkm.DELIBIRD, Pokemon_1.Pkm.TORKOAL, Pokemon_1.Pkm.IRON_BUNDLE, Pokemon_1.Pkm.CHINGLING, Pokemon_1.Pkm.DHELMISE, Pokemon_1.Pkm.SPINDA, Pokemon_1.Pkm.HERACROSS, Pokemon_1.PkmDuo.ILLUMISE_VOLBEAT, Pokemon_1.Pkm.TANDEMAUS, Pokemon_1.Pkm.TROPIUS, Pokemon_1.Pkm.CARNIVINE, Pokemon_1.Pkm.HOOPA, Pokemon_1.Pkm.COMFEY, Pokemon_1.Pkm.SABLEYE, Pokemon_1.Pkm.DRACOVISH, Pokemon_1.Pkm.GIMMIGHOUL, Pokemon_1.Pkm.BRUXISH, Pokemon_1.Pkm.CYCLIZAR, Pokemon_1.Pkm.MINIOR, Pokemon_1.Pkm.MORPEKO, Pokemon_1.Pkm.TYPE_NULL, Pokemon_1.Pkm.KANGASKHAN, Pokemon_1.Pkm.DRUDDIGON, Pokemon_1.Pkm.COSMOG, Pokemon_1.Pkm.SCYTHER, Pokemon_1.Pkm.ZANGOOSE, Pokemon_1.Pkm.SMEARGLE, Pokemon_1.Pkm.STANTLER, Pokemon_1.Pkm.KLEFKI, Pokemon_1.Pkm.HEATMOR, Pokemon_1.Pkm.HAWLUCHA, Pokemon_1.Pkm.STONJOURNER, Pokemon_1.Pkm.CRAMORANT, Pokemon_1.Pkm.PYUKUMUKU, Pokemon_1.Pkm.POIPOLE, Pokemon_1.Pkm.LUVDISC, Pokemon_1.Pkm.AUDINO, Pokemon_1.Pkm.MANTYKE);
-exports.LegendaryShop = new Array(Pokemon_1.Pkm.RESHIRAM, Pokemon_1.Pkm.ZEKROM, Pokemon_1.Pkm.STAKATAKA, Pokemon_1.Pkm.GENESECT, Pokemon_1.Pkm.GUZZLORD, Pokemon_1.Pkm.ETERNATUS, Pokemon_1.Pkm.MELOETTA, Pokemon_1.Pkm.MEW, Pokemon_1.Pkm.MEWTWO, Pokemon_1.Pkm.ENTEI, Pokemon_1.Pkm.SUICUNE, Pokemon_1.Pkm.RAIKOU, Pokemon_1.Pkm.REGIGIGAS, Pokemon_1.Pkm.CELEBI, Pokemon_1.Pkm.VICTINI, Pokemon_1.Pkm.JIRACHI, Pokemon_1.Pkm.ARCEUS, Pokemon_1.Pkm.DEOXYS, Pokemon_1.Pkm.SHAYMIN, Pokemon_1.Pkm.GIRATINA, Pokemon_1.Pkm.DARKRAI, Pokemon_1.Pkm.CRESSELIA, Pokemon_1.Pkm.HEATRAN, Pokemon_1.Pkm.LUGIA, Pokemon_1.Pkm.HO_OH, Pokemon_1.Pkm.PALKIA, Pokemon_1.Pkm.DIALGA, Pokemon_1.Pkm.RAYQUAZA, Pokemon_1.Pkm.KYOGRE, Pokemon_1.Pkm.GROUDON, Pokemon_1.Pkm.VOLCANION, Pokemon_1.Pkm.MARSHADOW, Pokemon_1.Pkm.XERNEAS, Pokemon_1.Pkm.YVELTAL, Pokemon_1.Pkm.ZAPDOS, Pokemon_1.Pkm.MOLTRES, Pokemon_1.Pkm.ARTICUNO, Pokemon_1.Pkm.SPECTRIER, Pokemon_1.Pkm.KARTANA, Pokemon_1.Pkm.NECROZMA, Pokemon_1.Pkm.XURKITREE, Pokemon_1.Pkm.NIHILEGO, Pokemon_1.Pkm.PHEROMOSA, Pokemon_1.Pkm.TORNADUS, Pokemon_1.Pkm.THUNDURUS, Pokemon_1.Pkm.LANDORUS, Pokemon_1.Pkm.ENAMORUS, Pokemon_1.Pkm.MAGEARNA);
+exports.UniqueShop = new Array(Pokemon_1.Pkm.AERODACTYL, Pokemon_1.Pkm.BLACEPHALON, Pokemon_1.Pkm.REGIDRAGO, Pokemon_1.Pkm.REGIELEKI, Pokemon_1.Pkm.CASTFORM, Pokemon_1.Pkm.REGICE, Pokemon_1.Pkm.REGISTEEL, Pokemon_1.Pkm.REGIROCK, Pokemon_1.Pkm.UXIE, Pokemon_1.Pkm.MESPRIT, Pokemon_1.Pkm.AZELF, Pokemon_1.PkmDuo.LATIOS_LATIAS, Pokemon_1.Pkm.LAPRAS, Pokemon_1.Pkm.ABSOL, Pokemon_1.Pkm.SPIRITOMB, Pokemon_1.Pkm.ROTOM, Pokemon_1.Pkm.PHIONE, Pokemon_1.Pkm.COBALION, Pokemon_1.Pkm.KELDEO, Pokemon_1.Pkm.TAPU_KOKO, Pokemon_1.Pkm.TAPU_LELE, Pokemon_1.Pkm.SEVIPER, Pokemon_1.Pkm.KECLEON, Pokemon_1.Pkm.MAWILE, Pokemon_1.Pkm.TAUROS, Pokemon_1.Pkm.RELICANTH, Pokemon_1.Pkm.CHATOT, Pokemon_1.Pkm.FARFETCH_D, Pokemon_1.Pkm.TAPU_BULU, Pokemon_1.Pkm.TAPU_FINI, Pokemon_1.Pkm.MIMIKYU, Pokemon_1.Pkm.TYROGUE, Pokemon_1.Pkm.VIRIZION, Pokemon_1.Pkm.ZERAORA, Pokemon_1.Pkm.SHUCKLE, Pokemon_1.Pkm.LUNATONE, Pokemon_1.Pkm.SOLROCK, Pokemon_1.Pkm.MILTANK, Pokemon_1.Pkm.MARACTUS, Pokemon_1.PkmDuo.PLUSLE_MINUN, Pokemon_1.Pkm.PINSIR, Pokemon_1.Pkm.GLIGAR, Pokemon_1.Pkm.DELIBIRD, Pokemon_1.Pkm.TORKOAL, Pokemon_1.Pkm.IRON_BUNDLE, Pokemon_1.Pkm.CHINGLING, Pokemon_1.Pkm.DHELMISE, Pokemon_1.Pkm.SPINDA, Pokemon_1.Pkm.HERACROSS, Pokemon_1.PkmDuo.ILLUMISE_VOLBEAT, Pokemon_1.Pkm.TANDEMAUS, Pokemon_1.Pkm.TROPIUS, Pokemon_1.Pkm.CARNIVINE, Pokemon_1.Pkm.HOOPA, Pokemon_1.Pkm.COMFEY, Pokemon_1.Pkm.SABLEYE, Pokemon_1.Pkm.DRACOVISH, Pokemon_1.Pkm.GIMMIGHOUL, Pokemon_1.Pkm.BRUXISH, Pokemon_1.Pkm.CYCLIZAR, Pokemon_1.Pkm.MINIOR, Pokemon_1.Pkm.MORPEKO, Pokemon_1.Pkm.TYPE_NULL, Pokemon_1.Pkm.KANGASKHAN, Pokemon_1.Pkm.DRUDDIGON, Pokemon_1.Pkm.COSMOG, Pokemon_1.Pkm.SCYTHER, Pokemon_1.Pkm.ZANGOOSE, Pokemon_1.Pkm.SMEARGLE, Pokemon_1.Pkm.STANTLER, Pokemon_1.Pkm.KLEFKI, Pokemon_1.Pkm.HEATMOR, Pokemon_1.Pkm.HAWLUCHA, Pokemon_1.Pkm.STONJOURNER, Pokemon_1.Pkm.CRAMORANT, Pokemon_1.Pkm.PYUKUMUKU, Pokemon_1.Pkm.POIPOLE, Pokemon_1.Pkm.LUVDISC, Pokemon_1.Pkm.AUDINO, Pokemon_1.Pkm.MANTYKE, Pokemon_1.Pkm.DURANT, Pokemon_1.Pkm.SKARMORY, Pokemon_1.Pkm.SIGILYPH, Pokemon_1.Pkm.OGERPON_TEAL, Pokemon_1.Pkm.OGERPON_WELLSPRING, Pokemon_1.Pkm.OGERPON_HEARTHFLAME, Pokemon_1.Pkm.OGERPON_CORNERSTONE, Pokemon_1.Pkm.IRON_HANDS);
+exports.LegendaryShop = new Array(Pokemon_1.Pkm.RESHIRAM, Pokemon_1.Pkm.ZEKROM, Pokemon_1.Pkm.STAKATAKA, Pokemon_1.Pkm.GENESECT, Pokemon_1.Pkm.GUZZLORD, Pokemon_1.Pkm.ETERNATUS, Pokemon_1.Pkm.MELOETTA, Pokemon_1.Pkm.MEW, Pokemon_1.Pkm.MEWTWO, Pokemon_1.Pkm.ENTEI, Pokemon_1.Pkm.SUICUNE, Pokemon_1.Pkm.RAIKOU, Pokemon_1.Pkm.REGIGIGAS, Pokemon_1.Pkm.CELEBI, Pokemon_1.Pkm.VICTINI, Pokemon_1.Pkm.JIRACHI, Pokemon_1.Pkm.ARCEUS, Pokemon_1.Pkm.DEOXYS, Pokemon_1.Pkm.SHAYMIN, Pokemon_1.Pkm.GIRATINA, Pokemon_1.Pkm.DARKRAI, Pokemon_1.Pkm.CRESSELIA, Pokemon_1.Pkm.HEATRAN, Pokemon_1.Pkm.LUGIA, Pokemon_1.Pkm.HO_OH, Pokemon_1.Pkm.PALKIA, Pokemon_1.Pkm.DIALGA, Pokemon_1.Pkm.RAYQUAZA, Pokemon_1.Pkm.KYOGRE, Pokemon_1.Pkm.GROUDON, Pokemon_1.Pkm.VOLCANION, Pokemon_1.Pkm.MARSHADOW, Pokemon_1.Pkm.XERNEAS, Pokemon_1.Pkm.YVELTAL, Pokemon_1.Pkm.ZAPDOS, Pokemon_1.Pkm.MOLTRES, Pokemon_1.Pkm.ARTICUNO, Pokemon_1.Pkm.SPECTRIER, Pokemon_1.Pkm.KARTANA, Pokemon_1.Pkm.NECROZMA, Pokemon_1.Pkm.XURKITREE, Pokemon_1.Pkm.NIHILEGO, Pokemon_1.Pkm.PHEROMOSA, Pokemon_1.Pkm.TORNADUS, Pokemon_1.Pkm.THUNDURUS, Pokemon_1.Pkm.LANDORUS, Pokemon_1.Pkm.ENAMORUS, Pokemon_1.Pkm.MAGEARNA, Pokemon_1.Pkm.MELMETAL);
 exports.NB_UNIQUE_PROPOSITIONS = 6;
 exports.SHOP_SIZE = 6;
 exports.FishRarityProbability = {
@@ -191,19 +191,11 @@ exports.FishRarityProbability = {
         [Game_1.Rarity.UNCOMMON]: 0.25,
         [Game_1.Rarity.RARE]: 0.25,
         [Game_1.Rarity.EPIC]: 0.1
-    },
-    [Item_1.Item.GOLDEN_ROD]: {
-        [Game_1.Rarity.SPECIAL]: 0.1,
-        [Game_1.Rarity.COMMON]: 0.2,
-        [Game_1.Rarity.UNCOMMON]: 0.25,
-        [Game_1.Rarity.RARE]: 0.25,
-        [Game_1.Rarity.EPIC]: 0.15,
-        [Game_1.Rarity.ULTRA]: 0.05
     }
 };
 exports.MAX_POOL_CONNECTIONS_SIZE = 16;
-exports.MAX_CONCURRENT_PLAYERS_ON_SERVER = 700;
-exports.MAX_CONCURRENT_PLAYERS_ON_LOBBY = 75;
+exports.MAX_CONCURRENT_PLAYERS_ON_SERVER = 1000;
+exports.MAX_CONCURRENT_PLAYERS_ON_LOBBY = 100;
 exports.MAX_PLAYERS_PER_GAME = 8;
 exports.MIN_HUMAN_PLAYERS = process.env.MIN_HUMAN_PLAYERS
     ? parseInt(process.env.MIN_HUMAN_PLAYERS)
@@ -244,11 +236,11 @@ exports.WeatherThreshold = {
     [Weather_1.Weather.MISTY]: 8,
     [Weather_1.Weather.NEUTRAL]: 8,
     [Weather_1.Weather.NIGHT]: 8,
-    [Weather_1.Weather.BLOODMOON]: 9,
+    [Weather_1.Weather.BLOODMOON]: 8,
     [Weather_1.Weather.RAIN]: 8,
     [Weather_1.Weather.SANDSTORM]: 8,
-    [Weather_1.Weather.SNOW]: 6,
-    [Weather_1.Weather.STORM]: 6,
+    [Weather_1.Weather.SNOW]: 8,
+    [Weather_1.Weather.STORM]: 8,
     [Weather_1.Weather.SUN]: 8,
     [Weather_1.Weather.WINDY]: 8
 };
@@ -448,7 +440,7 @@ exports.ItemStats = {
     },
     [Item_1.Item.GRACIDEA_FLOWER]: { [Game_1.Stat.ATK_SPEED]: 10, [Game_1.Stat.SHIELD]: 15 },
     [Item_1.Item.CHOICE_SCARF]: { [Game_1.Stat.ATK_SPEED]: 10, [Game_1.Stat.SPE_DEF]: 2 },
-    [Item_1.Item.FIRE_GEM]: { [Game_1.Stat.ATK_SPEED]: 10, [Game_1.Stat.ATK]: 3 },
+    [Item_1.Item.PUNCHING_GLOVE]: { [Game_1.Stat.ATK_SPEED]: 10, [Game_1.Stat.ATK]: 3 },
     [Item_1.Item.DEFENSIVE_RIBBON]: { [Game_1.Stat.ATK_SPEED]: 10, [Game_1.Stat.DEF]: 2 },
     [Item_1.Item.WONDER_BOX]: { [Game_1.Stat.CRIT_CHANCE]: 10 },
     [Item_1.Item.CLEANSE_TAG]: { [Game_1.Stat.CRIT_CHANCE]: 10, [Game_1.Stat.SHIELD]: 15 },
@@ -457,13 +449,13 @@ exports.ItemStats = {
     [Item_1.Item.FLUFFY_TAIL]: { [Game_1.Stat.CRIT_CHANCE]: 10, [Game_1.Stat.DEF]: 2 },
     [Item_1.Item.KINGS_ROCK]: { [Game_1.Stat.SHIELD]: 100 },
     [Item_1.Item.SHINY_CHARM]: { [Game_1.Stat.SHIELD]: 15, [Game_1.Stat.SPE_DEF]: 2 },
-    [Item_1.Item.SOOTHE_BELL]: { [Game_1.Stat.SHIELD]: 15, [Game_1.Stat.ATK]: 3 },
-    [Item_1.Item.FLAME_ORB]: { [Game_1.Stat.SHIELD]: 30, [Game_1.Stat.DEF]: 2 },
+    [Item_1.Item.PROTECTIVE_PADS]: { [Game_1.Stat.SHIELD]: 60, [Game_1.Stat.ATK]: 6 },
+    [Item_1.Item.MAX_REVIVE]: { [Game_1.Stat.SHIELD]: 15, [Game_1.Stat.DEF]: 2 },
     [Item_1.Item.ASSAULT_VEST]: { [Game_1.Stat.SPE_DEF]: 20 },
     [Item_1.Item.AMULET_COIN]: { [Game_1.Stat.SPE_DEF]: 2, [Game_1.Stat.ATK]: 3 },
     [Item_1.Item.POKE_DOLL]: { [Game_1.Stat.SPE_DEF]: 2, [Game_1.Stat.DEF]: 2 },
     [Item_1.Item.RED_ORB]: { [Game_1.Stat.ATK]: 10 },
-    [Item_1.Item.MAX_REVIVE]: { [Game_1.Stat.ATK]: 3, [Game_1.Stat.DEF]: 2 },
+    [Item_1.Item.FLAME_ORB]: { [Game_1.Stat.ATK]: 5, [Game_1.Stat.DEF]: 2 },
     [Item_1.Item.ROCKY_HELMET]: { [Game_1.Stat.DEF]: 12 },
     [Item_1.Item.AGUAV_BERRY]: {},
     [Item_1.Item.APICOT_BERRY]: {},
@@ -509,8 +501,10 @@ exports.ItemStats = {
     [Item_1.Item.OLD_ROD]: {},
     [Item_1.Item.GOOD_ROD]: {},
     [Item_1.Item.SUPER_ROD]: {},
-    [Item_1.Item.GOLDEN_ROD]: {},
-    [Item_1.Item.RARE_CANDY]: {},
+    [Item_1.Item.RARE_CANDY]: {
+        [Game_1.Stat.ATK_SPEED]: -20,
+        [Game_1.Stat.AP]: -30
+    },
     [Item_1.Item.EVIOLITE]: {
         [Game_1.Stat.HP]: 100,
         [Game_1.Stat.ATK]: 10,
@@ -523,6 +517,7 @@ exports.ItemStats = {
     [Item_1.Item.COMET_SHARD]: { [Game_1.Stat.ATK]: 12 },
     [Item_1.Item.ABSORB_BULB]: { [Game_1.Stat.DEF]: 8, [Game_1.Stat.SPE_DEF]: 8 },
     [Item_1.Item.WHITE_FLUTE]: {},
+    [Item_1.Item.REPEAT_BALL]: {},
     [Item_1.Item.DAMP_ROCK]: {},
     [Item_1.Item.ICY_ROCK]: {},
     [Item_1.Item.HEAT_ROCK]: {},
@@ -530,7 +525,11 @@ exports.ItemStats = {
     [Item_1.Item.BLACK_AUGURITE]: {},
     [Item_1.Item.POKERUS_VIAL]: {},
     [Item_1.Item.ROTOM_PHONE]: {},
-    [Item_1.Item.FIRE_SHARD]: {}
+    [Item_1.Item.FIRE_SHARD]: {},
+    [Item_1.Item.TEAL_MASK]: { [Game_1.Stat.SHIELD]: 50 },
+    [Item_1.Item.WELLSPRING_MASK]: { [Game_1.Stat.SHIELD]: 50 },
+    [Item_1.Item.CORNERSTONE_MASK]: { [Game_1.Stat.SHIELD]: 50 },
+    [Item_1.Item.HEARTHFLAME_MASK]: { [Game_1.Stat.SHIELD]: 50 }
 };
 exports.DTEF_WIDTH = 144;
 exports.DTEF_HEIGHT = 192;

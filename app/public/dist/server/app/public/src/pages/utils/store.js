@@ -26,6 +26,7 @@ class Store {
     set(key, value, expirationTimeInSeconds = DEFAULT_EXPIRATION_TIME_IN_SECONDS) {
         const expirationDate = Date.now() + expirationTimeInSeconds * 1000;
         this.setter(key, { expirationDate, value });
+        window.dispatchEvent(new StorageEvent("storage", { key, newValue: value }));
     }
     delete(key) {
         return this.deleter(key);

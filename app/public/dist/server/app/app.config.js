@@ -53,7 +53,7 @@ if (process.env.NODE_APP_INSTANCE) {
     gameOptions = {
         presence: new colyseus_1.RedisPresence(process.env.REDIS_URI),
         driver: new colyseus_1.RedisDriver(process.env.REDIS_URI),
-        publicAddress: `${process.env.SERVER_NAME}/${port}`,
+        publicAddress: `${port}.${process.env.SERVER_NAME}`,
         selectProcessIdToCreateRoom: function (roomName, clientOptions) {
             return __awaiter(this, void 0, void 0, function* () {
                 if (roomName === "lobby") {

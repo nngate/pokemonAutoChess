@@ -87,6 +87,6 @@ function SynergyComponent(props) {
                                             ? "#ffffff"
                                             : "#b8b8b8"
                                 }, children: t }, t));
-                        }) }), (0, jsx_runtime_1.jsx)("p", { style: { margin: "0px", textAlign: "center" }, children: t(`synergy.${props.type}`) })] })] }));
+                        }) }), (0, jsx_runtime_1.jsx)("p", { style: { margin: "0px", textAlign: "center", fontWeight: "500" }, children: t(`synergy.${props.type}`) })] })] }));
 }
 //# sourceMappingURL=synergy-component.js.map

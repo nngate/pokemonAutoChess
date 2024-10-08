@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PRECOMPUTED_POKEMONS_PER_TYPE_AND_CATEGORY = void 0;
-const Config_1 = require("../../types/Config");
 const Ability_1 = require("../../types/enum/Ability");
 const Game_1 = require("../../types/enum/Game");
 const Passive_1 = require("../../types/enum/Passive");
@@ -32,19 +31,14 @@ precomputed_pokemons_1.precomputedPokemons
             data[type].specialPokemons.push(pokemon.name);
         }
         else if (pokemon.additional) {
-            if (!data[type].additionalPokemons.includes(Pokemon_1.PkmFamily[pokemon.name])) {
+            if (!data[type].additionalPokemons.some((p) => Pokemon_1.PkmFamily[p] === Pokemon_1.PkmFamily[pokemon.name])) {
                 data[type].additionalPokemons.push(pokemon.name);
             }
         }
-        else if (!data[type].pokemons.includes(Pokemon_1.PkmFamily[pokemon.name])) {
+        else if (!data[type].pokemons.some((p) => Pokemon_1.PkmFamily[p] === Pokemon_1.PkmFamily[pokemon.name])) {
             data[type].pokemons.push(pokemon.name);
         }
     });
-});
-const sortByRarity = (a, b) => Config_1.RarityCost[a.rarity] - Config_1.RarityCost[b.rarity];
-Object.keys(data).forEach((type) => {
-    data[type].pokemons.sort(sortByRarity);
-    data[type].additionalPokemons.sort(sortByRarity);
 });
 exports.PRECOMPUTED_POKEMONS_PER_TYPE_AND_CATEGORY = data;
 console.timeEnd("precompute-types-and-categories");

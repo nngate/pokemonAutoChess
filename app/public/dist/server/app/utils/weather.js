@@ -25,10 +25,12 @@ function getWeather(playerBoard, opponentBoard) {
         board.forEach((pkm) => {
             var _a, _b;
             if (pkm.positionY != 0) {
-                if (Weather_1.WeatherPassives.has(pkm.passive)) {
-                    const weather = Weather_1.WeatherPassives.get(pkm.passive);
-                    boardWeatherScore.set(weather, ((_a = boardWeatherScore.get(weather)) !== null && _a !== void 0 ? _a : 0) + 100);
-                    playerWeatherScore.set(weather, ((_b = playerWeatherScore.get(weather)) !== null && _b !== void 0 ? _b : 0) + 100);
+                if (pkm.passive) {
+                    const weather = [...Weather_1.PassivesAssociatedToWeather.keys()].find((key) => Weather_1.PassivesAssociatedToWeather.get(key).includes(pkm.passive));
+                    if (weather) {
+                        boardWeatherScore.set(weather, ((_a = boardWeatherScore.get(weather)) !== null && _a !== void 0 ? _a : 0) + 100);
+                        playerWeatherScore.set(weather, ((_b = playerWeatherScore.get(weather)) !== null && _b !== void 0 ? _b : 0) + 100);
+                    }
                 }
                 pkm.types.forEach((type) => {
                     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -64,7 +66,7 @@ function getWeather(playerBoard, opponentBoard) {
             }
         });
         board.forEach((pkm) => {
-            var _a;
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j;
             if (pkm.positionY != 0) {
                 if (pkm.passive === Passive_1.Passive.CASTFORM) {
                     const dominant = getDominantWeather(playerWeatherScore, [
@@ -75,6 +77,34 @@ function getWeather(playerBoard, opponentBoard) {
                     if (dominant) {
                         boardWeatherScore.set(dominant, ((_a = boardWeatherScore.get(dominant)) !== null && _a !== void 0 ? _a : 0) + 100);
                     }
+                }
+                if (pkm.passive === Passive_1.Passive.TORNADUS) {
+                    const dominant = (_b = getDominantWeather(playerWeatherScore, [
+                        Weather_1.Weather.WINDY,
+                        Weather_1.Weather.SNOW
+                    ])) !== null && _b !== void 0 ? _b : Weather_1.Weather.WINDY;
+                    boardWeatherScore.set(dominant, ((_c = boardWeatherScore.get(dominant)) !== null && _c !== void 0 ? _c : 0) + 100);
+                }
+                if (pkm.passive === Passive_1.Passive.THUNDURUS) {
+                    const dominant = (_d = getDominantWeather(playerWeatherScore, [
+                        Weather_1.Weather.WINDY,
+                        Weather_1.Weather.STORM
+                    ])) !== null && _d !== void 0 ? _d : Weather_1.Weather.STORM;
+                    boardWeatherScore.set(dominant, ((_e = boardWeatherScore.get(dominant)) !== null && _e !== void 0 ? _e : 0) + 100);
+                }
+                if (pkm.passive === Passive_1.Passive.LANDORUS) {
+                    const dominant = (_f = getDominantWeather(playerWeatherScore, [
+                        Weather_1.Weather.WINDY,
+                        Weather_1.Weather.SANDSTORM
+                    ])) !== null && _f !== void 0 ? _f : Weather_1.Weather.SANDSTORM;
+                    boardWeatherScore.set(dominant, ((_g = boardWeatherScore.get(dominant)) !== null && _g !== void 0 ? _g : 0) + 100);
+                }
+                if (pkm.passive === Passive_1.Passive.ENAMORUS) {
+                    const dominant = (_h = getDominantWeather(playerWeatherScore, [
+                        Weather_1.Weather.WINDY,
+                        Weather_1.Weather.MISTY
+                    ])) !== null && _h !== void 0 ? _h : Weather_1.Weather.MISTY;
+                    boardWeatherScore.set(dominant, ((_j = boardWeatherScore.get(dominant)) !== null && _j !== void 0 ? _j : 0) + 100);
                 }
             }
         });

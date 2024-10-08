@@ -28,6 +28,7 @@ const profanity_filter_1 = require("../../utils/profanity-filter");
 const random_1 = require("../../utils/random");
 const schemas_1 = require("../../utils/schemas");
 const CloseCodes_1 = require("../../types/enum/CloseCodes");
+const elo_1 = require("../../utils/elo");
 class OnJoinCommand extends command_1.Command {
     execute(_a) {
         return __awaiter(this, arguments, void 0, function* ({ client, options, auth }) {
@@ -37,7 +38,8 @@ class OnJoinCommand extends command_1.Command {
                     client.leave(CloseCodes_1.CloseCodes.ROOM_FULL);
                     return;
                 }
-                if (this.state.ownerId == "" && this.state.gameMode === Game_1.GameMode.NORMAL) {
+                if (this.state.ownerId == "" &&
+                    this.state.gameMode === Game_1.GameMode.CUSTOM_LOBBY) {
                     this.state.ownerId = auth.uid;
                 }
                 if (this.state.users.has(auth.uid)) {
@@ -61,6 +63,13 @@ class OnJoinCommand extends command_1.Command {
                             client.leave(CloseCodes_1.CloseCodes.USER_RANK_TOO_LOW);
                             return;
                         }
+                        if (this.state.maxRank != null &&
+                            u.elo &&
+                            Config_1.EloRankThreshold[(0, elo_1.getRank)(u.elo)] >
+                                Config_1.EloRankThreshold[this.state.maxRank]) {
+                            client.leave(CloseCodes_1.CloseCodes.USER_RANK_TOO_HIGH);
+                            return;
+                        }
                         this.state.users.set(client.auth.uid, new game_user_1.GameUser(u.uid, u.displayName, u.elo, u.avatar, false, false, u.title, u.role, auth.email === undefined && auth.photoURL === undefined));
                         this.room.updatePlayersInfo();
                         if (u.uid == this.state.ownerId) {
@@ -69,7 +78,7 @@ class OnJoinCommand extends command_1.Command {
                                 ownerName: this.state.ownerName
                             });
                         }
-                        if (this.state.gameMode !== Game_1.GameMode.NORMAL) {
+                        if (this.state.gameMode !== Game_1.GameMode.CUSTOM_LOBBY) {
                             this.clock.setTimeout(() => {
                                 if (this.state.users.has(u.uid) &&
                                     !this.state.users.get(u.uid).ready) {
@@ -130,7 +139,7 @@ class OnGameStartRequestCommand extends command_1.Command {
                 if (nbHumanPlayers < Config_1.MIN_HUMAN_PLAYERS && process.env.MODE !== "dev") {
                     this.state.addMessage({
                         authorId: "Server",
-                        payload: `Due to the current high traffic on the game, to limit the resources used server side, only games with a minimum of 8 players are authorized.`,
+                        payload: `Only games with a minimum of ${Config_1.MIN_HUMAN_PLAYERS} players are authorized.`,
                         avatar: "0054/Surprised"
                     });
                     return;
@@ -143,7 +152,7 @@ class OnGameStartRequestCommand extends command_1.Command {
                     });
                     return;
                 }
-                if (!allUsersReady && this.state.gameMode === Game_1.GameMode.NORMAL) {
+                if (!allUsersReady && this.state.gameMode === Game_1.GameMode.CUSTOM_LOBBY) {
                     this.state.addMessage({
                         authorId: "Server",
                         payload: `Not all players are ready.`,
@@ -287,8 +296,11 @@ class OnToggleEloCommand extends command_1.Command {
                 this.room.state.addMessage({
                     author: "Server",
                     authorId: "server",
-                    payload: `Room leader ${noElo ? "disabled" : "enabled"} ELO gain for this game.`,
+                    payload: `Room leader ${noElo ? "disabled" : "enabled"} ELO gain for this game. Players need to ready again.`,
                     avatar: leader === null || leader === void 0 ? void 0 : leader.avatar
+                });
+                this.state.users.forEach((user) => {
+                    user.ready = false;
                 });
             }
         }
@@ -398,7 +410,7 @@ class OnToggleReadyCommand extends command_1.Command {
     execute({ client, ready }) {
         var _a, _b, _c, _d;
         try {
-            if (this.room.state.gameMode !== Game_1.GameMode.NORMAL && ready !== true)
+            if (this.room.state.gameMode !== Game_1.GameMode.CUSTOM_LOBBY && ready !== true)
                 return;
             if (((_a = client.auth) === null || _a === void 0 ? void 0 : _a.uid) && this.state.users.has(client.auth.uid)) {
                 const user = this.state.users.get(client.auth.uid);
@@ -408,7 +420,7 @@ class OnToggleReadyCommand extends command_1.Command {
                 ((_c = this.room.metadata) === null || _c === void 0 ? void 0 : _c.whitelist.length) > 0
                 ? (0, number_1.max)(Config_1.MAX_PLAYERS_PER_GAME)((_d = this.room.metadata) === null || _d === void 0 ? void 0 : _d.whitelist.length)
                 : Config_1.MAX_PLAYERS_PER_GAME;
-            if (this.state.gameMode !== Game_1.GameMode.NORMAL &&
+            if (this.state.gameMode !== Game_1.GameMode.CUSTOM_LOBBY &&
                 this.state.users.size === nbExpectedPlayers &&
                 (0, schemas_1.values)(this.state.users).every((user) => user.ready)) {
                 this.room.state.addMessage({

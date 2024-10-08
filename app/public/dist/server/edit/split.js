@@ -43,19 +43,20 @@ exports.saveMissingFiles = saveMissingFiles;
 const fast_xml_parser_1 = require("fast-xml-parser");
 const fs_1 = __importDefault(require("fs"));
 const graceful_fs_1 = __importDefault(require("graceful-fs"));
-const jimp_1 = __importDefault(require("jimp"));
+const jimp_1 = require("jimp");
 const Animation_1 = require("../app/types/Animation");
 const Game_1 = require("../app/types/enum/Game");
 const Pokemon_1 = require("../app/types/enum/Pokemon");
 const logger_1 = require("../app/utils/logger");
 const pathlib = __importStar(require("path"));
 const os = __importStar(require("os"));
+const fs_extra_1 = require("fs-extra");
 graceful_fs_1.default.gracefulify(fs_1.default);
 const args = process.argv.slice(2);
 const path = args[0];
 const specificIndexToSplit = args[1];
 function expandHomeDir(filePath) {
-    if (filePath.startsWith('~')) {
+    if (filePath.startsWith("~")) {
         return pathlib.join(os.homedir(), filePath.slice(1));
     }
     return filePath;
@@ -78,8 +79,7 @@ function splitAll() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < pkmaIndexes.length; i++) {
             const index = pkmaIndexes[i];
-            logger_1.logger.debug(`${i}/${pkmaIndexes.length - 1} (${((i * 100) /
-                (pkmaIndexes.length - 1)).toFixed(2)}%) #${index} ${mapName.get(index)}`);
+            logger_1.logger.debug(`${i}/${pkmaIndexes.length - 1} (${((i * 100) / (pkmaIndexes.length - 1)).toFixed(2)}%) #${index} ${mapName.get(index)}`);
             yield splitIndex(index);
         }
     });
@@ -203,49 +203,50 @@ function splitIndex(index) {
                     for (let l = 0; l < actions.length; l++) {
                         const action = actions[l];
                         try {
-                            let img;
                             let metadata = xmlData.AnimData.Anims.Anim.find((m) => m.Name == action);
-                            if (metadata) {
-                                if (metadata.CopyOf) {
-                                    img = yield jimp_1.default.read(expandHomeDir(`${path}/sprite/${pad}/${metadata.CopyOf}-${anim}.png`));
-                                    metadata = xmlData.AnimData.Anims.Anim.find((m) => m.Name == (metadata === null || metadata === void 0 ? void 0 : metadata.CopyOf));
-                                }
-                                else {
-                                    img = yield jimp_1.default.read(expandHomeDir(`${path}/sprite/${pad}/${action}-${anim}.png`));
-                                }
-                                durations[`${index}/${shiny}/${action}/${anim}`] =
-                                    (metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration.length) !== undefined
-                                        ? [...metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration]
-                                        : [metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration];
-                                const frameHeight = metadata === null || metadata === void 0 ? void 0 : metadata.FrameHeight;
-                                const frameWidth = metadata === null || metadata === void 0 ? void 0 : metadata.FrameWidth;
-                                if (frameWidth && frameHeight) {
-                                    const width = img.getWidth() / frameWidth;
-                                    const height = img.getHeight() / frameHeight;
-                                    for (let x = 0; x < width; x++) {
-                                        for (let y = 0; y < height; y++) {
-                                            const cropImg = img.clone();
-                                            if (anim == Game_1.SpriteType.SHADOW) {
-                                                const shadow = xmlData.AnimData.ShadowSize;
-                                                if (shadow == 0) {
-                                                    removeRed(cropImg);
-                                                    removeBlue(cropImg);
-                                                }
-                                                else if (shadow == 1) {
-                                                    removeBlue(cropImg);
-                                                }
-                                                cropImg.scan(0, 0, cropImg.bitmap.width, cropImg.bitmap.height, (x, y, idx) => {
-                                                    if (cropImg.bitmap.data[idx + 3] != 0) {
-                                                        cropImg.bitmap.data[idx] = 0;
-                                                        cropImg.bitmap.data[idx + 1] = 0;
-                                                        cropImg.bitmap.data[idx + 2] = 0;
-                                                    }
-                                                });
+                            const img = metadata && metadata.CopyOf
+                                ? yield jimp_1.Jimp.read(expandHomeDir(`${path}/sprite/${pad}/${metadata.CopyOf}-${anim}.png`))
+                                : yield jimp_1.Jimp.read(expandHomeDir(`${path}/sprite/${pad}/${action}-${anim}.png`));
+                            if (metadata && metadata.CopyOf) {
+                                metadata = xmlData.AnimData.Anims.Anim.find((m) => m.Name == (metadata === null || metadata === void 0 ? void 0 : metadata.CopyOf));
+                            }
+                            durations[`${index}/${shiny}/${action}/${anim}`] =
+                                (metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration.length) !== undefined
+                                    ? [...metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration]
+                                    : [metadata === null || metadata === void 0 ? void 0 : metadata.Durations.Duration];
+                            const frameHeight = metadata === null || metadata === void 0 ? void 0 : metadata.FrameHeight;
+                            const frameWidth = metadata === null || metadata === void 0 ? void 0 : metadata.FrameWidth;
+                            if (frameWidth && frameHeight) {
+                                const width = img.width / frameWidth;
+                                const height = img.height / frameHeight;
+                                for (let x = 0; x < width; x++) {
+                                    for (let y = 0; y < height; y++) {
+                                        const cropImg = img.clone();
+                                        if (anim == Game_1.SpriteType.SHADOW) {
+                                            const shadow = xmlData.AnimData.ShadowSize;
+                                            if (shadow == 0) {
+                                                removeRed(cropImg);
+                                                removeBlue(cropImg);
                                             }
-                                            cropImg.crop(x * frameWidth, y * frameHeight, frameWidth, frameHeight);
-                                            const writePath = `split/${index}/${shiny}/${action}/${anim}/${y}/${zeroPad(x)}.png`;
-                                            yield cropImg.writeAsync(writePath);
+                                            else if (shadow == 1) {
+                                                removeBlue(cropImg);
+                                            }
+                                            cropImg.scan(0, 0, cropImg.bitmap.width, cropImg.bitmap.height, (x, y, idx) => {
+                                                if (cropImg.bitmap.data[idx + 3] != 0) {
+                                                    cropImg.bitmap.data[idx] = 0;
+                                                    cropImg.bitmap.data[idx + 1] = 0;
+                                                    cropImg.bitmap.data[idx + 2] = 0;
+                                                }
+                                            });
                                         }
+                                        cropImg.crop({
+                                            x: x * frameWidth,
+                                            y: y * frameHeight,
+                                            w: frameWidth,
+                                            h: frameHeight
+                                        });
+                                        yield (0, fs_extra_1.ensureDir)(`split/${index}/${shiny}/${action}/${anim}/${y}`);
+                                        yield cropImg.write(`split/${index}/${shiny}/${action}/${anim}/${y}/${zeroPad(x)}.png`);
                                     }
                                 }
                             }

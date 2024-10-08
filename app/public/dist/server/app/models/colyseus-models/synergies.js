@@ -25,6 +25,9 @@ class Synergies extends schema_1.MapSchema {
         });
         return count;
     }
+    isActiveSynergy(syn, lvl) {
+        return lvl >= Config_1.SynergyTriggers[syn][0];
+    }
 }
 exports.default = Synergies;
 function computeSynergies(board) {

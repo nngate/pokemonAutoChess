@@ -15,7 +15,7 @@ var Rarity;
 })(Rarity || (exports.Rarity = Rarity = {}));
 var GameMode;
 (function (GameMode) {
-    GameMode["NORMAL"] = "NORMAL";
+    GameMode["CUSTOM_LOBBY"] = "CUSTOM_LOBBY";
     GameMode["QUICKPLAY"] = "QUICKPLAY";
     GameMode["RANKED"] = "RANKED";
     GameMode["SCRIBBLE"] = "SCRIBBLE";

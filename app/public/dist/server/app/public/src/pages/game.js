@@ -87,7 +87,10 @@ function Game() {
             client
                 .reconnect(cachedReconnectionToken)
                 .then((room) => {
-                store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_GAME, { reconnectionToken: room.reconnectionToken, roomId: room.roomId }, 60 * 60);
+                store_1.localStore.set(store_1.LocalStoreKeys.RECONNECTION_GAME, {
+                    reconnectionToken: room.reconnectionToken,
+                    roomId: room.roomId
+                }, 60 * 60);
                 dispatch((0, NetworkStore_1.joinGame)(room));
                 connected.current = true;
                 connecting.current = false;
@@ -267,7 +270,8 @@ function Game() {
             room.onMessage(types_1.Transfer.SHOW_EMOTE, (message) => {
                 var _a, _b, _c;
                 const g = getGameScene();
-                if (((_b = (_a = g === null || g === void 0 ? void 0 : g.minigameManager) === null || _a === void 0 ? void 0 : _a.pokemons) === null || _b === void 0 ? void 0 : _b.size) && g.minigameManager.pokemons.size > 0) {
+                if (((_b = (_a = g === null || g === void 0 ? void 0 : g.minigameManager) === null || _a === void 0 ? void 0 : _a.pokemons) === null || _b === void 0 ? void 0 : _b.size) &&
+                    g.minigameManager.pokemons.size > 0) {
                     return (_c = g.minigameManager) === null || _c === void 0 ? void 0 : _c.showEmote(message.id, message === null || message === void 0 ? void 0 : message.emote);
                 }
                 if (g && g.board) {
@@ -415,6 +419,7 @@ function Game() {
                     dispatch((0, GameStore_1.setInterest)(player.interest));
                     dispatch((0, GameStore_1.setStreak)(player.streak));
                     dispatch((0, GameStore_1.setShopLocked)(player.shopLocked));
+                    dispatch((0, GameStore_1.setShopFreeRolls)(player.shopFreeRolls));
                     dispatch((0, GameStore_1.setPokemonCollection)(player.pokemonCollection));
                     player.listen("interest", (value) => {
                         dispatch((0, GameStore_1.setInterest)(value));
@@ -424,6 +429,9 @@ function Game() {
                     });
                     player.listen("shopLocked", (value) => {
                         dispatch((0, GameStore_1.setShopLocked)(value));
+                    });
+                    player.listen("shopFreeRolls", (value) => {
+                        dispatch((0, GameStore_1.setShopFreeRolls)(value));
                     });
                     player.listen("money", (value) => {
                         dispatch((0, GameStore_1.setMoney)(value));
@@ -507,7 +515,11 @@ function Game() {
                     "rank",
                     "regionalPokemons",
                     "streak",
-                    "title"
+                    "title",
+                    "rerollCount",
+                    "totalMoneyEarned",
+                    "totalPlayerDamageDealt",
+                    "eggChance"
                 ];
                 fields.forEach((field) => {
                     player.listen(field, (value) => {
@@ -529,12 +541,12 @@ function Game() {
                 });
                 player.pokemonsProposition.onAdd(() => {
                     if (player.id == uid) {
-                        dispatch((0, GameStore_1.setPokemonProposition)(player.pokemonsProposition.map(p => p)));
+                        dispatch((0, GameStore_1.setPokemonProposition)(player.pokemonsProposition.map((p) => p)));
                     }
                 });
                 player.pokemonsProposition.onRemove(() => {
                     if (player.id == uid) {
-                        dispatch((0, GameStore_1.setPokemonProposition)(player.pokemonsProposition.map(p => p)));
+                        dispatch((0, GameStore_1.setPokemonProposition)(player.pokemonsProposition.map((p) => p)));
                     }
                 });
             });

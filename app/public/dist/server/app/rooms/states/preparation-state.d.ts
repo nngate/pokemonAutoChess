@@ -22,6 +22,7 @@ export default class PreparationState extends Schema implements IPreparationStat
     name: string;
     password: string | null;
     minRank: EloRank | null;
+    maxRank: EloRank | null;
     gameMode: GameMode;
     noElo: boolean;
     whitelist: string[];
@@ -30,7 +31,9 @@ export default class PreparationState extends Schema implements IPreparationStat
         ownerId?: string;
         roomName: string;
         minRank?: EloRank;
+        maxRank?: EloRank;
         noElo?: boolean;
+        password?: string;
         gameMode: GameMode;
         whitelist?: string[];
         blacklist?: string[];

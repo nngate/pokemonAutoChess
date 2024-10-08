@@ -4,6 +4,7 @@ import Board from "./board";
 import { PokemonEntity } from "./pokemon-entity";
 import PokemonState from "./pokemon-state";
 export default class MovingState extends PokemonState {
+    name: string;
     update(pokemon: PokemonEntity, dt: number, board: Board, weather: Weather, player: Player): void;
     move(pokemon: PokemonEntity, board: Board, coordinates: {
         x: number;

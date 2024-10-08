@@ -171,13 +171,15 @@ class PokemonEntity extends schema_1.Schema {
             this.count.spellBlockedCount++;
             if (this.status.magicBounce &&
                 attackType === Game_1.AttackType.SPECIAL &&
-                damage > 0) {
+                damage > 0 &&
+                attacker &&
+                !attacker.items.has(Item_1.Item.PROTECTIVE_PADS)) {
                 const bounceCrit = crit || (this.items.has(Item_1.Item.REAPER_CLOTH) && (0, random_1.chance)(this.critChance));
                 const bounceDamage = Math.round(((_a = [0.5, 1][this.stars - 1]) !== null && _a !== void 0 ? _a : 1) *
                     damage *
                     (1 + this.ap / 100) *
                     (bounceCrit ? this.critPower : 1));
-                attacker === null || attacker === void 0 ? void 0 : attacker.handleDamage({
+                attacker.handleDamage({
                     damage: bounceDamage,
                     board,
                     attackType: Game_1.AttackType.SPECIAL,
@@ -204,6 +206,7 @@ class PokemonEntity extends schema_1.Schema {
             if (this.items.has(Item_1.Item.POWER_LENS) &&
                 specialDamage >= 1 &&
                 attacker &&
+                !attacker.items.has(Item_1.Item.PROTECTIVE_PADS) &&
                 attackType === Game_1.AttackType.SPECIAL) {
                 attacker.handleDamage({
                     damage: Math.round(specialDamage / (1 + Config_1.ARMOR_FACTOR * this.speDef)),
@@ -294,11 +297,18 @@ class PokemonEntity extends schema_1.Schema {
         this.atk = (0, number_1.min)(1)(this.atk + value);
     }
     addAttackSpeed(value, caster, apBoost, crit) {
-        value =
-            value * (1 + (apBoost * caster.ap) / 100) * (crit ? caster.critPower : 1);
-        const currentAtkSpeedBonus = 100 * (this.atkSpeed / 0.75 - 1);
-        const atkSpeedBonus = currentAtkSpeedBonus + value;
-        this.atkSpeed = (0, number_1.clamp)((0, number_1.roundTo2Digits)(0.75 * (1 + atkSpeedBonus / 100)), 0.4, 2.5);
+        if (this.passive === Passive_1.Passive.MELMETAL) {
+            this.addAttack(value * 0.3, caster, apBoost, crit);
+        }
+        else {
+            value =
+                value *
+                    (1 + (apBoost * caster.ap) / 100) *
+                    (crit ? caster.critPower : 1);
+            const currentAtkSpeedBonus = 100 * (this.atkSpeed / 0.75 - 1);
+            const atkSpeedBonus = currentAtkSpeedBonus + value;
+            this.atkSpeed = (0, number_1.clamp)((0, number_1.roundTo2Digits)(0.75 * (1 + atkSpeedBonus / 100)), 0.4, 2.5);
+        }
     }
     addPsychicField() {
         this.status.psychicField = true;
@@ -375,6 +385,30 @@ class PokemonEntity extends schema_1.Schema {
                         break;
                     }
                 }
+            }
+        }
+        if (this.status.stoneEdge) {
+            const tg = board.getValue(target.positionX, target.positionY);
+            if (tg) {
+                tg.handleDamage({
+                    damage: Math.round(this.def * (1 + this.ap / 100)),
+                    board,
+                    attackType: Game_1.AttackType.SPECIAL,
+                    attacker: this,
+                    shouldTargetGainMana: true
+                });
+            }
+        }
+        if (this.passive === Passive_1.Passive.DURANT) {
+            const bugAllies = board.cells.filter((entity) => entity && entity.team === this.team && entity.types.has(Synergy_1.Synergy.BUG)).length - 1;
+            if (bugAllies > 0) {
+                target.handleDamage({
+                    damage: bugAllies,
+                    board,
+                    attackType: Game_1.AttackType.TRUE,
+                    attacker: this,
+                    shouldTargetGainMana: true
+                });
             }
         }
         if (this.name === Pokemon_1.Pkm.MINIOR_KERNEL_BLUE ||
@@ -469,24 +503,6 @@ class PokemonEntity extends schema_1.Schema {
                 }
             });
         }
-        if (this.items.has(Item_1.Item.SOOTHE_BELL)) {
-            let closestAlly = null;
-            let minDistance = 16;
-            board.forEach((x, y, ally) => {
-                if (ally && ally !== this && this.team === ally.team) {
-                    const distanceToTarget = (0, distance_1.distanceC)(ally.positionX, ally.positionY, this.targetX, this.targetY);
-                    if (distanceToTarget < minDistance) {
-                        closestAlly = ally;
-                        minDistance = distanceToTarget;
-                    }
-                }
-            });
-            if (closestAlly != null) {
-                const closestAllyFound = closestAlly;
-                const shield = Math.round(totalDamage * 0.33);
-                closestAllyFound.addShield(shield, this, 0, false);
-            }
-        }
         if (this.items.has(Item_1.Item.MANA_SCARF)) {
             this.addPP(Config_1.MANA_SCARF_MANA, this, 0, false);
         }
@@ -563,16 +579,16 @@ class PokemonEntity extends schema_1.Schema {
         if (this.types.has(Synergy_1.Synergy.ICE)) {
             let freezeChance = 0;
             if (this.effects.has(Effect_1.Effect.CHILLY)) {
-                freezeChance = 0.1;
-            }
-            else if (this.effects.has(Effect_1.Effect.FROSTY)) {
                 freezeChance = 0.2;
             }
-            else if (this.effects.has(Effect_1.Effect.FREEZING)) {
+            else if (this.effects.has(Effect_1.Effect.FROSTY)) {
                 freezeChance = 0.3;
             }
-            else if (this.effects.has(Effect_1.Effect.SHEER_COLD)) {
+            else if (this.effects.has(Effect_1.Effect.FREEZING)) {
                 freezeChance = 0.4;
+            }
+            else if (this.effects.has(Effect_1.Effect.SHEER_COLD)) {
+                freezeChance = 0.5;
             }
             if ((0, random_1.chance)(freezeChance)) {
                 target.status.triggerFreeze(2000, target);
@@ -638,15 +654,13 @@ class PokemonEntity extends schema_1.Schema {
                 target.status.triggerWound(3000, target, this);
             }
         }
-        if (target.status.spikeArmor && this.range === 1) {
+        if (target.status.spikeArmor &&
+            (0, distance_1.distanceC)(this.positionX, this.positionY, target.positionX, target.positionY) === 1 &&
+            !this.items.has(Item_1.Item.PROTECTIVE_PADS)) {
+            const damage = Math.round(target.def * (1 + target.ap / 100));
+            const crit = target.items.has(Item_1.Item.REAPER_CLOTH) && (0, random_1.chance)(target.critChance);
             this.status.triggerWound(2000, this, target);
-            this.handleDamage({
-                damage: Math.round(target.def * (1 + target.ap / 100)),
-                board,
-                attackType: Game_1.AttackType.SPECIAL,
-                attacker: target,
-                shouldTargetGainMana: true
-            });
+            this.handleSpecialDamage(damage, board, Game_1.AttackType.SPECIAL, target, crit, true);
         }
         if (target.effects.has(Effect_1.Effect.SHELL_TRAP) && physicalDamage > 0) {
             const cells = board.getAdjacentCells(target.positionX, target.positionY);
@@ -851,7 +865,7 @@ class PokemonEntity extends schema_1.Schema {
             target.count.fairyCritCount++;
             target.fairySplashCooldown = 250;
             const distance = (0, distance_1.distanceC)(this.positionX, this.positionY, target.positionX, target.positionY);
-            if (distance <= 1) {
+            if (distance <= 1 && this.items.has(Item_1.Item.PROTECTIVE_PADS) === false) {
                 this.handleSpecialDamage(shockDamage, board, Game_1.AttackType.SPECIAL, target, false);
             }
         }
@@ -876,7 +890,7 @@ class PokemonEntity extends schema_1.Schema {
             this.addAbilityPower(10, this, 0, false);
         }
         if (this.items.has(Item_1.Item.AMULET_COIN) && this.player) {
-            this.player.addMoney(1);
+            this.player.addMoney(1, true, this);
             this.count.moneyCount += 1;
             this.count.amuletCoinCount += 1;
         }
@@ -884,7 +898,7 @@ class PokemonEntity extends schema_1.Schema {
             const isLastEnemy = board.cells.some((p) => p && p.team !== this.team && p.life > 0) ===
                 false;
             const moneyGained = isLastEnemy ? 5 : 1;
-            this.player.addMoney(moneyGained);
+            this.player.addMoney(moneyGained, true, this);
             this.count.moneyCount += moneyGained;
         }
         if (this.effects.has(Effect_1.Effect.PURSUIT) ||
@@ -1094,7 +1108,10 @@ class PokemonEntity extends schema_1.Schema {
                     alliesAlive.includes(p.id) === false);
                 const spawns = (0, random_1.pickNRandomIn)(koAllies, 3);
                 spawns.forEach((spawn) => {
-                    const mon = pokemon_factory_1.default.createPokemonFromName(spawn.name);
+                    const mon = pokemon_factory_1.default.createPokemonFromName(spawn.name, {
+                        selectedEmotion: spawn.emotion,
+                        selectedShiny: spawn.shiny
+                    });
                     const coord = this.simulation.getClosestAvailablePlaceOnBoardToPokemon(this, this.team);
                     this.simulation.addPokemon(mon, coord.x, coord.y, this.team, true);
                 });
@@ -1358,7 +1375,7 @@ function getUnitScore(pokemon) {
     let score = 0;
     score += 100 * pokemon.items.size;
     score += 10 * pokemon.stars;
-    score += (0, shop_1.getSellPrice)(pokemon.name, pokemon.shiny);
+    score += (0, shop_1.getSellPrice)(pokemon);
     return score;
 }
 function canSell(pkm, specialGameRule) {

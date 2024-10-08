@@ -12,6 +12,8 @@ export interface IPokemonsStatisticV2 {
 }
 declare const _default: import("mongoose").Model<IPokemonsStatisticV2, {}, {}, {}, import("mongoose").Document<unknown, {}, IPokemonsStatisticV2> & IPokemonsStatisticV2 & {
     _id: import("mongoose").Types.ObjectId;
+} & {
+    __v?: number;
 }, any>;
 export default _default;
 export declare function fetchMetaPokemons(): Promise<IPokemonsStatisticV2[]>;

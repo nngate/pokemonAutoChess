@@ -10,7 +10,7 @@ function GameLock() {
     const dispatch = (0, hooks_1.useAppDispatch)();
     const shopLocked = (0, hooks_1.useAppSelector)((state) => state.game.shopLocked);
     return ((0, jsx_runtime_1.jsx)("button", { className: `bubbly lock-icon ${shopLocked ? "red" : "green"}`, onClick: () => {
-            dispatch((0, NetworkStore_1.lockClick)());
+            dispatch((0, NetworkStore_1.lockShop)());
         }, title: `${shopLocked ? t("unlock") : t("lock")} ${t("current_shop_for_next_turn")}`, children: (0, jsx_runtime_1.jsx)("img", { src: `/assets/ui/lock-${shopLocked ? "close" : "open"}.svg`, alt: `${shopLocked ? "Locked" : "Unlocked"}` }) }));
 }
 //# sourceMappingURL=game-lock.js.map

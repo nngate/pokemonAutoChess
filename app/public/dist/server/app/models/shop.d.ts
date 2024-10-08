@@ -1,4 +1,5 @@
 import GameState from "../rooms/states/game-state";
+import { IPokemon, IPokemonEntity } from "../types";
 import { Rarity } from "../types/enum/Game";
 import { FishingRod } from "../types/enum/Item";
 import { Pkm, PkmProposition } from "../types/enum/Pokemon";
@@ -7,7 +8,7 @@ import { Synergy } from "../types/enum/Synergy";
 import Player from "./colyseus-models/player";
 export declare function getPoolSize(rarity: Rarity, maxStars: number): number;
 export declare function getAdditionalsTier1(pokemons: Pkm[]): Pkm[];
-export declare function getSellPrice(name: Pkm, shiny: boolean, specialGameRule?: SpecialGameRule | null): number;
+export declare function getSellPrice(pokemon: IPokemon | IPokemonEntity, specialGameRule?: SpecialGameRule | null): number;
 export declare function getBuyPrice(name: Pkm, specialGameRule?: SpecialGameRule | null): number;
 export default class Shop {
     commonPool: Pkm[];
@@ -25,7 +26,7 @@ export default class Shop {
     refillShop(player: Player, state: GameState): void;
     assignShop(player: Player, manualRefresh: boolean, state: GameState): void;
     assignUniquePropositions(player: Player, stageLevel: number, synergies: Synergy[]): void;
-    getRandomPokemonFromPool(rarity: Rarity, player: Player, finals?: Set<Pkm>, specificTypeWanted?: Synergy): Pkm;
-    pickPokemon(player: Player, state: GameState): Pkm;
+    getRandomPokemonFromPool(rarity: Rarity, player: Player, finals?: Set<Pkm>, specificTypesWanted?: Synergy[]): Pkm;
+    pickPokemon(player: Player, state: GameState, shopIndex?: number): Pkm;
     pickFish(player: Player, rod: FishingRod): Pkm;
 }

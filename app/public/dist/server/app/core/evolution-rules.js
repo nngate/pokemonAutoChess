@@ -28,8 +28,8 @@ class EvolutionRule {
         }
     }
     afterEvolve(pokemonEvolved, player, stageLevel) {
-        player.updateSynergies();
         pokemonEvolved.onAcquired(player);
+        player.updateSynergies();
         player.board.forEach((pokemon) => {
             if ((pokemon.passive === Passive_1.Passive.COSMOG ||
                 pokemon.passive === Passive_1.Passive.COSMOEM) &&

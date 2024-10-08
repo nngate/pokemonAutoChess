@@ -15,5 +15,7 @@ var Language;
     Language["ko"] = "ko";
     Language["pl"] = "pl";
     Language["vi"] = "vi";
+    Language["th"] = "th";
+    Language["zh"] = "zh";
 })(Language || (exports.Language = Language = {}));
 //# sourceMappingURL=Language.js.map

@@ -10,7 +10,7 @@ export declare enum Rarity {
     SPECIAL = "SPECIAL"
 }
 export declare enum GameMode {
-    NORMAL = "NORMAL",
+    CUSTOM_LOBBY = "CUSTOM_LOBBY",
     QUICKPLAY = "QUICKPLAY",
     RANKED = "RANKED",
     SCRIBBLE = "SCRIBBLE",

@@ -95,6 +95,8 @@ class Status extends schema_1.Schema {
         this.darkHarvest = false;
         this.darkHarvestCooldown = 0;
         this.darkHarvestDamageCooldown = 0;
+        this.stoneEdge = false;
+        this.stoneEdgeCooldown = 0;
     }
     clearNegativeStatus() {
         this.burnCooldown = 0;
@@ -212,16 +214,13 @@ class Status extends schema_1.Schema {
         if (!this.enraged) {
             this.updateRage(dt, pokemon);
         }
-        if (pokemon.status.curseVulnerability &&
-            !pokemon.status.flinch) {
+        if (pokemon.status.curseVulnerability && !pokemon.status.flinch) {
             this.triggerFlinch(30000, pokemon);
         }
-        if (pokemon.status.curseWeakness &&
-            !pokemon.status.paralysis) {
+        if (pokemon.status.curseWeakness && !pokemon.status.paralysis) {
             this.triggerParalysis(30000, pokemon);
         }
-        if (pokemon.status.curseTorment &&
-            !pokemon.status.silence) {
+        if (pokemon.status.curseTorment && !pokemon.status.silence) {
             this.triggerSilence(30000, pokemon);
         }
         if (pokemon.status.curseFate && !pokemon.status.curse) {
@@ -303,6 +302,24 @@ class Status extends schema_1.Schema {
         }
         else {
             this.clearWingCooldown -= dt;
+        }
+    }
+    triggerStoneEdge(timer, pkm) {
+        if (!this.stoneEdge) {
+            this.stoneEdge = true;
+            this.stoneEdgeCooldown = timer;
+            pkm.addCritChance(20, pkm, 1, false);
+            pkm.range = 3;
+        }
+    }
+    updateStoneEdge(dt, pkm) {
+        if (this.stoneEdgeCooldown - dt <= 0) {
+            this.stoneEdge = false;
+            pkm.addCritChance(-20, pkm, 1, false);
+            pkm.range = pkm.baseRange;
+        }
+        else {
+            this.stoneEdgeCooldown -= dt;
         }
     }
     triggerDrySkin(timer) {

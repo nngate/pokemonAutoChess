@@ -44,15 +44,19 @@ function getAdditionalsTier1(pokemons) {
             pokemonData.additional);
     });
 }
-function getSellPrice(name, shiny, specialGameRule) {
+function getSellPrice(pokemon, specialGameRule) {
     var _a;
+    const name = pokemon.name;
     if (specialGameRule === SpecialGameRule_1.SpecialGameRule.FREE_MARKET && name !== Pokemon_1.Pkm.EGG)
         return 0;
-    const pokemonData = (0, precomputed_pokemon_data_1.getPokemonData)(name);
     const duo = Object.entries(Pokemon_1.PkmDuos).find(([key, duo]) => duo.includes(name));
     let price = 1;
+    let stars = pokemon.stars;
+    if (pokemon.items && pokemon.items.has(Item_1.Item.RARE_CANDY)) {
+        stars = (0, number_1.min)(1)(stars - 1);
+    }
     if (name === Pokemon_1.Pkm.EGG) {
-        price = shiny ? 10 : 2;
+        price = pokemon.shiny ? 10 : 2;
     }
     else if (name == Pokemon_1.Pkm.DITTO) {
         price = 5;
@@ -74,23 +78,23 @@ function getSellPrice(name, shiny, specialGameRule) {
     else if (Pokemon_1.Unowns.includes(name)) {
         price = 1;
     }
-    else if (pokemonData.rarity === Game_1.Rarity.HATCH) {
-        price = (_a = [3, 4, 5][pokemonData.stars - 1]) !== null && _a !== void 0 ? _a : 5;
+    else if (pokemon.rarity === Game_1.Rarity.HATCH) {
+        price = (_a = [3, 4, 5][stars - 1]) !== null && _a !== void 0 ? _a : 5;
     }
-    else if (pokemonData.rarity === Game_1.Rarity.UNIQUE) {
+    else if (pokemon.rarity === Game_1.Rarity.UNIQUE) {
         price = duo ? 8 : 15;
     }
-    else if (pokemonData.rarity === Game_1.Rarity.LEGENDARY) {
+    else if (pokemon.rarity === Game_1.Rarity.LEGENDARY) {
         price = duo ? 10 : 20;
     }
     else if (pokemon_factory_1.default.getPokemonBaseEvolution(name) == Pokemon_1.Pkm.EEVEE) {
-        price = Config_1.RarityCost[pokemonData.rarity];
+        price = Config_1.RarityCost[pokemon.rarity];
     }
     else if (duo) {
-        price = Math.ceil((Config_1.RarityCost[pokemonData.rarity] * pokemonData.stars) / 2);
+        price = Math.ceil((Config_1.RarityCost[pokemon.rarity] * stars) / 2);
     }
     else {
-        price = Config_1.RarityCost[pokemonData.rarity] * pokemonData.stars;
+        price = Config_1.RarityCost[pokemon.rarity] * stars;
     }
     if (specialGameRule === SpecialGameRule_1.SpecialGameRule.RARE_IS_EXPENSIVE &&
         name !== Pokemon_1.Pkm.EGG) {
@@ -208,19 +212,18 @@ class Shop {
         }
     }
     refillShop(player, state) {
-        const PkmList = player.shop.map((pokemon) => {
-            if (pokemon != Pokemon_1.Pkm.MAGIKARP && pokemon != Pokemon_1.Pkm.DEFAULT) {
-                return pokemon;
+        player.shop.forEach((pokemon, i) => {
+            if (pokemon === Pokemon_1.Pkm.MAGIKARP || pokemon === Pokemon_1.Pkm.DEFAULT) {
+                player.shop[i] = this.pickPokemon(player, state, i);
             }
-            return this.pickPokemon(player, state);
         });
-        for (let i = 0; i < Config_1.SHOP_SIZE; i++) {
-            player.shop[i] = PkmList[i];
-        }
     }
     assignShop(player, manualRefresh, state) {
         player.shop.forEach((pkm) => this.releasePokemon(pkm, player));
-        if (player.effects.has(Effect_1.Effect.EERIE_SPELL) && !manualRefresh) {
+        if (player.effects.has(Effect_1.Effect.EERIE_SPELL) &&
+            !manualRefresh &&
+            !player.shopLocked) {
+            player.shopFreeRolls += 1;
             const unowns = (0, Pokemon_1.getUnownsPoolPerStage)(state.stageLevel);
             for (let i = 0; i < Config_1.SHOP_SIZE; i++) {
                 player.shop[i] = (0, random_1.pickRandomIn)(unowns);
@@ -228,7 +231,7 @@ class Shop {
         }
         else {
             for (let i = 0; i < Config_1.SHOP_SIZE; i++) {
-                player.shop[i] = this.pickPokemon(player, state);
+                player.shop[i] = this.pickPokemon(player, state, i);
             }
         }
     }
@@ -256,6 +259,12 @@ class Shop {
                     return synergy === Synergy_1.Synergy.ELECTRIC;
                 if (pkm === Pokemon_1.Pkm.TAPU_LELE)
                     return synergy === Synergy_1.Synergy.PSYCHIC;
+                if (pkm === Pokemon_1.Pkm.OGERPON_CORNERSTONE)
+                    return synergy === Synergy_1.Synergy.ROCK;
+                if (pkm === Pokemon_1.Pkm.OGERPON_HEARTHFLAME)
+                    return synergy === Synergy_1.Synergy.FIRE;
+                if (pkm === Pokemon_1.Pkm.OGERPON_WELLSPRING)
+                    return synergy === Synergy_1.Synergy.AQUATIC;
                 return (0, precomputed_pokemon_data_1.getPokemonData)(pkm).types.includes(synergy);
             });
             let selectedProposition = (0, random_1.pickRandomIn)(candidates.length > 0 ? candidates : propositions);
@@ -273,7 +282,7 @@ class Shop {
             player.pokemonsProposition.push(selectedProposition);
         }
     }
-    getRandomPokemonFromPool(rarity, player, finals = new Set(), specificTypeWanted) {
+    getRandomPokemonFromPool(rarity, player, finals = new Set(), specificTypesWanted) {
         var _a, _b;
         let pkm = Pokemon_1.Pkm.MAGIKARP;
         const candidates = ((_a = this.getPool(rarity)) !== null && _a !== void 0 ? _a : [])
@@ -288,18 +297,19 @@ class Shop {
         })
             .filter((pkm) => {
             const types = (0, precomputed_pokemon_data_1.getPokemonData)(pkm).types;
-            const isOfTypeWanted = specificTypeWanted
-                ? types.includes(specificTypeWanted)
+            const isOfTypeWanted = specificTypesWanted
+                ? specificTypesWanted.some((specificTypeWanted) => types.includes(specificTypeWanted))
                 : types.includes(Synergy_1.Synergy.WILD) === false;
             return isOfTypeWanted && !finals.has(pkm);
         });
         if (candidates.length > 0) {
             pkm = (0, random_1.pickRandomIn)(candidates);
         }
-        else if (specificTypeWanted === Synergy_1.Synergy.WATER) {
+        else if (specificTypesWanted &&
+            specificTypesWanted.includes(Synergy_1.Synergy.WATER)) {
             return Pokemon_1.Pkm.MAGIKARP;
         }
-        else if (specificTypeWanted) {
+        else if (specificTypesWanted) {
             return this.getRandomPokemonFromPool(rarity, player, finals);
         }
         const { regional } = (0, precomputed_pokemon_data_1.getPokemonData)(pkm);
@@ -314,7 +324,8 @@ class Shop {
         }
         return pkm;
     }
-    pickPokemon(player, state) {
+    pickPokemon(player, state, shopIndex = -1) {
+        var _a;
         if (state.specialGameRule !== SpecialGameRule_1.SpecialGameRule.DITTO_PARTY &&
             (0, random_1.chance)(Config_1.DITTO_RATE) &&
             state.stageLevel >= 2) {
@@ -332,13 +343,13 @@ class Shop {
         const finals = new Set((0, schemas_1.values)(player.board)
             .filter((pokemon) => pokemon.final)
             .map((pokemon) => Pokemon_1.PkmFamily[pokemon.name]));
-        let specificTypeWanted = undefined;
+        let specificTypesWanted = undefined;
         const incenseHolder = (0, schemas_1.values)(player.board).find((p) => p.items.has(Item_1.Item.INCENSE));
         if (incenseHolder && (0, random_1.chance)(5 / 100)) {
-            specificTypeWanted = (0, random_1.pickRandomIn)((0, schemas_1.values)(incenseHolder.types));
+            specificTypesWanted = (0, schemas_1.values)(incenseHolder.types);
         }
         else if (wildChance > 0 && (0, random_1.chance)(wildChance)) {
-            specificTypeWanted = Synergy_1.Synergy.WILD;
+            specificTypesWanted = [Synergy_1.Synergy.WILD];
         }
         const probas = Config_1.RarityProbabilityPerLevel[player.experienceManager.level];
         const rarity_seed = Math.random();
@@ -347,7 +358,7 @@ class Shop {
             threshold += probas[i];
             i++;
         }
-        const rarity = [
+        let rarity = [
             Game_1.Rarity.COMMON,
             Game_1.Rarity.UNCOMMON,
             Game_1.Rarity.RARE,
@@ -358,11 +369,37 @@ class Shop {
             logger_1.logger.error(`error in shop while picking seed = ${rarity_seed}, threshold = ${threshold}`);
             return Pokemon_1.Pkm.MAGIKARP;
         }
-        return this.getRandomPokemonFromPool(rarity, player, finals, specificTypeWanted);
+        const repeatBalls = (0, schemas_1.values)(player.board).filter((p) => p.items.has(Item_1.Item.REPEAT_BALL));
+        if (shopIndex >= 0 &&
+            shopIndex < repeatBalls.length &&
+            player.rerollCount % 2 === 0) {
+            specificTypesWanted = (0, schemas_1.values)(repeatBalls[shopIndex].types);
+            rarity =
+                (_a = [
+                    Game_1.Rarity.COMMON,
+                    Game_1.Rarity.UNCOMMON,
+                    Game_1.Rarity.RARE,
+                    Game_1.Rarity.EPIC,
+                    Game_1.Rarity.ULTRA
+                ][Math.floor(player.rerollCount / 30)]) !== null && _a !== void 0 ? _a : Game_1.Rarity.ULTRA;
+            if (player.rerollCount >= 150 && player.rerollCount % 10 === 0) {
+                const legendaryCandidates = Config_1.LegendaryShop.filter((p) => !(p in Pokemon_1.PkmDuos) &&
+                    (0, precomputed_pokemon_data_1.getPokemonData)(p).types.some((type) => specificTypesWanted === null || specificTypesWanted === void 0 ? void 0 : specificTypesWanted.includes(type)));
+                if (legendaryCandidates.length > 0)
+                    return (0, random_1.pickRandomIn)(legendaryCandidates);
+            }
+            else if (player.rerollCount >= 100 && player.rerollCount % 10 === 0) {
+                const uniqueCandidates = Config_1.UniqueShop.filter((p) => !(p in Pokemon_1.PkmDuos) &&
+                    (0, precomputed_pokemon_data_1.getPokemonData)(p).types.some((type) => specificTypesWanted === null || specificTypesWanted === void 0 ? void 0 : specificTypesWanted.includes(type)));
+                if (uniqueCandidates.length > 0)
+                    return (0, random_1.pickRandomIn)(uniqueCandidates);
+            }
+        }
+        return this.getRandomPokemonFromPool(rarity, player, finals, specificTypesWanted);
     }
     pickFish(player, rod) {
         const hasMantyke = (0, schemas_1.values)(player.board).some((p) => p.name === Pokemon_1.Pkm.MANTYKE || p.name === Pokemon_1.Pkm.MANTINE);
-        if (hasMantyke && (0, random_1.chance)(0.2))
+        if (hasMantyke && (0, random_1.chance)(0.3))
             return Pokemon_1.Pkm.REMORAID;
         const rarityProbability = Config_1.FishRarityProbability[rod];
         const rarity_seed = Math.random();
@@ -379,28 +416,7 @@ class Shop {
                 break;
             }
         }
-        if (rod === Item_1.Item.GOLDEN_ROD) {
-            let topSynergies = [];
-            let maxSynergyCount = 0;
-            player.synergies.forEach((count, synergy) => {
-                if (count > maxSynergyCount) {
-                    maxSynergyCount = count;
-                    topSynergies = [synergy];
-                }
-                else if (count === maxSynergyCount) {
-                    topSynergies.push(synergy);
-                }
-            });
-            const typeWanted = (0, random_1.pickRandomIn)(topSynergies);
-            if (rarity === Game_1.Rarity.SPECIAL) {
-                const uniques = Config_1.UniqueShop.filter((p) => p in Pokemon_1.PkmDuos === false);
-                fish = (0, random_1.pickRandomIn)(uniques);
-            }
-            else {
-                fish = this.getRandomPokemonFromPool(rarity, player, finals, typeWanted);
-            }
-        }
-        else if (rarity === Game_1.Rarity.SPECIAL) {
+        if (rarity === Game_1.Rarity.SPECIAL) {
             if (rod === Item_1.Item.OLD_ROD)
                 fish = Pokemon_1.Pkm.MAGIKARP;
             if (rod === Item_1.Item.GOOD_ROD)
@@ -409,7 +425,9 @@ class Shop {
                 fish = Pokemon_1.Pkm.WISHIWASHI;
         }
         else {
-            fish = this.getRandomPokemonFromPool(rarity, player, finals, Synergy_1.Synergy.WATER);
+            fish = this.getRandomPokemonFromPool(rarity, player, finals, [
+                Synergy_1.Synergy.WATER
+            ]);
         }
         return fish;
     }

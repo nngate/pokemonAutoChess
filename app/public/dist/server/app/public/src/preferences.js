@@ -29,13 +29,16 @@ const defaultPreferences = {
         sell: "E",
         buy_xp: "F",
         refresh: "D",
+        lock: "R",
+        switch: "Space",
         emote: "A"
     }
 };
 exports.preferences = loadPreferences();
 function loadPreferences() {
+    var _a;
     if (store_1.localStore.has(store_1.LocalStoreKeys.PREFERENCES)) {
-        return Object.assign(Object.assign({}, defaultPreferences), store_1.localStore.get(store_1.LocalStoreKeys.PREFERENCES));
+        return Object.assign(Object.assign(Object.assign({}, defaultPreferences), store_1.localStore.get(store_1.LocalStoreKeys.PREFERENCES)), { keybindings: Object.assign(Object.assign({}, defaultPreferences.keybindings), (_a = store_1.localStore.get(store_1.LocalStoreKeys.PREFERENCES)) === null || _a === void 0 ? void 0 : _a.keybindings) });
     }
     else {
         return defaultPreferences;

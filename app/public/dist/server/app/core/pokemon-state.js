@@ -13,6 +13,9 @@ const logger_1 = require("../utils/logger");
 const number_1 = require("../utils/number");
 const random_1 = require("../utils/random");
 class PokemonState {
+    constructor() {
+        this.name = "";
+    }
     attack(pokemon, board, target) {
         if (target.life > 0) {
             let damage = pokemon.atk;
@@ -36,7 +39,7 @@ class PokemonState {
                 }
                 pokemon.onCriticalAttack({ target, board, damage });
             }
-            if (pokemon.items.has(Item_1.Item.FIRE_GEM)) {
+            if (pokemon.items.has(Item_1.Item.PUNCHING_GLOVE)) {
                 damage = Math.round(damage + target.hp * 0.08);
             }
             if (pokemon.attackType === Game_1.AttackType.SPECIAL) {
@@ -272,6 +275,11 @@ class PokemonState {
                 attackType === Game_1.AttackType.PHYSICAL) {
                 damage = Math.ceil(damage * 1.2);
             }
+            if (pokemon.status.freeze &&
+                attacker &&
+                attacker.effects.has(Effect_1.Effect.SHEER_COLD)) {
+                damage = Math.ceil(damage * 1.2);
+            }
             const def = pokemon.status.armorReduction
                 ? Math.round(pokemon.def / 2)
                 : pokemon.def;
@@ -297,7 +305,7 @@ class PokemonState {
                     pokemon.effects.has(Effect_1.Effect.DEFIANT) ||
                     pokemon.effects.has(Effect_1.Effect.JUSTIFIED)) {
                     const damageBlocked = pokemon.effects.has(Effect_1.Effect.JUSTIFIED)
-                        ? 15
+                        ? 13
                         : pokemon.effects.has(Effect_1.Effect.DEFIANT)
                             ? 10
                             : pokemon.effects.has(Effect_1.Effect.STURDY)
@@ -317,6 +325,9 @@ class PokemonState {
             }
             else if (attackType === Game_1.AttackType.SPECIAL) {
                 pokemon.specialDamageReduced += (0, number_1.min)(0)(damage - reducedDamage);
+                if (attacker && attacker.items.has(Item_1.Item.POKEMONOMICON)) {
+                    pokemon.status.triggerBurn(3000, pokemon, attacker);
+                }
             }
             if (isNaN(reducedDamage)) {
                 reducedDamage = 0;
@@ -333,7 +344,7 @@ class PokemonState {
                     damageOnShield = reducedDamage;
                     residualDamage = 0;
                 }
-                if (attacker && attacker.items.has(Item_1.Item.FIRE_GEM)) {
+                if (attacker && attacker.items.has(Item_1.Item.PROTECTIVE_PADS)) {
                     damageOnShield *= 2;
                 }
                 if (damageOnShield > pokemon.shield) {
@@ -474,12 +485,10 @@ class PokemonState {
     update(pokemon, dt, board, weather, player) {
         this.updateCommands(pokemon, dt);
         pokemon.status.updateAllStatus(dt, pokemon, board);
-        if (pokemon.status.resurecting &&
-            pokemon.action !== Game_1.PokemonActionState.HURT) {
-            pokemon.toIdleState();
-        }
-        if ((pokemon.status.freeze || pokemon.status.sleep) &&
-            pokemon.action !== Game_1.PokemonActionState.SLEEP) {
+        if ((pokemon.status.resurecting ||
+            pokemon.status.freeze ||
+            pokemon.status.sleep) &&
+            pokemon.state.name !== "idle") {
             pokemon.toIdleState();
         }
         if (pokemon.effects.has(Effect_1.Effect.TILLER) ||
@@ -513,7 +522,7 @@ class PokemonState {
                 if (pokemon.items.has(Item_1.Item.BIG_NUGGET) &&
                     pokemon.count.growGroundCount === 5 &&
                     player) {
-                    player.addMoney(3);
+                    player.addMoney(3, true, pokemon);
                     pokemon.count.moneyCount += 3;
                 }
             }

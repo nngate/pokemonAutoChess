@@ -102,18 +102,23 @@ function eloDecay() {
                     limit: 1,
                     sort: { time: -1 }
                 });
+                const decay = Math.max(Config_1.CRON_ELO_DECAY_MINIMUM_ELO, u.elo - 10);
                 if (stats && stats.length > 0) {
                     const time = stats[0].time;
                     if (time) {
                         const lastGame = new Date(time);
                         const now = new Date(Date.now());
                         if (now.getTime() - lastGame.getTime() > Config_1.CRON_ELO_DECAY_DELAY) {
-                            const decay = Math.max(Config_1.CRON_ELO_DECAY_MINIMUM_ELO, u.elo - 10);
                             logger_1.logger.info(`User ${u.displayName} (${u.elo}) will decay to ${decay}`);
                             u.elo = decay;
                             yield u.save();
                         }
                     }
+                }
+                else {
+                    logger_1.logger.info(`User ${u.displayName} (${u.elo}) will decay to ${decay}`);
+                    u.elo = decay;
+                    yield u.save();
                 }
             }
         }

@@ -13,6 +13,10 @@ const pokemon_entity_1 = require("./pokemon-entity");
 const pokemon_state_1 = __importDefault(require("./pokemon-state"));
 const pathfind_1 = require("../utils/pathfind");
 class MovingState extends pokemon_state_1.default {
+    constructor() {
+        super(...arguments);
+        this.name = "moving";
+    }
     update(pokemon, dt, board, weather, player) {
         super.update(pokemon, dt, board, weather, player);
         if (pokemon.cooldown <= 0) {
@@ -81,7 +85,8 @@ class MovingState extends pokemon_state_1.default {
             cells.forEach((cell) => {
                 if (cell.value === undefined) {
                     const candidateDistance = (0, pathfind_1.findPath)(board, [pokemon.positionX, pokemon.positionY], [cell.x, cell.y]);
-                    if (candidateDistance.length < distance && candidateDistance.length !== 0) {
+                    if (candidateDistance.length < distance &&
+                        candidateDistance.length !== 0) {
                         distance = candidateDistance.length;
                         const nextStep = candidateDistance[0];
                         x = nextStep[0];

@@ -23,5 +23,7 @@ export interface IBot {
 }
 declare const BotV2: import("mongoose").Model<IBot, {}, {}, {}, import("mongoose").Document<unknown, {}, IBot> & IBot & {
     _id: import("mongoose").Types.ObjectId;
+} & {
+    __v?: number;
 }, any>;
 export { BotV2 };

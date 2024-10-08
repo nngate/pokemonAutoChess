@@ -19,8 +19,7 @@ const items_statistic_1 = require("../app/models/mongo-models/items-statistic");
 const Item_1 = require("../app/types/enum/Item");
 const logger_1 = require("../app/utils/logger");
 const itemsToReplace = new Map([
-    ["ORAN_BERRY", Item_1.Item.KINGS_ROCK],
-    ["LEFTOVERS", Item_1.Item.SOOTHE_BELL]
+    ["ORAN_BERRY", Item_1.Item.KINGS_ROCK]
 ]);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {

@@ -121,6 +121,10 @@ class GameScene extends phaser_1.Scene {
             (0, audio_1.playSound)(audio_1.SOUNDS.REFRESH, 0.5);
             this.refreshShop();
         });
+        this.input.keyboard.on("keydown-" + preferences.keybindings.lock, () => {
+            var _a;
+            (_a = this.room) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.LOCK);
+        });
         this.input.keyboard.on("keydown-" + preferences.keybindings.buy_xp, () => {
             this.buyExperience();
         });
@@ -130,6 +134,11 @@ class GameScene extends phaser_1.Scene {
             }
             else if (this.shopIndexHovered !== null) {
                 this.removeFromShop(this.shopIndexHovered);
+            }
+        });
+        this.input.keyboard.on("keydown-" + preferences.keybindings.switch, () => {
+            if (this.pokemonHovered) {
+                this.switchBetweenBenchAndBoard(this.pokemonHovered);
             }
         });
     }
@@ -157,6 +166,12 @@ class GameScene extends phaser_1.Scene {
     removeFromShop(index) {
         var _a;
         (_a = this.room) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.REMOVE_FROM_SHOP, index);
+    }
+    switchBetweenBenchAndBoard(pokemon) {
+        var _a;
+        if (!pokemon)
+            return;
+        (_a = this.room) === null || _a === void 0 ? void 0 : _a.send(types_1.Transfer.SWITCH_BENCH_AND_BOARD, pokemon.id);
     }
     updatePhase(newPhase, previousPhase) {
         var _a, _b, _c, _d, _e, _f;

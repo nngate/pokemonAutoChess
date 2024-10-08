@@ -878,14 +878,16 @@ class BattleManager {
         if (event.type === Game_1.BoardEvent.SPIKES) {
             const sprite = this.scene.add.sprite(coordinates[0], coordinates[1], "abilities", "SPIKES/001.png");
             sprite.setDepth(1);
-            sprite.setScale(1, 1);
+            sprite.setScale(0, 0);
             this.boardEventSprites[index] = sprite;
             this.group.add(sprite);
             this.scene.tweens.add({
                 targets: sprite,
                 alpha: 1,
                 duration: 200,
-                delay: 500
+                delay: 500,
+                scaleX: 1,
+                scaleY: 1
             });
         }
         if (event.type === Game_1.BoardEvent.STICKY_WEB) {

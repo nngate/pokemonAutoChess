@@ -40,6 +40,15 @@ export declare class OnDragDropCommand extends Command<GameRoom, {
         detail: any;
     }): never[] | undefined;
 }
+export declare class OnSwitchBenchAndBoardCommand extends Command<GameRoom, {
+    client: Client;
+    pokemonId: string;
+}> {
+    execute({ client, pokemonId }: {
+        client: any;
+        pokemonId: any;
+    }): void;
+}
 export declare class OnDragDropCombineCommand extends Command<GameRoom, {
     client: Client;
     detail: IDragDropCombineMessage;

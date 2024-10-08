@@ -14,6 +14,8 @@ exports.LanguageNames = {
     [Language_1.Language.bg]: "Български",
     [Language_1.Language.ko]: "한국어",
     [Language_1.Language.pl]: "Polski",
-    [Language_1.Language.vi]: "Tiếng Việt"
+    [Language_1.Language.vi]: "Tiếng Việt",
+    [Language_1.Language.th]: "ภาษาไทย",
+    [Language_1.Language.zh]: "中文"
 };
 //# sourceMappingURL=index.js.map

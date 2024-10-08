@@ -59,7 +59,7 @@ class Player extends schema_1.Schema {
         var _a, _b;
         super();
         this.simulationId = "";
-        this.simulationTeamIndex = 0;
+        this.team = Game_1.Team.BLUE_TEAM;
         this.board = new schema_1.MapSchema();
         this.shop = new schema_1.ArraySchema();
         this.experienceManager = new experience_manager_1.default();
@@ -67,6 +67,7 @@ class Player extends schema_1.Schema {
         this.money = process.env.MODE == "dev" ? 999 : 5;
         this.life = 100;
         this.shopLocked = false;
+        this.shopFreeRolls = 0;
         this.streak = 0;
         this.interest = 0;
         this.opponentId = "";
@@ -93,6 +94,7 @@ class Player extends schema_1.Schema {
         this.rerollCount = 0;
         this.totalMoneyEarned = 0;
         this.totalPlayerDamageDealt = 0;
+        this.eggChance = 0;
         this.commonRegionalPool = new Array();
         this.uncommonRegionalPool = new Array();
         this.rareRegionalPool = new Array();
@@ -120,7 +122,7 @@ class Player extends schema_1.Schema {
         this.lightX = state.lightX;
         this.lightY = state.lightY;
         this.map = (0, random_1.pickRandomIn)(Dungeon_1.DungeonPMDO);
-        this.updateRegionalPool(state);
+        this.updateRegionalPool(state, true);
         if (isBot) {
             this.loadingProgress = 100;
             this.lightX = 3;
@@ -157,9 +159,16 @@ class Player extends schema_1.Schema {
             }
         }
     }
-    addMoney(value) {
+    addMoney(value, countTotalEarned, origin) {
+        var _a;
+        if (origin &&
+            origin.simulation.isGhostBattle &&
+            ((_a = origin.player) === null || _a === void 0 ? void 0 : _a.team) === Game_1.Team.RED_TEAM) {
+            return;
+        }
         this.money += value;
-        this.totalMoneyEarned += value;
+        if (countTotalEarned && value > 0)
+            this.totalMoneyEarned += value;
     }
     addBattleResult(id, name, result, avatar, weather) {
         this.history.push(new history_item_1.default(id, name, result, avatar, weather ? weather : Weather_1.Weather.NEUTRAL));
@@ -305,28 +314,24 @@ class Player extends schema_1.Schema {
             (0, array_1.removeInArray)(this.items, Item_1.Item.GOOD_ROD);
         if (this.items.includes(Item_1.Item.SUPER_ROD) && fishingLevel !== 3)
             (0, array_1.removeInArray)(this.items, Item_1.Item.SUPER_ROD);
-        if (this.items.includes(Item_1.Item.OLD_ROD) === false &&
-            this.items.includes(Item_1.Item.GOLDEN_ROD) === false &&
-            fishingLevel === 1)
+        if (this.items.includes(Item_1.Item.OLD_ROD) === false && fishingLevel === 1)
             this.items.push(Item_1.Item.OLD_ROD);
-        if (this.items.includes(Item_1.Item.GOOD_ROD) === false &&
-            this.items.includes(Item_1.Item.GOLDEN_ROD) === false &&
-            fishingLevel === 2)
+        if (this.items.includes(Item_1.Item.GOOD_ROD) === false && fishingLevel === 2)
             this.items.push(Item_1.Item.GOOD_ROD);
-        if (this.items.includes(Item_1.Item.SUPER_ROD) === false &&
-            this.items.includes(Item_1.Item.GOLDEN_ROD) === false &&
-            fishingLevel === 3)
+        if (this.items.includes(Item_1.Item.SUPER_ROD) === false && fishingLevel === 3)
             this.items.push(Item_1.Item.SUPER_ROD);
     }
-    updateRegionalPool(state) {
-        const newRegionalPokemons = precomputed_pokemon_data_1.PRECOMPUTED_REGIONAL_MONS.filter((p) => pokemon_1.PokemonClasses[p].prototype.isInRegion(p, this.map, state));
-        state.shop.resetRegionalPool(this);
-        newRegionalPokemons.forEach((p) => {
-            const isVariant = Object.values(Pokemon_1.PkmRegionalVariants).some((variants) => variants.includes(p));
-            if ((0, precomputed_pokemon_data_1.getPokemonData)(p).stars === 1 && !isVariant) {
-                state.shop.addRegionalPokemon(p, this);
-            }
-        });
+    updateRegionalPool(state, mapChanged) {
+        const newRegionalPokemons = precomputed_pokemon_data_1.PRECOMPUTED_REGIONAL_MONS.filter((p) => new pokemon_1.PokemonClasses[p]().isInRegion(this.map, state));
+        if (mapChanged) {
+            state.shop.resetRegionalPool(this);
+            newRegionalPokemons.forEach((p) => {
+                const isVariant = Object.values(Pokemon_1.PkmRegionalVariants).some((variants) => variants.includes(p));
+                if ((0, precomputed_pokemon_data_1.getPokemonData)(p).stars === 1 && !isVariant) {
+                    state.shop.addRegionalPokemon(p, this);
+                }
+            });
+        }
         (0, schemas_1.resetArraySchema)(this.regionalPokemons, newRegionalPokemons.filter((p, index, array) => array.findIndex((p2) => Pokemon_1.PkmFamily[p] === Pokemon_1.PkmFamily[p2]) === index));
     }
     onLightChange() {
@@ -352,7 +357,7 @@ __decorate([
 ], Player.prototype, "simulationId", void 0);
 __decorate([
     (0, schema_1.type)("number")
-], Player.prototype, "simulationTeamIndex", void 0);
+], Player.prototype, "team", void 0);
 __decorate([
     (0, schema_1.type)("string")
 ], Player.prototype, "name", void 0);
@@ -380,6 +385,9 @@ __decorate([
 __decorate([
     (0, schema_1.type)("boolean")
 ], Player.prototype, "shopLocked", void 0);
+__decorate([
+    (0, schema_1.type)("uint8")
+], Player.prototype, "shopFreeRolls", void 0);
 __decorate([
     (0, schema_1.type)("uint8")
 ], Player.prototype, "streak", void 0);
@@ -459,12 +467,15 @@ __decorate([
     (0, schema_1.type)(["string"])
 ], Player.prototype, "regionalPokemons", void 0);
 __decorate([
-    (0, schema_1.type)("uint8")
+    (0, schema_1.type)("uint16")
 ], Player.prototype, "rerollCount", void 0);
 __decorate([
-    (0, schema_1.type)("uint8")
+    (0, schema_1.type)("uint16")
 ], Player.prototype, "totalMoneyEarned", void 0);
 __decorate([
-    (0, schema_1.type)("uint8")
+    (0, schema_1.type)("uint16")
 ], Player.prototype, "totalPlayerDamageDealt", void 0);
+__decorate([
+    (0, schema_1.type)("float32")
+], Player.prototype, "eggChance", void 0);
 //# sourceMappingURL=player.js.map

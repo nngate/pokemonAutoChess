@@ -128,7 +128,7 @@ class HiddenPowerGStrategy extends HiddenPowerStrategy {
     process(unown, state, board, target, crit) {
         super.process(unown, state, board, target, crit);
         if (unown.player) {
-            unown.player.addMoney(5);
+            unown.player.addMoney(5, true, unown);
         }
     }
 }
@@ -206,6 +206,7 @@ class HiddenPowerNStrategy extends HiddenPowerStrategy {
             if (pokemon && unown.team === pokemon.team) {
                 const target = board.getValue(pokemon.targetX, pokemon.targetY);
                 if (target) {
+                    pokemon.addShield(50, unown, 0, false);
                     abilities_1.AbilityStrategies[Ability_1.Ability.EXPLOSION].process(pokemon, pokemon.state, board, target, false);
                     pokemon.simulation.room.broadcast(types_1.Transfer.ABILITY, {
                         id: pokemon.simulation.id,
@@ -264,18 +265,9 @@ exports.HiddenPowerQStrategy = HiddenPowerQStrategy;
 class HiddenPowerRStrategy extends HiddenPowerStrategy {
     process(unown, state, board, target, crit) {
         super.process(unown, state, board, target, crit);
-        let coord = unown.simulation.getClosestAvailablePlaceOnBoardToPokemon(unown, unown.team);
-        const geodude = unown.simulation.addPokemon(pokemon_factory_1.default.createPokemonFromName(Pokemon_1.Pkm.GEODUDE, unown.player), coord.x, coord.y, unown.team, false);
-        geodude.items.add(Item_1.Item.ROCKY_HELMET);
-        geodude.simulation.applyItemsEffects(geodude);
-        coord = unown.simulation.getClosestAvailablePlaceOnBoardToPokemon(unown, unown.team);
-        const graveler = unown.simulation.addPokemon(pokemon_factory_1.default.createPokemonFromName(Pokemon_1.Pkm.GRAVELER, unown.player), coord.x, coord.y, unown.team, false);
-        graveler.items.add(Item_1.Item.ROCKY_HELMET);
-        graveler.simulation.applyItemsEffects(graveler);
-        coord = unown.simulation.getClosestAvailablePlaceOnBoardToPokemon(unown, unown.team);
-        const golem = unown.simulation.addPokemon(pokemon_factory_1.default.createPokemonFromName(Pokemon_1.Pkm.GOLEM, unown.player), coord.x, coord.y, unown.team, false);
-        golem.items.add(Item_1.Item.ROCKY_HELMET);
-        golem.simulation.applyItemsEffects(golem);
+        if (unown.player) {
+            unown.player.shopFreeRolls += 6;
+        }
     }
 }
 exports.HiddenPowerRStrategy = HiddenPowerRStrategy;

@@ -54,6 +54,7 @@ export default class GameScene extends Scene {
     buyExperience(): void;
     sellPokemon(pokemon: PokemonSprite): void;
     removeFromShop(index: number): void;
+    switchBetweenBenchAndBoard(pokemon: PokemonSprite): void;
     updatePhase(newPhase: GamePhaseState, previousPhase: GamePhaseState): void;
     preloadMaps(mapNames: DungeonPMDO[]): Promise<void[]>;
     setMap(mapName: DungeonPMDO): Promise<void>;

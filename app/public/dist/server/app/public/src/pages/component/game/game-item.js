@@ -18,7 +18,7 @@ const style = {
 function GameItem(props) {
     const { t } = (0, react_i18next_1.useTranslation)();
     const dispatch = (0, hooks_1.useAppDispatch)();
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "my-container", style: style, children: [(0, jsx_runtime_1.jsx)("img", { style: { width: "4rem", height: "4rem", imageRendering: "pixelated" }, src: "assets/item/" + props.item + ".png" }), (0, jsx_runtime_1.jsx)("h3", { children: t(`item.${props.item}`) }), (0, jsx_runtime_1.jsx)("p", { children: (0, descriptions_1.addIconsToDescription)(t(`item_description.${props.item}`)) }), (0, jsx_runtime_1.jsx)("button", { onClick: () => {
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "my-container", style: style, children: [(0, jsx_runtime_1.jsx)("img", { style: { width: "4rem", height: "4rem", imageRendering: "pixelated" }, src: "assets/item/" + props.item + ".png" }), (0, jsx_runtime_1.jsx)("h3", { style: { margin: "0.25em 0" }, children: t(`item.${props.item}`) }), (0, jsx_runtime_1.jsx)("p", { style: { marginBottom: "0.5em" }, children: (0, descriptions_1.addIconsToDescription)(t(`item_description.${props.item}`)) }), (0, jsx_runtime_1.jsx)("button", { onClick: () => {
                     dispatch((0, NetworkStore_1.itemClick)(props.item));
                 }, type: "button", className: "bubbly blue active", children: "Pick" })] }));
 }

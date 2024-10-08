@@ -35,7 +35,7 @@ export declare const preparationSlice: import("@reduxjs/toolkit").Slice<IUserPre
     setPassword: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<string | null>) => void;
     setNoELO: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<boolean>) => void;
     setGameMode: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<GameMode>) => void;
-    leavePreparation: () => IUserPreparationState;
+    resetPreparation: () => IUserPreparationState;
     setWhiteList: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<string[]>) => void;
     setBlackList: (state: import("immer").WritableDraft<IUserPreparationState>, action: PayloadAction<string[]>) => void;
 }, "preparation", "preparation", import("@reduxjs/toolkit").SliceSelectors<IUserPreparationState>>;
@@ -43,6 +43,6 @@ export declare const setUser: import("@reduxjs/toolkit").ActionCreatorWithPayloa
     id: string;
     field: string;
     value: any;
-}, "preparation/changeUser">, removeUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/removeUser">, setGameStarted: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "preparation/setGameStarted">, setOwnerId: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setOwnerId">, setOwnerName: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setOwnerName">, setPassword: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "preparation/setPassword">, setNoELO: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "preparation/setNoELO">, setWhiteList: import("@reduxjs/toolkit").ActionCreatorWithPayload<string[], "preparation/setWhiteList">, setBlackList: import("@reduxjs/toolkit").ActionCreatorWithPayload<string[], "preparation/setBlackList">, setGameMode: import("@reduxjs/toolkit").ActionCreatorWithPayload<GameMode, "preparation/setGameMode">, leavePreparation: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"preparation/leavePreparation">;
+}, "preparation/changeUser">, removeUser: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/removeUser">, setGameStarted: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "preparation/setGameStarted">, setOwnerId: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setOwnerId">, setOwnerName: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "preparation/setOwnerName">, setPassword: import("@reduxjs/toolkit").ActionCreatorWithPayload<string | null, "preparation/setPassword">, setNoELO: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "preparation/setNoELO">, setWhiteList: import("@reduxjs/toolkit").ActionCreatorWithPayload<string[], "preparation/setWhiteList">, setBlackList: import("@reduxjs/toolkit").ActionCreatorWithPayload<string[], "preparation/setBlackList">, setGameMode: import("@reduxjs/toolkit").ActionCreatorWithPayload<GameMode, "preparation/setGameMode">, resetPreparation: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"preparation/resetPreparation">;
 declare const _default: import("redux").Reducer<IUserPreparationState>;
 export default _default;

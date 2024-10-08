@@ -20,10 +20,11 @@ export interface GameStateStore {
     noElo: boolean;
     currentPlayerId: string;
     currentSimulationId: string;
-    currentSimulationTeamIndex: number;
+    currentTeam: Team;
     money: number;
     interest: number;
     streak: number;
+    shopFreeRolls: number;
     shopLocked: boolean;
     experienceManager: IExperienceManager;
     shop: Pkm[];
@@ -48,6 +49,7 @@ export declare const gameSlice: import("@reduxjs/toolkit").Slice<GameStateStore,
     setInterest: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<number>) => void;
     setStreak: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<number>) => void;
     setShopLocked: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<boolean>) => void;
+    setShopFreeRolls: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<number>) => void;
     updateExperienceManager: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<IExperienceManager>) => void;
     changePlayer: (state: import("immer").WritableDraft<GameStateStore>, action: PayloadAction<{
         id: string;
@@ -120,7 +122,7 @@ export declare const setSimulation: import("@reduxjs/toolkit").ActionCreatorWith
 }, "game/setSynergies">, setRoundTime: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setRoundTime">, setAfterGameId: import("@reduxjs/toolkit").ActionCreatorWithPayload<string, "game/setAfterGameId">, setPhase: import("@reduxjs/toolkit").ActionCreatorWithPayload<GamePhaseState, "game/setPhase">, setStageLevel: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setStageLevel">, setWeather: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
     value: Weather;
     id: string;
-}, "game/setWeather">, setNoELO: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "game/setNoELO">, addPlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<IPlayer, "game/addPlayer">, removePlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<IPlayer, "game/removePlayer">, updateExperienceManager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IExperienceManager, "game/updateExperienceManager">, setStreak: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setStreak">, setInterest: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setInterest">, setMoney: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setMoney">, setShopLocked: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "game/setShopLocked">, changePlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
+}, "game/setWeather">, setNoELO: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "game/setNoELO">, addPlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<IPlayer, "game/addPlayer">, removePlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<IPlayer, "game/removePlayer">, updateExperienceManager: import("@reduxjs/toolkit").ActionCreatorWithPayload<IExperienceManager, "game/updateExperienceManager">, setStreak: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setStreak">, setInterest: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setInterest">, setMoney: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setMoney">, setShopFreeRolls: import("@reduxjs/toolkit").ActionCreatorWithPayload<number, "game/setShopFreeRolls">, setShopLocked: import("@reduxjs/toolkit").ActionCreatorWithPayload<boolean, "game/setShopLocked">, changePlayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<{
     id: string;
     field: string;
     value: any;

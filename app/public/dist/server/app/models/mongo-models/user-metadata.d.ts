@@ -26,5 +26,7 @@ export interface IPokemonConfig {
 }
 declare const _default: import("mongoose").Model<IUserMetadata, {}, {}, {}, import("mongoose").Document<unknown, {}, IUserMetadata> & IUserMetadata & {
     _id: import("mongoose").Types.ObjectId;
+} & {
+    __v?: number;
 }, any>;
 export default _default;

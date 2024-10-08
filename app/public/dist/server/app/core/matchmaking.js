@@ -10,32 +10,33 @@ function getAllPossibleMatchups(remainingPlayers) {
     const matchups = [];
     for (let i = 0; i < remainingPlayers.length; i++) {
         for (let j = i + 1; j < remainingPlayers.length; j++) {
-            const a = remainingPlayers[i], b = remainingPlayers[j];
+            const bluePlayer = remainingPlayers[i], redPlayer = remainingPlayers[j];
             matchups.push({
-                a,
-                b,
-                count: getCount(a, b, false),
-                distance: getDistance(a, b, false)
+                bluePlayer,
+                redPlayer,
+                count: getCount(bluePlayer, redPlayer, false),
+                distance: getDistance(bluePlayer, redPlayer, false)
             });
         }
     }
     return matchups;
 }
 function completeMatchupCombination(combination, matchups, players) {
-    const remainingPlayers = players.filter((p) => !combination.some((m) => m.a === p || m.b === p));
+    const remainingPlayers = players.filter((p) => !combination.some((m) => m.bluePlayer === p || m.redPlayer === p));
     if (remainingPlayers.length === 0)
         return [combination];
     else if (remainingPlayers.length === 1) {
         const remainingPlayer = remainingPlayers[0];
         const ghostMatchups = matchups
-            .filter((m) => m.a === remainingPlayer || m.b === remainingPlayer)
+            .filter((m) => m.bluePlayer === remainingPlayer || m.redPlayer === remainingPlayer)
             .map((matchup) => {
-            const playerToGhost = matchup.a === remainingPlayer ? matchup.b : matchup.a;
-            const ghost = Object.assign(Object.assign({}, playerToGhost), { id: "ghost-" + playerToGhost.id, name: `Ghost of ${playerToGhost.name}`, avatar: playerToGhost.avatar, ghost: true });
+            const playerToGhost = matchup.bluePlayer === remainingPlayer
+                ? matchup.redPlayer
+                : matchup.bluePlayer;
             const ghostMatchup = {
                 ghost: true,
-                a: remainingPlayer,
-                b: ghost,
+                bluePlayer: remainingPlayer,
+                redPlayer: playerToGhost,
                 count: getCount(remainingPlayer, playerToGhost, true),
                 distance: getDistance(remainingPlayer, playerToGhost, true)
             };
@@ -44,7 +45,8 @@ function completeMatchupCombination(combination, matchups, players) {
         return ghostMatchups.map((m) => [...combination, m]);
     }
     else {
-        const remainingMatchups = matchups.filter((m) => remainingPlayers.includes(m.a) && remainingPlayers.includes(m.b));
+        const remainingMatchups = matchups.filter((m) => remainingPlayers.includes(m.bluePlayer) &&
+            remainingPlayers.includes(m.redPlayer));
         if (remainingMatchups.length === 0) {
             return completeMatchupCombination([...combination], matchups, players);
         }
