@@ -19,6 +19,7 @@ import {
   OnLeaveCommand,
   OnNewMessageCommand,
   OnRemoveBotCommand,
+  OnRoomChangeRankCommand,
   OnRoomNameCommand,
   OnRoomPasswordCommand,
   OnToggleEloCommand,
@@ -55,6 +56,14 @@ export default class PreparationRoom extends Room<PreparationState> {
   async toggleElo(noElo: boolean) {
     await this.setMetadata(<IPreparationMetadata>{
       noElo: noElo
+    })
+    updateLobby(this)
+  }
+
+  async setMinMaxRanks(minRank: EloRank, maxRank: EloRank) {
+    await this.setMetadata(<IPreparationMetadata>{
+      minRank: minRank,
+      maxRank: maxRank
     })
     updateLobby(this)
   }
@@ -168,9 +177,101 @@ export default class PreparationRoom extends Room<PreparationState> {
       )
     }
 
-    try {
-      this.onMessage(Transfer.KICK, (client, message) => {
-        logger.info(Transfer.KICK, this.roomName)
+    this.onMessage(Transfer.KICK, (client, message) => {
+      logger.info(Transfer.KICK, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnKickPlayerCommand(), { client, message })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.DELETE_ROOM, (client) => {
+      logger.info(Transfer.DELETE_ROOM, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnDeleteRoomCommand(), { client })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.CHANGE_ROOM_NAME, (client, message) => {
+      logger.info(Transfer.CHANGE_ROOM_NAME, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnRoomNameCommand(), { client, message })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.CHANGE_ROOM_PASSWORD, (client, message) => {
+      logger.info(Transfer.CHANGE_ROOM_PASSWORD, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnRoomPasswordCommand(), {
+          client,
+          message
+        })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(
+      Transfer.CHANGE_ROOM_RANKS,
+      (client, { minRank, maxRank }) => {
+        logger.info(Transfer.CHANGE_ROOM_RANKS, this.roomName, minRank, maxRank)
+        try {
+          this.dispatcher.dispatch(new OnRoomChangeRankCommand(), {
+            client,
+            minRank,
+            maxRank
+          })
+        } catch (error) {
+          logger.error(error)
+        }
+      }
+    )
+
+    this.onMessage(Transfer.TOGGLE_NO_ELO, (client, message) => {
+      logger.info(Transfer.TOGGLE_NO_ELO, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnToggleEloCommand(), { client, message })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.GAME_START_REQUEST, (client) => {
+      logger.info(Transfer.GAME_START_REQUEST, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnGameStartRequestCommand(), { client })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.TOGGLE_READY, (client, ready?: boolean) => {
+      logger.info(Transfer.TOGGLE_READY, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnToggleReadyCommand(), { client, ready })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(Transfer.NEW_MESSAGE, (client, message) => {
+      logger.info(Transfer.NEW_MESSAGE, this.roomName)
+      try {
+        this.dispatcher.dispatch(new OnNewMessageCommand(), { client, message })
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    this.onMessage(
+      Transfer.REMOVE_MESSAGE,
+      (client, message: { id: string }) => {
+        logger.info(Transfer.REMOVE_MESSAGE, this.roomName)
         try {
           this.dispatcher.dispatch(new OnKickPlayerCommand(), {
             client,
